@@ -1,0 +1,60 @@
+body {
+    background-color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+}
+
+h1.welcome {
+    color: #E55204;
+    margin-top: 20px;
+}
+
+.home {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    margin-top: 5px;
+}
+
+.cornerlogo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: auto;
+}
+
+.group-benefits {
+    position: absolute;
+    bottom: -60px;
+    left: 0;
+    width:100px;
+    height: auto;
+}
+
+.button {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; 
+}
+
+
+.button button {
+    margin-left: 20px;
+    padding: 10px 20px;
+    background-color: #E55204;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button button:hover {
+    background-color: #E55204;
+}

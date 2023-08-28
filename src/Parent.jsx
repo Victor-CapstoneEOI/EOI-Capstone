@@ -1,16 +1,19 @@
-import React from 'react'
+import React, {useState}from 'react'
+import { JsonForms } from '@jsonforms/react'
+import { materialRenderers, materialCells } from '@jsonforms/material-renderers'
 
 export const Parent = () => {
-    
+    const [data, setData] = useState('')
+
     // to populate schema 
-    let type = ''
-    let title = '' // this is the key in the object 
+    let type = 'String'
+    let title = 'name' // this is the key in the object 
 
     // to populate UI schema 
-    let label = ''
-    let typeUI = ''
+    let label = 'First name'
+    let typeUI = 'Control'
 
-    let question = {
+    let questionSchema = {
         "properties" : {
             title: {
                 "type" : type
@@ -26,6 +29,14 @@ export const Parent = () => {
 
 
   return (
-    <div>Parent</div>
+    <div>
+        <JsonForms
+        schema = {questionSchema}/>
+        uischema = {uiSchema}
+        data = {data}
+        renderers = {materialRenderers}
+        cells = {materialCells}
+        onchange = {({data}) => setData(data)}
+    </div>
   )
 }

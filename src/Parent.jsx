@@ -67,13 +67,13 @@ export const Parent = () => {
     let questionSchema = {}
     let uiSchema = {}
 
-    // console.log(sample.wellness.optionValues.split(";"))
+    // console.log(sample.wellness.optionValues.split(";")) // to create array for options: optionValue.split(";"), optionValue needs to be created
 
     // let questionSchema = {
     //     "type": "object",
     //     "properties": {
     //       "answer": {
-    //         "type": type
+    //         "type": 'string'
     //       }
     //     }
     //   }
@@ -110,11 +110,34 @@ export const Parent = () => {
     // }
 
       //switch statement defines schemas for Json forms depending on the type of input
-    switch (optionValues) {
+      // **switch and question should be in the same loop**
+    switch (optionValue) {
         case "buttons": // buttons no available in json forms; will use radio enum
         case "checkboxes":
         case "Drop-down List":
         case "Textbox":
+            questionSchema = {
+                "type": "object",
+                "properties": {
+                  "answer": {
+                    "type": 'string'
+                  }
+                }
+              }
+              
+            uiSchema = {
+                "type": "Group",
+                "label": label,
+                "elements": 
+                [{
+                    "type": typeUI,
+                    "scope": "#/properties/answer"
+                  }]
+              }
+            
+
+            break; 
+    
         case "Textboxes": // Date and signature for consent page
 
     }

@@ -58,7 +58,7 @@ export const Parent = () => {
     let question = sample.wellness.questionText // this variable needs to loop thru all question text 
 
     // to populate schema 
-    let type = 'string'// type of input from user 
+    let optionList = [] // list of options for checklist, or dropdown list 
 
     // to populate UI schema 
     let label = question// Question to be asked to user
@@ -88,26 +88,7 @@ export const Parent = () => {
     //     ]
     //   }
 
-    //change type of input depending on question test #1
-    // if (sample.wellness.formControl ==  "Drop-down List"){
-
-    //     questionSchema =  {
-    //         "enum": {
-    //         "type": "string",
-    //         "enum": sample.wellness.optionValues.split(";")
-    //         }
-    //     }
-
-    //     uiSchema = {
-    //         "type": "VerticalLayout",
-    //         "elements": [
-    //         {
-    //         "type": "Control",
-    //         "scope": "#/properties/enum"
-    //         }
-    //     ]
-    //     }
-    // }
+   
 
       //switch statement defines schemas for Json forms depending on the type of input
       // **switch and question should be in the same loop**
@@ -115,6 +96,27 @@ export const Parent = () => {
         case "buttons": // buttons no available in json forms; will use radio enum
         case "checkboxes":
         case "Drop-down List":
+            questionSchema = {
+                "type": "object",
+                "properties": {
+                  "answer": {
+                    "type": 'string',
+                    "enum": optionList
+                  }
+                }
+              }
+              
+            uiSchema = {
+                "type": "VerticalLayout",
+                "label": label,
+                "elements": 
+                [{
+                    "type": typeUI,
+                    "scope": "#/properties/answer"
+                  }]
+              }
+              break;
+
         case "Textbox":
             questionSchema = {
                 "type": "object",
@@ -138,7 +140,7 @@ export const Parent = () => {
 
             break; 
     
-        case "Textboxes": // Date and signature for consent page
+        // case "Textboxes": // Date and signature for consent page
 
     }
 

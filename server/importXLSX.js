@@ -24,7 +24,6 @@ const parentQuestionSchema = new mongoose.Schema({
   formControlType: String,
   optionValues: String,
   subFormTrigger: String,
-
   childQuestions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ChildQuestion' }],
   // Add other attributes as needed
 });

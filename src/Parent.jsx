@@ -58,7 +58,7 @@ export const Parent = () => {
     let question = sample.wellness.questionText // this variable needs to loop thru all question text 
 
     // to populate schema 
-    let optionList = [] // list of options for checklist, or dropdown list 
+    let optionsArray = [] // list of options for checklist, or dropdown list 
 
     // to populate UI schema 
     let label = question// Question to be asked to user
@@ -92,14 +92,14 @@ export const Parent = () => {
 
       //switch statement defines schemas for Json forms depending on the type of input
       // **switch and question should be in the same loop**
-    switch (optionValue) {
+    switch ( optionValue ) {
         case "buttons" || "checkboxes": // buttons no available in json forms; will use radio enum
         questionSchema = {
             "type": "object",
             "properties": {
               "answer": {
                 "type": 'string',
-                "enum": optionList
+                "enum": optionsArray
               }
             }
           }
@@ -110,7 +110,10 @@ export const Parent = () => {
             "elements": 
             [{
                 "type": typeUI,
-                "scope": "#/properties/answer"
+                "scope": "#/properties/answer",
+                "options":{
+                    "format": "radio"
+                }
               }]
           }
           break;
@@ -121,7 +124,7 @@ export const Parent = () => {
                 "properties": {
                   "answer": {
                     "type": 'string',
-                    "enum": optionList
+                    "enum": optionsArray
                   }
                 }
               }

@@ -1,26 +1,25 @@
-import express from "express";
-import cors from "cors";
-import mongoose from "mongoose";
+import express from 'express';
+import mongoose from 'mongoose';
+import apiRoutes from './routes/api.js'
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+
+mongoose.connect('mongodb://localhost:27017/your-database', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
 
 app.get("/", (req, res) => {
   res.send("Welcome to the homepage!");
 });
 
 
+app.use('/api', apiRoutes);
+
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
-  console.log(`Server is up and running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
 
-const MONGO_URI =
-'mongodb+srv://lmercedes03:kWfRIlNOecaTp8rU@cluster0.wssqiab.mongodb.net/eoi_form?retryWrites=true&w=majority';
-
-// Connect to MongoDB
-mongoose.connect(MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});

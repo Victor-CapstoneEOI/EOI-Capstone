@@ -1,6 +1,6 @@
 import express from 'express';
-import ChildQuestion from '../models/childQuestionSchema';
-import ParentQuestion from '../models/parentQuestionSchema';
+import ChildQuestion from '../models/childQuestionSchema.js';
+import ParentQuestion from '../models/parentQuestionSchema.js';
 
 const router = express.Router();
 

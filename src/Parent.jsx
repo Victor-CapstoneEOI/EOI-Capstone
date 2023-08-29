@@ -93,8 +93,28 @@ export const Parent = () => {
       //switch statement defines schemas for Json forms depending on the type of input
       // **switch and question should be in the same loop**
     switch (optionValue) {
-        case "buttons": // buttons no available in json forms; will use radio enum
-        case "checkboxes":
+        case "buttons" || "checkboxes": // buttons no available in json forms; will use radio enum
+        questionSchema = {
+            "type": "object",
+            "properties": {
+              "answer": {
+                "type": 'string',
+                "enum": optionList
+              }
+            }
+          }
+          
+        uiSchema = {
+            "type": "VerticalLayout",
+            "label": label,
+            "elements": 
+            [{
+                "type": typeUI,
+                "scope": "#/properties/answer"
+              }]
+          }
+          break;
+        
         case "Drop-down List":
             questionSchema = {
                 "type": "object",

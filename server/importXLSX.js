@@ -22,6 +22,9 @@ const parentQuestionSchema = new mongoose.Schema({
   subSection1: String,
   subSection2: String,
   formControlType: String,
+  optionValues: String,
+  subFormTrigger: String,
+
   childQuestions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ChildQuestion' }],
   // Add other attributes as needed
 });
@@ -61,6 +64,8 @@ async function main() {
       subSection1: parentRow['Sub-Section 1'],
       subSection2: parentRow['Sub-Section 2'],
       formControlType: parentRow['Form Control Type'],
+      optionValues: parentRow['Option Values'],
+      subFormTrigger: parentRow['Sub-Form Trigger'],
       childQuestions: matchingChildQuestions.map(child => childQuestions[childData.indexOf(child)]),
       // Add other attributes as needed
     });

@@ -53,15 +53,28 @@ const sampleChild = {
 
 export const Parent = () => {
     const [data, setData] = useState('')
+    // console.log(sample.medical.questionText)
 
-
+    let question = sample.wellness.formControl
 
     // to populate schema 
     let type = 'string'// type of input from user 
 
     // to populate UI schema 
-    let label = 'First name'// Question to be asked to user
+    let label = question// Question to be asked to user
     let typeUI = 'Control'
+
+    //change type of input depending on question
+    if (sample.wellness.formControl ==  "Drop-down List"){
+
+        questionSchema =  {
+            "Please select an option": {
+            "type": "string",
+            "enum": sample.wellness.optionValues.split(";")
+            }
+        }
+    }
+
     
 
     let questionSchema = {

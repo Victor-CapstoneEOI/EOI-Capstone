@@ -1,6 +1,7 @@
-import {useState}from 'react'
+import {useState, useEffect}from 'react'
 import { JsonForms } from '@jsonforms/react'
 import { materialRenderers} from '@jsonforms/material-renderers'
+// import axios from 'axios'
 // import { Generate } from '@jsonforms/core'
 
 const sample = {
@@ -51,7 +52,20 @@ const sampleChild = {
 
 export const Parent = () => {
     const [data, setData] = useState('')
+    const [parentQuestions, setParentQuestions] = useState([]);
+
+    useEffect(() => {
+      fetch('/api/parent-questions')
+        .then(response => response.json())
+        .then(data => {
+          setParentQuestions(data);
+          console.log('Parent Questions:', data);
+        })
+        .catch(error => console.error('Error fetching parent questions:', error));
+    }, []);
     // console.log(sample.medical.questionText)
+
+    console.log(parentQuestions[1])
 
     let question = sample.medical.questionText// this variable needs to loop thru all question text, Questions to be asked to user
     let formControl; 

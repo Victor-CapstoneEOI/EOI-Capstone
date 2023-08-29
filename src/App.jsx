@@ -7,7 +7,7 @@ import { Parent } from "./Parent";
 function App() {
   return (
     <div className="App">
-        <Home />
+        {/* <Home /> */}
         {/* <PDF/> */}
         <Parent />
     </div>

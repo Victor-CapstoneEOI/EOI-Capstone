@@ -29,6 +29,8 @@
     "react-dom": "^18.2.0",
     "react-to-pdf": "^0.0.14",
     "require": "^2.4.20",
+    "tailwindcss": "^3.3.3",
+    "tw-elements": "^1.0.0-rc.1",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

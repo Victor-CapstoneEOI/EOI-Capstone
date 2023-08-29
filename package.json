@@ -27,6 +27,7 @@
     "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0",
     "react-to-pdf": "^0.0.14",
     "require": "^2.4.20",
     "xlsx": "^0.18.5"

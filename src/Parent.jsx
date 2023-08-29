@@ -1,42 +1,62 @@
 import React, {useState}from 'react'
 import { JsonForms } from '@jsonforms/react'
 import { materialRenderers, materialCells } from '@jsonforms/material-renderers'
+import { Generate } from '@jsonforms/core'
+
+
 
 export const Parent = () => {
     const [data, setData] = useState('')
 
+    // const workbook = xlsx.readFile('EOI Form Data Analysis.xlsx');
+    // const parentWorksheet = workbook.Sheets['Parent Questions'];
+    // const childWorksheet = workbook.Sheets['Child Questions'];
+
+    // console.log(parentWorksheet)
+    // console.log(childWorksheet)
+
     // to populate schema 
-    let type = 'String'
-    let title = 'name' // this is the key in the object 
+    let type = 'string'// type of input from user 
+    
 
     // to populate UI schema 
-    let label = 'First name'
+    let label = 'First name'// Question to be asked to user
     let typeUI = 'Control'
+    
 
     let questionSchema = {
-        "properties" : {
-            title: {
-                "type" : type
-            }
+        "type": "object",
+        "properties": {
+          "answer": {
+            "type": type
+          }
         }
-    }
-
+      }
     let uiSchema = {
-        "type": typeUI,
-        "scope": title, 
-        "label": label
-    }
+        "type": "Group",
+        "label": label,
+        "elements": [
+          {
+            "type": typeUI,
+            "scope": "#/properties/answer"
+          }
+        ]
+      }
+
+    // console.log(data)
 
 
   return (
     <div>
+    
         <JsonForms
-        schema = {questionSchema}/>
+        schema = {questionSchema}
+        // uischema = {Generate.uiSchema(questionSchema)}
         uischema = {uiSchema}
         data = {data}
         renderers = {materialRenderers}
-        cells = {materialCells}
-        onchange = {({data}) => setData(data)}
+        // cells = {materialCells}
+        onChange = {({errors, data}) => setData(data)}/>
     </div>
   )
 }

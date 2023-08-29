@@ -55,7 +55,7 @@ export const Parent = () => {
     const [data, setData] = useState('')
     // console.log(sample.medical.questionText)
 
-    let question = sample.wellness.formControl
+    let question = sample.wellness.questionText // this variable needs to loop thru all question text 
 
     // to populate schema 
     let type = 'string'// type of input from user 
@@ -64,37 +64,61 @@ export const Parent = () => {
     let label = question// Question to be asked to user
     let typeUI = 'Control'
 
-    //change type of input depending on question
-    if (sample.wellness.formControl ==  "Drop-down List"){
+    let questionSchema = {}
+    let uiSchema = {}
 
-        questionSchema =  {
-            "Please select an option": {
-            "type": "string",
-            "enum": sample.wellness.optionValues.split(";")
-            }
-        }
+    // console.log(sample.wellness.optionValues.split(";"))
+
+    // let questionSchema = {
+    //     "type": "object",
+    //     "properties": {
+    //       "answer": {
+    //         "type": type
+    //       }
+    //     }
+    //   }
+    // let uiSchema = {
+    //     "type": "Group",
+    //     "label": label,
+    //     "elements": [
+    //       {
+    //         "type": typeUI,
+    //         "scope": "#/properties/answer"
+    //       }
+    //     ]
+    //   }
+
+    //change type of input depending on question test #1
+    // if (sample.wellness.formControl ==  "Drop-down List"){
+
+    //     questionSchema =  {
+    //         "enum": {
+    //         "type": "string",
+    //         "enum": sample.wellness.optionValues.split(";")
+    //         }
+    //     }
+
+    //     uiSchema = {
+    //         "type": "VerticalLayout",
+    //         "elements": [
+    //         {
+    //         "type": "Control",
+    //         "scope": "#/properties/enum"
+    //         }
+    //     ]
+    //     }
+    // }
+
+      //switch statement defines schemas for Json forms depending on the type of input
+    switch (optionValues) {
+        case "buttons": // buttons no available in json forms; will use radio enum
+        case "checkboxes":
+        case "Drop-down List":
+        case "Textbox":
+        case "Textboxes": // Date and signature for consent page
+
     }
 
-    
-
-    let questionSchema = {
-        "type": "object",
-        "properties": {
-          "answer": {
-            "type": type
-          }
-        }
-      }
-    let uiSchema = {
-        "type": "Group",
-        "label": label,
-        "elements": [
-          {
-            "type": typeUI,
-            "scope": "#/properties/answer"
-          }
-        ]
-      }
 
     // console.log(data)
 

@@ -75,7 +75,9 @@ export const Parent = () => {
         formControl = section.formControl
 
         if ( section.optionValues !== null){
-            optionsArray = section.optionValue.split(";")
+            optionsArray = section.optionValue.split(";") // check this***
+        }else {
+            continue; 
         }
 
         //switch statement defines schemas for Json forms depending on the type of input

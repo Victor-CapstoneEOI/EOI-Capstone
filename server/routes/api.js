@@ -3,7 +3,7 @@ import ChildQuestion from '../models/childQuestionSchema.js';
 import ParentQuestion from '../models/parentQuestionSchema.js';
 
 const router = express.Router();
-.
+
 router.get("/parent-questions", async (req, res) => {
     try {
       const parentQuestions = await ParentQuestion.find().populate('childQuestions');

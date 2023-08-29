@@ -36,7 +36,7 @@ async function main() {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-
+  
   const parentData = xlsx.utils.sheet_to_json(parentWorksheet, { raw: true });
   const childData = xlsx.utils.sheet_to_json(childWorksheet, { raw: true });
 

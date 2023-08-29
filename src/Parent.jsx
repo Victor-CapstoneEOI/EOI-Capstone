@@ -53,11 +53,11 @@ export const Parent = () => {
     const [data, setData] = useState('')
     // console.log(sample.medical.questionText)
 
-    let question; // this variable needs to loop thru all question text, Questions to be asked to user
+    let question = sample.medical.questionText// this variable needs to loop thru all question text, Questions to be asked to user
     let formControl; 
 
     // to populate schema 
-    let optionsArray = [] // list of options for checklist, or dropdown list 
+    let optionsArray = sample.wellness.optionValues.split(";")// list of options for checklist, or dropdown list 
 
     // to populate UI schema 
     let typeUI = 'Control'
@@ -65,97 +65,129 @@ export const Parent = () => {
     let questionSchema = {}
     let uiSchema = {}
 
+    questionSchema = {
+        "type": "object",
+        "properties": {
+          "answer": {
+            "type": 'string',
+            "enum": optionsArray
+          }
+        }
+      }
+      
+    uiSchema = 
+      {
+        "type": "Group",
+        "label": question,
+        
+        "elements": 
+        [{
+            "type": typeUI,
+            "scope": "#/properties/answer",
+            "options":
+            {
+            "format": "radio"
+            }
+          }],
+      }
+    
+      
+
     // to create array for options: optionValue.split(";"), optionValue needs to be created
     // console.log(sample.wellness.optionValues.split(";"))
 
     // Loop thru sections in sample data set
-    for (const section in sample){
+    // for (const section in sample){
 
-        question = section.questionText
-        formControl = section.formControl
+    //     question = section.questionText
+    //     formControl = section.formControl
 
-        if ( section.optionValues !== null){
-            optionsArray = section.optionValue.split(";") // check this***
-        }else {
-            continue; 
-        }
+    //     // check this condition 
 
-        //switch statement defines schemas for Json forms depending on the type of input
-      // **switch and question should be in the same loop**
-    switch ( formControl ) {
-        case "buttons" || "checkboxes": // buttons no available in json forms; will use radio enum
-        questionSchema = {
-            "type": "object",
-            "properties": {
-              "answer": {
-                "type": 'string',
-                "enum": optionsArray
-              }
-            }
-          }
+    //     // if ( section.optionValues !== null){
+    //     //     optionsArray = section.optionValues.split(";") // check this***
+    //     //     console.log(optionsArray)
+    //     // }
+
+    //     //switch statement defines schemas for Json forms depending on the type of input
+    //   // **switch and question should be in the same loop**
+    // switch ( formControl ) {
+    //     case "buttons" || "checkboxes": // buttons no available in json forms; will use radio enum
+    //     questionSchema = {
+    //         "type": "object",
+    //         "properties": {
+    //           "answer": {
+    //             "type": 'string',
+    //             "enum": optionsArray
+    //           }
+    //         }
+    //       }
           
-        uiSchema = {
-            "type": "VerticalLayout",
-            "label": question,
-            "elements": 
-            [{
-                "type": typeUI,
-                "scope": "#/properties/answer",
-                "options":{
-                    "format": "radio"
-                }
-              }]
-          }
-          break;
+    //     uiSchema = {
+    //         "type": "VerticalLayout",
+    //         "label": question,
+    //         "elements": 
+    //         [{
+    //             "type": typeUI,
+    //             "scope": "#/properties/answer",
+    //             "options":{
+    //                 "format": "radio"
+    //             }
+    //           }]
+    //       }
+    //       break;
         
-        case "Drop-down List":
-            questionSchema = {
-                "type": "object",
-                "properties": {
-                  "answer": {
-                    "type": 'string',
-                    "enum": optionsArray
-                  }
-                }
-              }
+    //     case "Drop-down List":
+    //         questionSchema = {
+    //             "type": "object",
+    //             "properties": {
+    //               "answer": {
+    //                 "type": 'string',
+    //                 "enum": optionsArray
+    //               }
+    //             }
+    //           }
               
-            uiSchema = {
-                "type": "VerticalLayout",
-                "label": question,
-                "elements": 
-                [{
-                    "type": typeUI,
-                    "scope": "#/properties/answer"
-                  }]
-              }
-              break;
+    //         uiSchema = {
+    //             "type": "VerticalLayout",
+    //             "label": question,
+    //             "elements": 
+    //             [{
+    //                 "type": typeUI,
+    //                 "scope": "#/properties/answer"
+    //               }]
+    //           }
+    //           break;
 
-        case "Textbox":
-            questionSchema = {
-                "type": "object",
-                "properties": {
-                  "answer": {
-                    "type": 'string'
-                  }
-                }
-              }
+    //     case "Textbox":
+    //         questionSchema = {
+    //             "type": "object",
+    //             "properties": {
+    //               "answer": {
+    //                 "type": 'string'
+    //               }
+    //             }
+    //           }
               
-            uiSchema = {
-                "type": "Group",
-                "label": question,
-                "elements": 
-                [{
-                    "type": typeUI,
-                    "scope": "#/properties/answer"
-                  }]
-              }
+    //         uiSchema = {
+    //             "type": "Group",
+    //             "label": question,
+    //             "elements": 
+    //             [{
+    //                 "type": typeUI,
+    //                 "scope": "#/properties/answer"
+    //               }]
+    //           }
 
-            break; 
+    //         break; 
     
-        //TODO case "Textboxes": // Date and signature for consent page
+    //     //TODO case "Textboxes": // Date and signature for consent page
 
-    }
-    }
+    // }
+    // }
+
+    // Create function to be call when you click next 
+    // Also create button for next for this test 
 
 
 

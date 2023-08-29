@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import apiRoutes from './routes/api.js'
+import cors from 'cors'
 
 const app = express();
 
@@ -18,6 +19,10 @@ app.get("/", (req, res) => {
 });
 
 app.use('/api', apiRoutes);
+
+app.use(cors({
+  origin: 'http://127.0.0.1:5173',
+}));
 
 // Start the server
 const PORT = process.env.PORT || 5000;

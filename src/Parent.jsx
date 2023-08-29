@@ -67,28 +67,10 @@ export const Parent = () => {
     let questionSchema = {}
     let uiSchema = {}
 
-    // console.log(sample.wellness.optionValues.split(";")) // to create array for options: optionValue.split(";"), optionValue needs to be created
+    // to create array for options: optionValue.split(";"), optionValue needs to be created
+    // console.log(sample.wellness.optionValues.split(";"))
 
-    // let questionSchema = {
-    //     "type": "object",
-    //     "properties": {
-    //       "answer": {
-    //         "type": 'string'
-    //       }
-    //     }
-    //   }
-    // let uiSchema = {
-    //     "type": "Group",
-    //     "label": label,
-    //     "elements": [
-    //       {
-    //         "type": typeUI,
-    //         "scope": "#/properties/answer"
-    //       }
-    //     ]
-    //   }
 
-   
 
       //switch statement defines schemas for Json forms depending on the type of input
       // **switch and question should be in the same loop**
@@ -159,7 +141,6 @@ export const Parent = () => {
                     "scope": "#/properties/answer"
                   }]
               }
-            
 
             break; 
     

@@ -14,13 +14,13 @@ const PDF = () => {
       const { width, height } = page.getSize();
       const fontSize = 30;
 
-      // Get the content from the ref and add it to the PDF
+   
       const contentText = contentRef.current.textContent;
       page.drawText(contentText, {
         x: 50,
-        y: height - 6 * fontSize, // Adjust the y-coordinate as needed
+        y: height - 6 * fontSize, 
         size: fontSize,
-        color: rgb(0, 0, 0), // Black color
+        color: rgb(0, 0, 0), 
       });
 
       const generatedPdfBytes = await pdfDoc.save();

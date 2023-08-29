@@ -18,11 +18,11 @@ const Home = () => {
     return (
         <div>
             <div className="home">
+                    <h1 className="welcome">Welcome to Evidence of Insurability form</h1>
                 <div className="center-content">
                     <img src={LogoPic} alt="Victor_Logo" className="logo" />
                     <img src={CornerLogo} alt="cornervictor" className="cornerlogo" />
                     
-                    <h1 className="welcome">Welcome</h1>
 
                     <div className="button">
                         <button onClick={() => handleLanguageChange('English')}>English</button>
@@ -36,4 +36,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default Home

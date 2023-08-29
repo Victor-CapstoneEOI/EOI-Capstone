@@ -1,19 +1,16 @@
-import React, {useState}from 'react'
+import {useState}from 'react'
 import { JsonForms } from '@jsonforms/react'
-import { materialRenderers, materialCells } from '@jsonforms/material-renderers'
-import { Generate } from '@jsonforms/core'
+import { materialRenderers} from '@jsonforms/material-renderers'
+// import { Generate } from '@jsonforms/core'
+
+
 
 
 
 export const Parent = () => {
     const [data, setData] = useState('')
 
-    // const workbook = xlsx.readFile('EOI Form Data Analysis.xlsx');
-    // const parentWorksheet = workbook.Sheets['Parent Questions'];
-    // const childWorksheet = workbook.Sheets['Child Questions'];
 
-    // console.log(parentWorksheet)
-    // console.log(childWorksheet)
 
     // to populate schema 
     let type = 'string'// type of input from user 

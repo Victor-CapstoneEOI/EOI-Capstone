@@ -49,19 +49,17 @@ const sampleChild = {
 
 
 
-
-
 export const Parent = () => {
     const [data, setData] = useState('')
     // console.log(sample.medical.questionText)
 
-    let question = sample.wellness.questionText // this variable needs to loop thru all question text 
+    let question; // this variable needs to loop thru all question text, Questions to be asked to user
+    let formControl; 
 
     // to populate schema 
     let optionsArray = [] // list of options for checklist, or dropdown list 
 
     // to populate UI schema 
-    let label = question// Question to be asked to user
     let typeUI = 'Control'
 
     let questionSchema = {}
@@ -70,11 +68,19 @@ export const Parent = () => {
     // to create array for options: optionValue.split(";"), optionValue needs to be created
     // console.log(sample.wellness.optionValues.split(";"))
 
+    // Loop thru sections in sample data set
+    for (const section in sample){
 
+        question = section.questionText
+        formControl = section.formControl
 
-      //switch statement defines schemas for Json forms depending on the type of input
+        if ( section.optionValues !== null){
+            optionsArray = section.optionValue.split(";")
+        }
+
+        //switch statement defines schemas for Json forms depending on the type of input
       // **switch and question should be in the same loop**
-    switch ( optionValue ) {
+    switch ( formControl ) {
         case "buttons" || "checkboxes": // buttons no available in json forms; will use radio enum
         questionSchema = {
             "type": "object",
@@ -88,7 +94,7 @@ export const Parent = () => {
           
         uiSchema = {
             "type": "VerticalLayout",
-            "label": label,
+            "label": question,
             "elements": 
             [{
                 "type": typeUI,
@@ -113,7 +119,7 @@ export const Parent = () => {
               
             uiSchema = {
                 "type": "VerticalLayout",
-                "label": label,
+                "label": question,
                 "elements": 
                 [{
                     "type": typeUI,
@@ -134,7 +140,7 @@ export const Parent = () => {
               
             uiSchema = {
                 "type": "Group",
-                "label": label,
+                "label": question,
                 "elements": 
                 [{
                     "type": typeUI,
@@ -144,9 +150,14 @@ export const Parent = () => {
 
             break; 
     
-        // case "Textboxes": // Date and signature for consent page
+        //TODO case "Textboxes": // Date and signature for consent page
 
     }
+    }
+
+
+
+      
 
 
     // console.log(data)

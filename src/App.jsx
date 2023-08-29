@@ -1,17 +1,15 @@
-import './App.css'
-import { Parent } from './Parent'
+import React from "react";
+import Home from "./Home";
+// import PDF from "./PDF" 
+import "./App.css";
 
 function App() {
-
-  
-
   return (
-    <>
-    <Parent/>
-     
-    </>
-  )
+    <div className="App">
+        <Home />
+        {/* <PDF/> */}
+    </div>
+  );
 }
 
-export default App
-
+export default App;

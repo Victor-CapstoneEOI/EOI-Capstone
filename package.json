@@ -15,6 +15,7 @@
     "@jsonforms/core": "^3.1.0",
     "@jsonforms/material-renderers": "^3.1.0",
     "@jsonforms/react": "^3.1.0",
+    "@mui/styles": "^5.14.7",
     "@react-pdf/renderer": "^3.1.12",
     "concurrently": "^8.2.1",
     "cors": "^2.8.5",

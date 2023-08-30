@@ -1,6 +1,7 @@
 import React from "react";
 // import Home from "./Home";
-// import PDF from "./PDF" 
+// import PDF from "./PDF
+import Footer from "./Footer";
 // import "./App.css";
 import FormComponent from "./FormComponent";
 import  Stepper from './Stepper';
@@ -17,6 +18,7 @@ function App() {
         {/* <PDF/> */}
         <Stepper steps={steps} />
         <FormComponent/>
+        <Footer />
        
    
         

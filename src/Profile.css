@@ -29,12 +29,13 @@
   /* Add styles for the corner logo */
   .cornerlogo {
     padding-left: 25px;
+    margin-top: 20px;
   }
   
   /* Adjust the styles for the bio section */
   .profile-bio {
     padding-left: 20px;
-    margin-top: 20px; /* Add margin between profile info and bio */
+    margin-top: 10px; /* Add margin between profile info and bio */
   }
   
   /* Add styles for the button */
@@ -42,5 +43,4 @@
     margin-top: 20px; /* Add margin above the button */
   }
   
-  /* Rest of your CSS styles */
   

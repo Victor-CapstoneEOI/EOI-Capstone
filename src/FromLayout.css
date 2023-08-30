@@ -1,0 +1,46 @@
+.Complete{
+    color: #E55204;
+    font-family: 'Rubik', sans-serif;
+    margin-top: 125px;
+    margin-bottom: 80px;
+}
+
+.Rest{
+color:black ;
+font-family: 'Rubik', sans-serif;
+}
+
+.container {
+    width: 200px; /* Set the width and height to make it square */
+    height: 200px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border-top: 20px solid #64CCC9; */
+  }
+
+.parent-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #F2F2F2;
+    /* border-top: 100px solid #64CCC9; */
+  }
+
+
+  .medical-questions-title {
+    background-color: #64CCC9;
+    margin-top: -400px; /* Adjust this value to control the vertical positioning */
+    padding: 35px 1400px;
+    margin-right: 1350px;
+    font-family: 'Rubik', sans-serif;
+    font-size: 30px;
+
+   
+   
+  }
+  

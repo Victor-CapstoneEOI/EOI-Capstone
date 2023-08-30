@@ -11,14 +11,14 @@ font-family: 'Rubik', sans-serif;
 }
 
 .container {
-    width: 200px; /* Set the width and height to make it square */
+    width: 200px; 
     height: 200px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* border-top: 20px solid #64CCC9; */
+   
   }
 
 .parent-container {
@@ -28,19 +28,18 @@ font-family: 'Rubik', sans-serif;
     align-items: center;
     height: 100vh;
     background-color: #F2F2F2;
-    /* border-top: 100px solid #64CCC9; */
+    
   }
 
 
   .medical-questions-title {
     background-color: #64CCC9;
-    margin-top: -400px; /* Adjust this value to control the vertical positioning */
+    margin-top: -400px; 
     padding: 35px 1400px;
-    margin-right: 1350px;
+    margin-right: 1380px;
+    margin-left: 200px;
     font-family: 'Rubik', sans-serif;
-    font-size: 30px;
+    font-size: 40px;
 
-   
-   
   }
   

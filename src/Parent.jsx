@@ -1,6 +1,7 @@
 import {useState, useEffect}from 'react'
 import { JsonForms } from '@jsonforms/react'
 import { materialRenderers} from '@jsonforms/material-renderers'
+// import { Axios } from 'axios'
 // import { Next } from './Next'
 
 
@@ -8,6 +9,7 @@ import { materialRenderers} from '@jsonforms/material-renderers'
 export const Parent = ({index}) => {
     const [data, setData] = useState('')
     const [parentQuestions, setParentQuestions] = useState([]);
+    const [current, setCurrent] = useState(index)
 
     useEffect(() => {
       fetch('/api/parent-questions')
@@ -19,25 +21,28 @@ export const Parent = ({index}) => {
         .catch(error => console.error('Error fetching parent questions:', error));
     }, []);
 
-    // console.log(parentQuestions[index])
 
-    let question = parentQuestions[index].questionText // Questions to be asked to user
-    let formControl = parentQuestions[index].formControlType 
-    let optionsArray; 
+    console.log(parentQuestions[current])
+
+    let question = parentQuestions[current].questionText // Questions to be asked to user
+    let formControl = parentQuestions[current].formControlType 
+    let optionsArray;
     let questionSchema = {}
     let uiSchema = {}
 
 
     // to populate schema for options (checklist, or dropdown list)
-    if (formControl == "buttons" || formControl == "checkboxes" ||formControl == "Drop-down List"){
-      optionsArray = parentQuestions[index].optionValues.split(";")
+    if (formControl == "Buttons" || formControl == "Checkboxes"||formControl == "Drop-down list" ){
+     optionsArray = parentQuestions[current].optionValues.split(";")
     }
 
+    // console.log(optionsArray)
+
     
-    //switch statement defines schemas for Json forms depending on the type of input
+    // switch statement defines schemas for Json forms depending on the type of input
 
     switch ( formControl ) {
-        case "buttons" || "checkboxes": // buttons no available in json forms; will use radio enum
+        case "Buttons"|| "Checkboxes": // buttons no available in json forms; will use radio enum
         questionSchema = {
             "type": "object",
             "properties": {
@@ -49,8 +54,8 @@ export const Parent = ({index}) => {
           }
           
         uiSchema = {
-            "type": "VerticalLayout",
-            "label": question,
+          "type": "Group",
+          "label": question,
             "elements": 
             [{
                 "type": "Control",
@@ -62,7 +67,7 @@ export const Parent = ({index}) => {
           }
           break;
         
-        case "Drop-down List":
+        case "Drop-down list":
             questionSchema = {
                 "type": "object",
                 "properties": {
@@ -74,8 +79,8 @@ export const Parent = ({index}) => {
               }
               
             uiSchema = {
-                "type": "VerticalLayout",
-                "label": question,
+              "type": "Group",
+              "label": question,
                 "elements": 
                 [{
                     "type": "Control",
@@ -110,12 +115,14 @@ export const Parent = ({index}) => {
     }
 
     const next = () =>{
-      index++
+      return setCurrent(++index)
+      
     }
 
     const previous = () =>{
-      index--
+      return setCurrent(--index)
     }
+
   return (
     <>
         <JsonForms
@@ -124,8 +131,9 @@ export const Parent = ({index}) => {
         data = {data}
         renderers = {materialRenderers}
         onChange = {({errors, data}) => setData(data)}/>
-        <button onClick={next}>Next</button>
         <button onClick={previous}>Previous</button>
+        <button onClick={next}>Next</button>
+        
     </>
   )
 }

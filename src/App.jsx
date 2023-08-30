@@ -4,7 +4,15 @@ import Profile from './Profile'
 import FormLayout from './FormLayout'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import PDF from "./PDF" 
-import "./App.css";
+// import "./App.css";
+import { Parent } from "./Parent";
+import FormComponent from "./FormComponent";
+import  Stepper from './Stepper';
+import './Stepper.css'; // 
+
+
+const steps = ['Step 1', 'Step 2', 'Step 3', 'Step 4'];
+
 
 function App() {
   return (
@@ -18,6 +26,12 @@ function App() {
         {/* <PDF/> */}
         </Routes>
         </BrowserRouter>
+        <Stepper steps={steps} />
+        <FormComponent/>
+       
+   
+        
+        <Parent index = {4}/>
     </div>
   );
 }

@@ -9,7 +9,7 @@ function App() {
     <div className="App">
         {/* <Home /> */}
         {/* <PDF/> */}
-        <Parent />
+        <Parent index = {1}/>
     </div>
   );
 }

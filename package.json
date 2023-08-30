@@ -16,7 +16,7 @@
     "@jsonforms/examples": "^3.1.0",
     "@jsonforms/material-renderers": "^3.1.0",
     "@jsonforms/react": "^3.1.0",
-    "@mui/material": "^5.14.6",
+    "@mui/material": "^5.14.7",
     "@react-pdf/renderer": "^3.1.12",
     "axios": "^1.5.0",
     "concurrently": "^8.2.1",
@@ -32,6 +32,7 @@
     "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0",
     "react-to-pdf": "^0.0.14",
     "require": "^2.4.20",
     "xlsx": "^0.18.5"

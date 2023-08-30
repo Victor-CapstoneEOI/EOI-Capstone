@@ -1,0 +1,45 @@
+.Complete{
+    color: #E55204;
+    font-family: 'Rubik', sans-serif;
+    margin-top: 125px;
+    margin-bottom: 80px;
+}
+
+.Rest{
+color:black ;
+font-family: 'Rubik', sans-serif;
+}
+
+.container {
+    width: 200px; 
+    height: 200px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   
+  }
+
+.parent-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #F2F2F2;
+    
+  }
+
+
+  .medical-questions-title {
+    background-color: #64CCC9;
+    margin-top: -400px; 
+    padding: 35px 1400px;
+    margin-right: 1380px;
+    margin-left: 200px;
+    font-family: 'Rubik', sans-serif;
+    font-size: 40px;
+
+  }
+  

@@ -1,0 +1,22 @@
+/* styles.css */
+.text-center {
+    text-align: center;
+  }
+  
+  .reset-container {
+    text-align: center;
+    margin-top: 16px;
+    display: block;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    text-align: center;
+  }
+  
+ 
+  .progress-bar {
+    margin-top: 32px;
+  }

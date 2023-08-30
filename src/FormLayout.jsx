@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import CornerLogo from './img/cornervictor.png';
 import './FromLayout.css'
-
+.
 export const FormLayout = () => {
   return (
     <div>

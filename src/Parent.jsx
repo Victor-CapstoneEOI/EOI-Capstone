@@ -1,8 +1,10 @@
 import {useState, useEffect}from 'react'
 import { JsonForms } from '@jsonforms/react'
 import { materialRenderers} from '@jsonforms/material-renderers'
+// import { Next } from './Next'
 
 
+// eslint-disable-next-line react/prop-types
 export const Parent = ({index}) => {
     const [data, setData] = useState('')
     const [parentQuestions, setParentQuestions] = useState([]);
@@ -12,20 +14,16 @@ export const Parent = ({index}) => {
         .then(response => response.json())
         .then(data => {
           setParentQuestions(data);
-          // console.log('Parent Questions:', data);
+          console.log('Parent Questions:', data);
         })
         .catch(error => console.error('Error fetching parent questions:', error));
     }, []);
 
     // console.log(parentQuestions[index])
 
-
     let question = parentQuestions[index].questionText // Questions to be asked to user
     let formControl = parentQuestions[index].formControlType 
     let optionsArray; 
-
-  
-  
     let questionSchema = {}
     let uiSchema = {}
 
@@ -110,14 +108,24 @@ export const Parent = ({index}) => {
     
     //     //TODO case "Textboxes": // Date and signature for consent page
     }
+
+    const next = () =>{
+      index++
+    }
+
+    const previous = () =>{
+      index--
+    }
   return (
-    <div>
+    <>
         <JsonForms
         schema = {questionSchema}
         uischema = {uiSchema}
         data = {data}
         renderers = {materialRenderers}
         onChange = {({errors, data}) => setData(data)}/>
-    </div>
+        <button onClick={next}>Next</button>
+        <button onClick={previous}>Previous</button>
+    </>
   )
 }

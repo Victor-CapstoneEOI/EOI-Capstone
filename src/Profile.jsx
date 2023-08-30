@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ProfilePic from './img/ProfilePic.png';
+// import ProfilePic from './img/ProfilePic.png';
 import CornerLogo from './img/cornervictor.png';
 import './Profile.css';
 

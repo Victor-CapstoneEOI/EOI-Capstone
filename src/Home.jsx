@@ -12,7 +12,11 @@ const Home = () => {
     const handleLanguageChange = (language) => {
         setSelectedLanguage(language);
         console.log(`Selected language: ${language}`);
-        navigate('/profile'); // Navigate to the '/profile' route after changing language
+        if (language == 'French'){
+            navigate('/profil');
+        } else{
+            navigate('/profile'); 
+        }
     };
 
     return (

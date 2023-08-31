@@ -1,6 +1,7 @@
 import React from "react";
 import Home from "./Home";
 import Profile from './Profile'
+import FrenchProfile from "./FrenchProfile";
 import FormLayout from './FormLayout'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import PDF from "./PDF" 
@@ -22,6 +23,7 @@ function App() {
 
         <Route path = '/' exact={true} element={<Home />}/>
         <Route path='/profile' exact ={true} element={<Profile/>}/>
+        <Route path= '/profil' exact= {true} element={<FrenchProfile/>}/>
         <Route path = '/formlayout' exact={true} element={<FormLayout/>}/>
         {/* <PDF/> */}
         </Routes>

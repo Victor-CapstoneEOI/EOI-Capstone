@@ -1,3 +1,4 @@
+// App.js
 import React from "react";
 import Home from "./Pages/Home.jsx";
 import Profile from './Pages/Profile.jsx'

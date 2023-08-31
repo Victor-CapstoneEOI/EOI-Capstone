@@ -31,7 +31,7 @@ export const Wellness = () => {
       let uiSchema = {}
 
 
-      if (formType== "Drop-down List"){
+      if (formType== "Drop-down List"|| formType== "Buttons"){
         optionValues = questions[current]?.optionValues.split(";")
        }
 
@@ -39,45 +39,25 @@ export const Wellness = () => {
 
       const handleNext = () => {
         const newIndex = current + 1;
-        if (newIndex < questions.length) {
+        if (newIndex === 1 || newIndex === 3) {
+          setCurrent(newIndex + 1); 
+        } else if (newIndex < questions.length){
           setCurrent(newIndex);
         }
-      };
+    };
+        
     
       const handlePrevious = () => {
         const newIndex = current - 1;
-        if (newIndex >= 0) {
+        if (newIndex === 1 || newIndex === 3) {
+          setCurrent(newIndex - 1); 
+        } else if (newIndex > questions.length){
           setCurrent(newIndex);
         }
       };
 
       // get schemas to render questions with Json forms 
       switch (formType) {
-
-        case "Buttons":
-        questionSchema = {
-            "type": "object",
-            "properties": {
-              "answer": {
-                "type": 'string',
-                "enum": optionValues
-              }
-            }
-          }
-          
-        uiSchema = {
-          "type": "Group",
-          "label": question,
-            "elements": 
-            [{
-                "type": "Control",
-                "scope": "#/properties/answer",
-                "options":{
-                    "format": "radio"
-                }
-              }]
-          }
-          break;
 
         case "Drop-down List":
             questionSchema = {
@@ -122,12 +102,37 @@ export const Wellness = () => {
               }
 
             break; 
+
+            case "Buttons":
+              questionSchema = {
+                  "type": "object",
+                  "properties": {
+                    "answer": {
+                      "type": 'string',
+                      "enum": optionValues
+                    }
+                  }
+                }
+                
+              uiSchema = {
+                "type": "Group",
+                "label": question,
+                  "elements": 
+                  [{
+                      "type": "Control",
+                      "scope": "#/properties/answer",
+                      "options":{
+                          "format": "radio"
+                      }
+                    }]
+                }
+                break;
     
       default:
       break;
     }
 
-    //Defining schemas for index 22 and 24 
+    //Defining schemas for index 22 and 24 (index 1 and 3 for my section)
     //Next needs to skip index 22 nad 24, but logic needs to include
     //what happends when you select it
     // if (current == 22 || current == 24){
@@ -143,6 +148,8 @@ export const Wellness = () => {
       //also check if question has children question
         //conditionally render the question if trigger option is selected
         //(Make sure it render just one question at a time)
+
+        console.log(current)
       
   return (
     <div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { JsonForms } from '@jsonforms/react';
 import { materialRenderers } from '@jsonforms/material-renderers';
 
-import {generateQuestionSchemaAndUISchema} from '../shemas/schemaUtils'
+import {generateQuestionSchemaAndUISchema} from '../schemas/schemaUtils'
 export const LifeStyleSection = ({ index }) => {
   const [data, setData] = useState({});
   const [questions, setQuestions] = useState([]);

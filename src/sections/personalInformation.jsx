@@ -287,3 +287,4 @@ const getUiSchemaForQuestion = (question) => {
   
   return uiSchema;
 };
+

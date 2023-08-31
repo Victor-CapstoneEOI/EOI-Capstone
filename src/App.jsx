@@ -11,7 +11,7 @@
 // import FormComponent from "./FormComponent";
 // import  Stepper from './Stepper';
 // import './Stepper.css'; // 
-// import { PersonalInformation } from "./sections/personalInformation";
+import { PersonalInformation } from "./sections/personalInformation";
 import { Wellness } from "./sections/Wellness";
 
 //const steps = ['Profile', 'Lifestyle', 'Wellness', 'Medical Information', 'Authorization and Consent'];
@@ -38,6 +38,7 @@ function App() {
         <FormComponent/> 
         <Footer />
         <Parent index = {4}/> */}
+        {/* <PersonalInformation/> */}
         <Wellness/>
 
     </div>

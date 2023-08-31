@@ -36,6 +36,50 @@ export function generateQuestionSchemaAndUISchema(currentQuestion) {
           ],
         };
         break;
+
+        case "Drop-down list":
+            questionSchema = {
+                "type": "object",
+                "properties": {
+                  "answer": {
+                    "type": 'string',
+                    "enum": optionsArray
+                  }
+                }
+              }
+              
+            uiSchema = {
+              "type": "Group",
+              "label": question,
+                "elements": 
+                [{
+                    "type": "Control",
+                    "scope": "#/properties/answer"
+                  }]
+              }
+              break;
+
+        case "Textbox":
+          questionSchema = {
+                "type": "object",
+                "properties": {
+                  "answer": {
+                    "type": 'string'
+                  }
+                }
+              }
+              
+          uiSchema = {
+                "type": "Group",
+                "label": question,
+                "elements": 
+                [{
+                    "type": "Control",
+                    "scope": "#/properties/answer"
+                  }]
+              }
+
+            break;
   
       // Handle other cases...
   

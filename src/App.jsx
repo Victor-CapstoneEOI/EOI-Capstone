@@ -7,6 +7,7 @@ import React from "react";
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { LifeStyleSection } from "./sections/LifeStyleSection";
+import { Wellness } from "./sections/Wellness";
 
 
 import Header from './Components/Header';
@@ -25,7 +26,8 @@ function App() {
         </Routes>
       </BrowserRouter>
       <Footer /> */}
-      <LifeStyleSection index={0} />
+      {/* <LifeStyleSection index={0} /> */}
+      <Wellness/>
     </div>
   );
 }

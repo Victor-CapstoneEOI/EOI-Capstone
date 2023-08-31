@@ -2,8 +2,9 @@
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
-    margin-top: 120px;
-    margin-left: 600px;
+    margin-top: 110px;
+    margin-bottom: 110px;
+    margin-left: 430px;
     background-color: #ffffff;
     padding: 20px;
     border-radius: 5px;
@@ -11,18 +12,6 @@
     text-align: center; /* Center text within the container */
   }
   
-
-  .cornerlogo {
-    max-width: 150px;
-    margin-top: 20px;
-    margin-right: 20px;
-    border-bottom: 4px solid #f2f2f2;
-    background-color: #ffffff;
-    
-
-  }
-
-
 
   .profile-info {
     display: flex;
@@ -56,7 +45,7 @@
   
   /* Profile content */
   .profile-content {
-    padding: 5px;
+    padding: 10px;
     background-color: #f0f0f0;
     border-radius: 5px;
     margin-top: 2px;
@@ -96,7 +85,7 @@
     background-color: #E55204; /* Example button background color */
     color: #ffffff; /* Example button text color */
     border: none;
-    border-radius: 60%; /* Make the buttons round */
+    border-radius: 45%; /* Make the buttons round */
     cursor: pointer;
     font-size: 16px;
     margin-top: 10px; /* Adjust the margin between buttons as needed */
@@ -107,3 +96,6 @@
     background-color: #e5a904; /* Example button background color on hover */
   }
   
+.group-benefits-container{
+  margin-bottom: -1px;
+}

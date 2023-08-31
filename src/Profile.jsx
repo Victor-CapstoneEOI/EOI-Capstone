@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfilePic from "./img/ProfilePic.png";
-import CornerLogo from "./img/cornervictor.png";
 import GroupBenefits from "./img/GroupBenefits.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -33,7 +32,6 @@ const Profile = () => {
       
       <div className="profile-container">
         <div className="profile-header">
-          <img src={CornerLogo} alt="cornervictor" className="cornerlogo" />
           <div className="profile-info">
             <img
               src={ProfilePic || ProfilePic}

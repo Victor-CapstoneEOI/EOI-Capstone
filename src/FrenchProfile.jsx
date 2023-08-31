@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfilePic from './img/ProfilePic.png';
-import CornerLogo from './img/cornervictor.png';
 import './FrenchProfile.css'
 
 const FrenchProfile = () => {
@@ -19,7 +18,6 @@ const FrenchProfile = () => {
 
   return (
     <div>
-      <img src={CornerLogo} alt="cornervictor" className="cornerlogo" />
       <div className="profile">
         <div className="profile-header">
           <div className="profile-info">

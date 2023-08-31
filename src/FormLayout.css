@@ -1,13 +1,15 @@
 .Complete{
     color: #E55204;
     font-family: 'Rubik', sans-serif;
-    margin-top: 125px;
+    margin-top: 100px;
     margin-bottom: 80px;
+    margin-left: 20px;
 }
 
 .Rest{
 color:black ;
 font-family: 'Rubik', sans-serif;
+margin-top: 20px;
 }
 
 .container {

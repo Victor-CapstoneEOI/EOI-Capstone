@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
+import PersonalInformation from './sections/PersonalInformation.jsx'
 import './FormLayout.css'
 
 export const FormLayout = () => {
@@ -11,7 +12,7 @@ export const FormLayout = () => {
       <div className='parent-container'>
         <div className='medical-questions-title'>Medical Questions</div>
         <div className='container'>
-          {/* Your medical questions content goes here */}
+          <PersonalInformation/>
         </div>
       </div>
     </div>

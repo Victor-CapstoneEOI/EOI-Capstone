@@ -1,47 +1,101 @@
-/* Profile.css */
+.profile-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 110px;
+  margin-bottom: 110px;
+  margin-left: 430px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 20px 20px 20px 20px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Center text within the container */
+}
 
-/* Adjust the styles for the name and image container */
-.profile-header {
-    display: flex;
-    align-items: center;
-  }
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 600px;
+}
+
+.profile-picture {
+  max-width: 100px;
+  border-radius: 50%;
+  margin-top: 15px;
   
-  .profile-info {
-    margin-right: 20px; /* Add margin for spacing between image and text */
-  }
+}
+
+.name-info {
+  margin-top: 10px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+p {
+  color: #333333;
+  margin: 0;
+}
+
+/* Profile content */
+.profile-content {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  margin-top: 2px;
+  margin-bottom: 20px;
+  box-shadow: 0px 10px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Bio section */
+.profile-bio {
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   
-  .profile-picture {
-    max-width: 100px;
-    border-radius: 10%; /* To make the image circular */
-    margin-top: 125px; /* Add margin between the image and name */
-    padding-left: 25px;
-  }
+}
+
+.button-row{
+  display: flex;
+  justify-content: space-between;
+  margin-right: 10px;
   
-  /* Adjust the styles for the name and email container */
-  .name-info {
-    padding-left: 20px;
-    
-  }
-  
-  h1 {
-    margin-top: 5px; /* Add some space between name and image */
-  }
-  
-  /* Add styles for the corner logo */
-  .cornerlogo {
-    padding-left: 25px;
-    margin-top: 20px;
-  }
-  
-  /* Adjust the styles for the bio section */
-  .profile-bio {
-    padding-left: 20px;
-    margin-top: 5px; /* Add margin between profile info and bio */
-  }
-  
-  /* Add styles for the button */
-  .button {
-    margin-top: 20px; /* Add margin above the button */
-  }
-  
-  
+
+}
+
+.buttons-container button {
+  width: 100px; /* Set the width for all buttons */
+  height: 40px; /* Set the height for all buttons */
+  padding: 10px; /* Adjust the padding for the buttons */
+  background-color: #E55204; /* Example button background color */
+  color: #ffffff; /* Example button text color */
+  border: none;
+  border-radius: 45%; /* Make the buttons round */
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px; /* Adjust the margin between buttons as needed */
+  margin-bottom: 10px;
+}
+
+.buttons-container button:hover {
+  background-color: #e5a904; /* Example button background color on hover */
+}
+
+.group-benefits-container{
+margin-bottom: -1px;
+}

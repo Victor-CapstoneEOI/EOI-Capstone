@@ -17,9 +17,9 @@ margin-top: 20px;
     height: 200px;
     padding: 20px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    margin-left: 60px;
     align-items: center;
+    margin-top: 60px;
    
   }
 

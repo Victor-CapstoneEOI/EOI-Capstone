@@ -37,7 +37,7 @@ export function generateQuestionSchemaAndUISchema(currentQuestion) {
         };
         break;
 
-        case "Drop-down list":
+        case "Drop-down List":
             questionSchema = {
                 "type": "object",
                 "properties": {

@@ -5,8 +5,8 @@ const parentQuestionSchema = new mongoose.Schema({
   section: String,
   subSection1: String,
   subSection2: String,
-  formControlType: String,
   optionValues: String,
+  formControlType: String,
   subFormTrigger: String,
 
   childQuestions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ChildQuestion' }],

@@ -25,7 +25,7 @@ const StepperBar = ({ steps }) => {
         className="progress-bar"
       />
       <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label) => (
+        {steps.map((label, index) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>
@@ -34,20 +34,23 @@ const StepperBar = ({ steps }) => {
       <div>
         <div>
           {activeStep === steps.length ? (
-            <div>
-              <p className="text-center">All steps completed</p>
-              <Button onClick={handleReset}>Reset</Button>
+            
+              <div className="text-center">
+              <p>All steps completed</p>
+              <Button onClick={handleReset} className="button-reset">Reset</Button>
             </div>
           ) : (
             <div>
               <div>{/* Render step component */}</div>
               <div className="button-container">
-                <Button disabled={activeStep === 0} onClick={handleBack}>
-                  Back
-                </Button>
-                <Button variant="contained" onClick={handleNext}>
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </Button>
+                <div className="stepper-container">
+                  <Button disabled={activeStep === 0} onClick={handleBack} className="button-back">
+                    Back
+                  </Button>
+                  <Button variant="contained" onClick={handleNext} className="button-next">
+                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  </Button>
+                </div>
               </div>
             </div>
           )}

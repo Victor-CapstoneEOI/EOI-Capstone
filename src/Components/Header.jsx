@@ -1,8 +1,8 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
-import cornerLogo from './img/cornervictor.png'; 
-import './Header.css'; // Import the CSS file
+import cornerLogo from '../img/cornervictor.png'; 
+import '../Style/Header.css'; // Import the CSS file
 
 const headerStyles = {
   backgroundColor: '#ffffff', // Set your desired background color

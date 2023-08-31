@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
-import PersonalInformation from './sections/PersonalInformation.jsx'
-import './FormLayout.css'
+import PersonalInformation from '../sections/PersonalInformation.jsx'
+import '../Style/FormLayout.css'
 
 export const FormLayout = () => {
   return (

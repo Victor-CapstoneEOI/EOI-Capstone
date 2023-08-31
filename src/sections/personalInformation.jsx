@@ -288,3 +288,4 @@ const getUiSchemaForQuestion = (question) => {
   return uiSchema;
 };
 
+export default PersonalInformation;

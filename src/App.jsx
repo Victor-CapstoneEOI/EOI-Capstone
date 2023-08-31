@@ -3,6 +3,10 @@ import Home from "./Home";
 import Profile from './Profile'
 import FormLayout from './FormLayout'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LifeStyleSection from "./sections/LifeStyleSection";
+import { FormComponent } from "./FormComponent";
+
+
 // import PDF from "./PDF" 
 // import "./App.css";
 // import { Parent } from "./Parent";
@@ -17,18 +21,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      {/* <BrowserRouter>
       <Routes>
 
         <Route path = '/' exact={true} element={<Home />}/>
         <Route path='/profile' exact ={true} element={<Profile/>}/>
         <Route path = '/formlayout' exact={true} element={<FormLayout/>}/>
         {/* <PDF/> */}
-        </Routes>
-        </BrowserRouter>
+        {/* </Routes> */}
+        {/* </BrowserRouter> */}
         {/* <Stepper steps={steps} /> */}
-        {/* <FormComponent/> */}
-       
+        <FormComponent index={0}/>
+        {/* <LifeStyleSection/> */}
    
         
         {/* <Parent index = {4}/> */}

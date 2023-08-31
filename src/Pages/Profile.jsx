@@ -12,7 +12,7 @@ import {
   faComment,
 } from "@fortawesome/free-solid-svg-icons";
 
-import "../Style/Profile.css";
+import "../Styles/Profile.css";
 
 const Profile = () => {
   const [user] = useState({

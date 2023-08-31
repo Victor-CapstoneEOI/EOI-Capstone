@@ -5,12 +5,13 @@ import Profile from './Pages/Profile.jsx'
 import FrenchProfile from "./Pages/FrenchProfile.jsx";
 import FormLayout from './Pages/FormLayout.jsx'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { FormComponent } from "./FormComponent";
+// import { FormComponent } from "./FormComponent";
 import { LifeStyleSection } from "./sections/LifeStyleSection";
 
 
 import Header from './Components/Header';
 import Footer from "./Components/Footer";
+import Sidebar from "./Components/Sidebar.jsx";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/formlayout" element={<FormLayout />} />
         </Routes>
       </BrowserRouter>
+      <Sidebar />
       <Footer />
     </div>
   );

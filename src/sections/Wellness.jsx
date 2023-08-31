@@ -24,13 +24,18 @@ export const Wellness = () => {
       let subSection = questions[current]?.subSection1
       let question = questions[current]?.questionText
       let subFormTrigger = questions[current]?.subFormTrigger
-      let formType = questions[current]?.formControl
+      let formType = questions[current]?.formControlType
       let optionValues; 
 
+      let questionSchema = {}
+      let uiSchema = {}
 
-      if (formType== "Drop-down List" ){
+
+      if (formType== "Drop-down List"){
         optionValues = questions[current]?.optionValues.split(";")
        }
+
+    
 
       const handleNext = () => {
         const newIndex = current + 1;
@@ -47,9 +52,94 @@ export const Wellness = () => {
       };
 
       // get schemas to render questions with Json forms 
+      switch (formType) {
+
+        case "Buttons":
+        questionSchema = {
+            "type": "object",
+            "properties": {
+              "answer": {
+                "type": 'string',
+                "enum": optionValues
+              }
+            }
+          }
+          
+        uiSchema = {
+          "type": "Group",
+          "label": question,
+            "elements": 
+            [{
+                "type": "Control",
+                "scope": "#/properties/answer",
+                "options":{
+                    "format": "radio"
+                }
+              }]
+          }
+          break;
+
+        case "Drop-down List":
+            questionSchema = {
+                "type": "object",
+                "properties": {
+                  "answer": {
+                    "type": 'string',
+                    "enum": optionValues
+                  }
+                }
+              }
+              
+            uiSchema = {
+              "type": "Group",
+              "label": question,
+                "elements": 
+                [{
+                    "type": "Control",
+                    "scope": "#/properties/answer"
+                  }]
+              }
+              break;
+
+        case "Textbox":
+            questionSchema = {
+                "type": "object",
+                "properties": {
+                  "answer": {
+                    "type": 'string'
+                  }
+                }
+              }
+              
+          uiSchema = {
+                "type": "Group",
+                "label": question,
+                "elements": 
+                [{
+                    "type": "Control",
+                    "scope": "#/properties/answer"
+                  }]
+              }
+
+            break; 
+    
+      default:
+      break;
+    }
+
+    //Defining schemas for index 22 and 24 
+    //Next needs to skip index 22 nad 24, but logic needs to include
+    //what happends when you select it
+    // if (current == 22 || current == 24){
+
+      
+
+    // }
 
       
       //check if question has trigger option
+
+      
       //also check if question has children question
         //conditionally render the question if trigger option is selected
         //(Make sure it render just one question at a time)
@@ -59,15 +149,17 @@ export const Wellness = () => {
   
       <h2>{section}</h2>
       <h3>{subSection}</h3>
-      <h4>{question}</h4>
-{/* 
+
       <JsonForms
         schema={questionSchema}
         uischema={uiSchema}
         data={data}
         renderers={materialRenderers}
         onChange={({ errors, data }) => setData(data)}
-      /> */}
+      />
+
+      <button onClick={handlePrevious}>Previous</button>
+      <button onClick={handleNext}>Next</button>
 
 
     </div>

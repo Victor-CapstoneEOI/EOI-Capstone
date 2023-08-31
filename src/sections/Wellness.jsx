@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
-export const Test2 = () => {
+export const Wellness = () => {
     const [questions, setQuestions] = useState([])
 
     useEffect(() => {

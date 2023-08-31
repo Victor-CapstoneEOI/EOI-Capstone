@@ -1,8 +1,15 @@
-export const generateSchemaAndUISchema = (formControlType, question, optionsArray) => {
+export function generateQuestionSchemaAndUISchema(currentQuestion) {
+    const question = currentQuestion?.questionText;
+    const formControl = currentQuestion?.formControlType;
+    let optionsArray;
     let questionSchema = {};
     let uiSchema = {};
   
-    switch (formControlType) {
+    if (formControl === 'Buttons' || formControl === 'Checkboxes' || formControl === 'Drop-down list') {
+      optionsArray = currentQuestion?.optionValues.split(';');
+    }
+  
+    switch (formControl) {
       case 'Buttons':
       case 'Checkboxes':
         questionSchema = {
@@ -37,4 +44,5 @@ export const generateSchemaAndUISchema = (formControlType, question, optionsArra
     }
   
     return { questionSchema, uiSchema };
-  };
+  }
+  

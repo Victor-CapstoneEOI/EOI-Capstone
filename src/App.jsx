@@ -1,11 +1,11 @@
 // App.js
 import React from "react";
-import Home from "./Pages/Home.jsx";
-import Profile from './Pages/Profile.jsx'
-import FrenchProfile from "./Pages/FrenchProfile.jsx";
-import FormLayout from './Pages/FormLayout.jsx'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { FormComponent } from "./FormComponent";
+// import Home from "./Pages/Home.jsx";
+// import Profile from './Pages/Profile.jsx'
+// import FrenchProfile from "./Pages/FrenchProfile.jsx";
+// import FormLayout from './Pages/FormLayout.jsx'
+// import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import { LifeStyleSection } from "./sections/LifeStyleSection";
 
 
@@ -15,7 +15,7 @@ import Footer from "./Components/Footer";
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      {/* <BrowserRouter>
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -24,7 +24,8 @@ function App() {
           <Route path="/formlayout" element={<FormLayout />} />
         </Routes>
       </BrowserRouter>
-      <Footer />
+      <Footer /> */}
+      <LifeStyleSection index={0} />
     </div>
   );
 }

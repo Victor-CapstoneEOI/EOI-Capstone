@@ -1,74 +1,89 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { JsonForms } from "@jsonforms/react";
 import { materialRenderers } from "@jsonforms/material-renderers";
 import axios from "axios";
 
 export const PersonalInformation = () => {
   const [formData, setFormData] = useState({});
+  const formDataRef = useRef(formData);
+
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [isFieldEmpty, setIsFieldEmpty] = useState(true);
 
   useEffect(() => {
+    // Fetch questions only once
     axios
       .get("/api/parent-questions")
-      .then((response) => response.data)
-      .then((data) => {
-        setQuestions(data);
-        console.log("Parent Questions:", data);
+      .then(response => response.data)
+      .then(data => {
+        const filteredQuestions = data.filter(question => question.section === 'Personal information');
+        setQuestions(filteredQuestions);
       })
-      .catch((error) =>
-        console.error("Error fetching parent questions:", error)
-      );
+      .catch(error => console.error("Error fetching parent questions:", error));
   }, []);
 
+  useEffect(() => {
+    const savedData = sessionStorage.getItem("formData");
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
+
+  useEffect(() => {
+    formDataRef.current = formData; // Keep the ref updated with the latest value
+  }, [formData]);
+
+  useEffect(() => {
+    const currentQuestion = questions[currentQuestionIndex];
+    if (!currentQuestion) {
+        setIsFieldEmpty(true);
+        return;
+    }
+    
+    const schema = getSchemaForQuestion(currentQuestion);
+    const requiredFields = schema.required || [];
+
+    // If the question is optional, do not check for empty fields and allow users to proceed
+    if (currentQuestion.questionText.toLowerCase().includes("(optional)")) {
+      setIsFieldEmpty(false);
+      return;
+    }
+
+    const emptyFields = requiredFields.filter(field => !formData[field]);
+    setIsFieldEmpty(emptyFields.length > 0);
+}, [currentQuestionIndex, questions, formData]);
+
+
+  useEffect(() => {
+    const currentFormData = JSON.parse(sessionStorage.getItem(`formData-${currentQuestionIndex}`) || '{}');
+    setFormData(currentFormData);
+  }, [currentQuestionIndex]);
+
+  const handleKeyPress = event => {
+    if (event.key === "Enter") {
+      handleNext();
+    }
+  };
+
   const handleNext = () => {
+    if (isFieldEmpty) {
+        alert("Please fill in the required fields before proceeding.");
+        return;
+    }
     const nextIndex = currentQuestionIndex + 1;
     if (nextIndex < questions.length) {
-      setCurrentQuestionIndex(nextIndex);
-      setFormData({}); // Clear the input field
+        sessionStorage.setItem(`formData-${currentQuestionIndex}`, JSON.stringify(formData));
+        setCurrentQuestionIndex(nextIndex);
     }
   };
 
   const handlePrevious = () => {
     const prevIndex = currentQuestionIndex - 1;
     if (prevIndex >= 0) {
-      setCurrentQuestionIndex(prevIndex);
-      setFormData({}); // Clear the input field
+        sessionStorage.setItem(`formData-${currentQuestionIndex}`, JSON.stringify(formData));
+        setCurrentQuestionIndex(prevIndex);
     }
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleNext();
-    }
-  };
-
-  const handleSubmit = () => {
-    // Perform basic validation
-    const currentQuestion = questions[currentQuestionIndex];
-    const requiredFields = currentQuestion.requiredFields || [];
-    const missingFields = requiredFields.filter((field) => !formData[field]);
-
-    if (missingFields.length > 0) {
-      alert(
-        `Please fill in the following required fields: ${missingFields.join(
-          ", "
-        )}`
-      );
-      return;
-    }
-
-    // Assuming you have an API endpoint for saving form data
-    axios
-      .post("/api/submit-form", formData)
-      .then((response) => {
-        console.log("Form Data Submitted:", response.data);
-        // Optionally, you can navigate to a success page or perform other actions
-      })
-      .catch((error) => {
-        console.error("Error submitting form:", error);
-        // Handle error, e.g., display an error message to the user
-      });
   };
 
   const currentQuestion = questions[currentQuestionIndex];
@@ -77,35 +92,28 @@ export const PersonalInformation = () => {
     return <div>Form Complete</div>;
   }
 
-  const section = currentQuestion.section;
-  const subSection1 = currentQuestion.subSection1;
-  const subSection2 = currentQuestion.subSection2;
-
   return (
-    <div>
-      <h2>{section}</h2>
-      {subSection1 && <h3>{subSection1}</h3>}
-      {subSection2 && <h4>{subSection2}</h4>}
+    <div onKeyDown={handleKeyPress}>
+      <h2>{currentQuestion.section}</h2>
+      {currentQuestion.subSection1 && <h3>{currentQuestion.subSection1}</h3>}
+      {currentQuestion.subSection2 && <h4>{currentQuestion.subSection2}</h4>}
 
       <JsonForms
+        key={currentQuestionIndex}
         schema={getSchemaForQuestion(currentQuestion)}
         uischema={getUiSchemaForQuestion(currentQuestion)}
         data={formData}
         renderers={materialRenderers}
         onChange={({ data }) => setFormData(data)}
-        onKeyDown={handleKeyPress} // Handle Enter key press
-        liveValidate={false} // Prevent live validation on input change
-      >
-        <button type="button" onClick={handlePrevious}>
-          Previous
-        </button>
-        <button type="button" onClick={handleNext}>
-          Next
-        </button>
-        <button type="button" onClick={handleSubmit}>
-          Submit
-        </button>
-      </JsonForms>
+        liveValidate={true}
+      />
+
+      <button type="button" onClick={handlePrevious}>
+        Previous
+      </button>
+      <button type="button" onClick={handleNext} disabled={isFieldEmpty}>
+        Next
+      </button>
     </div>
   );
 };
@@ -115,79 +123,149 @@ const getSchemaForQuestion = (question) => {
   let schema = {
     type: "object",
     properties: {},
-    required: [], // Define required fields if needed
+    required: question.requiredFields || [],
   };
 
-  switch (formControl) {
-    case "Buttons":
-    case "Checkboxes":
-      schema.properties.answer = {
-        type: "string",
-        enum: question.optionValues.split(";").map((option) => option.trim()),
-      };
-      break;
+  const isDateQuestion = question.questionText.includes("date") || question.questionText.includes("Date");
+  const isOptional = question.questionText.toLowerCase().includes("(optional)");
+  const isAddressQuestion = question.questionText.includes('Address');
 
-    case "Drop-down list":
-      schema.properties.answer = {
-        type: "string",
-        enum: question.optionValues.split(";").map((option) => option.trim()),
-      };
-      break;
+  if (isAddressQuestion) {
+    schema.properties.address = {
+      type: "object",
+      properties: {
+        street: { type: "string", title: "Street" },
+        street2: { type: "string", title: "Street" },
+        city: { type: "string", title: "City" },
+        state: { type: "string", title: "State" },
+        zip: { type: "string", title: "ZIP" }
+      }
+    };
+    if (!isOptional) {
+      schema.required = ["address"];
+    }
+  } else if (isDateQuestion) {
+    schema.properties.answer = {
+      type: "string",
+      format: "date"
+    };
+    if (!isOptional) {
+      schema.required = ["answer"];
+    }
+  } else {
+    switch (formControl) {
+      case "Buttons":
+      case "Checkboxes":
+        schema.properties.answer = {
+          type: "string",
+          enum: question.optionValues.split(";").map((option) => option.trim()),
+        };
+        break;
 
-    case "Textbox":
-      schema.properties.answer = {
-        type: "string",
-      };
-      schema.required = ["answer"]; // Make answer field required
-      break;
+      case "Drop-down list":
+        schema.properties.answer = {
+          type: "string",
+          enum: question.optionValues.split(";").map((option) => option.trim()),
+        };
+        break;
 
-    default:
-      break;
+      case "Textbox":
+        schema.properties.answer = {
+          type: "string",
+        };
+        if (!isOptional) {
+          schema.required = ["answer"];
+        }
+        break;
+
+      default:
+        break;
+    }
   }
 
   return schema;
 };
 
+
 const getUiSchemaForQuestion = (question) => {
   const formControl = question.formControlType;
   let uiSchema = {};
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleNext();
-    }
-  };
+  const isDateQuestion = question.questionText.includes("date") || question.questionText.includes("Date");
+  const isAddressQuestion = question.questionText.includes('Address');
 
-  switch (formControl) {
-    case "Buttons":
-    case "Checkboxes":
-      uiSchema = {
-        type: "Group",
-        label: question.questionText,
-        elements: [
-          {
-            type: "Control",
-            scope: "#/properties/answer",
-            options: {
-              format: "radio",
+  if (isAddressQuestion) {
+    uiSchema = {
+      type: "Group",
+      label: question.questionText,
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/address/properties/street"
+        },
+        {
+          type: "Control",
+          scope: "#/properties/address/properties/street2"
+        },
+        {
+          type: "Control",
+          scope: "#/properties/address/properties/city"
+        },
+        {
+          type: "Control",
+          scope: "#/properties/address/properties/state"
+        },
+        {
+          type: "Control",
+          scope: "#/properties/address/properties/zip"
+        }
+      ]
+    };
+  } else if (isDateQuestion) {
+    uiSchema = {
+      type: "Group",
+      label: question.questionText,
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/answer",
+          options: {
+            widget: "date"
+          }
+        }
+      ]
+    };
+  } else {
+    switch (formControl) {
+      case "Buttons":
+      case "Checkboxes":
+        uiSchema = {
+          type: "Group",
+          label: question.questionText,
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/answer",
+              options: {
+                format: "radio",
+              },
             },
-          },
-        ],
-      };
-      break;
+          ],
+        };
+        break;
 
-    case "Drop-down list":
-      uiSchema = {
-        type: "Group",
-        label: question.questionText,
-        elements: [
-          {
-            type: "Control",
-            scope: "#/properties/answer",
-          },
-        ],
-      };
-      break;
+      case "Drop-down list":
+        uiSchema = {
+          type: "Group",
+          label: question.questionText,
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/answer",
+            },
+          ],
+        };
+        break;
 
       case "Textbox":
         uiSchema = {
@@ -197,15 +275,15 @@ const getUiSchemaForQuestion = (question) => {
             {
               type: "Control",
               scope: "#/properties/answer",
-              onKeyDown: handleKeyPress,
             },
           ],
         };
         break;
 
-    default:
-      break;
+      default:
+        break;
+    }
   }
-
+  
   return uiSchema;
 };

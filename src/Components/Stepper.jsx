@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Stepper, Step, StepLabel, Button, LinearProgress } from '@mui/material';
-import '../Style/Stepper.css'; // Import the CSS file
+import '../Styles/Stepper.css'; // Import the CSS file
 
 const StepperBar = ({ steps }) => {
   const [activeStep, setActiveStep] = useState(0);
@@ -32,29 +32,35 @@ const StepperBar = ({ steps }) => {
         ))}
       </Stepper>
       <div>
-        <div>
-          {activeStep === steps.length ? (
-            
-              <div className="text-center">
-              <p>All steps completed</p>
-              <Button onClick={handleReset} className="button-reset">Reset</Button>
-            </div>
-          ) : (
-            <div>
-              <div>{/* Render step component */}</div>
-              <div className="button-container">
-                <div className="stepper-container">
-                  <Button disabled={activeStep === 0} onClick={handleBack} className="button-back">
-                    Back
-                  </Button>
-                  <Button variant="contained" onClick={handleNext} className="button-next">
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                  </Button>
-                </div>
+        {activeStep === steps.length ? (
+          <div className="text-center">
+            <p>All steps completed</p>
+            <Button onClick={handleReset} className="button-reset">Reset</Button>
+          </div>
+        ) : (
+          <div>
+            {/* Uncomment the following line if you want to render a step-specific component */}
+            {/* <div>{/* Render step component }</div> */}
+            <div className="button-container">
+              <div className="stepper-container">
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  className="button-back"
+                >
+                  Back
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={handleNext}
+                  className="button-next"
+                >
+                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                </Button>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

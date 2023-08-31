@@ -3,8 +3,8 @@ import Home from "./Home";
 import Profile from './Profile'
 import FormLayout from './FormLayout'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LifeStyleSection from "./sections/LifeStyleSection";
 import { FormComponent } from "./FormComponent";
+import { LifeStyleSection } from "./sections/LifeStyleSection";
 
 
 // import PDF from "./PDF" 
@@ -31,8 +31,8 @@ function App() {
         {/* </Routes> */}
         {/* </BrowserRouter> */}
         {/* <Stepper steps={steps} /> */}
-        <FormComponent index={0}/>
-        {/* <LifeStyleSection/> */}
+        {/* <FormComponent index={0}/> */}
+        <LifeStyleSection index={0} />
    
         
         {/* <Parent index = {4}/> */}

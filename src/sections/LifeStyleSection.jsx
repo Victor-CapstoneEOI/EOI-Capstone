@@ -1,115 +1,118 @@
-// LifeStyleSection.js
 import React, { useState, useEffect } from 'react';
 import { JsonForms } from '@jsonforms/react';
 import { materialRenderers } from '@jsonforms/material-renderers';
-import LifeStyleChildQuestion from './LifeStyleChildQuestions';
 
-function LifeStyleSection() {
-  const [parentQuestions, setParentQuestions] = useState([]);
-  const [current, setCurrent] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [userAnswers, setUserAnswers] = useState([]);
-  const [showChildQuestions, setShowChildQuestions] = useState(false);
+export const LifeStyleSection = ({ index }) => {
+  const [data, setData] = useState({});
+  const [questions, setQuestions] = useState([]);
+  const [current, setCurrent] = useState(index);
 
   useEffect(() => {
-    fetch('/api/parent-questions/Lifestyle')
+    fetch('/api/parent-questions/Lifestyle')  // Replace with your actual API endpoint
       .then(response => response.json())
       .then(data => {
-        console.log('Fetched Data:', data);
-        setParentQuestions(data);
-        setIsLoading(false);
+        setQuestions(data);
+        console.log('Questions:', data);
       })
-      .catch(error => {
-        setIsLoading(false);
-        console.error('Error fetching parent questions:', error);
-      });
+      .catch(error => console.error('Error fetching questions:', error));
   }, []);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-  const handleAnswer = (index, answer) => {
-    setUserAnswers(prevAnswers => {
-      const updatedAnswers = [...prevAnswers];
-      updatedAnswers[index] = answer;
-      return updatedAnswers;
-    });
-
-    // Determine whether to show child questions based on the answer
-    if (answer.toLowerCase() === 'yes') {
-      setShowChildQuestions(true);
-    } else {
-      setShowChildQuestions(false);
-    }
-  };
-
-  const selectedQuestion = parentQuestions[current];
-  const formControl = selectedQuestion.formControlType;
-
-  const optionsArray =
-    formControl === 'Buttons' || formControl === 'Checkboxes' || formControl === 'Drop-down list'
-      ? selectedQuestion.optionValues.split(';')
-      : [];
-
-  const questionSchema = {
-    type: 'object',
-    properties: {
-      answer: {
-        type: 'string',
-        enum: optionsArray,
-      },
-    },
-  };
-
-  const uiSchema = {
-    type: 'Group',
-    label: selectedQuestion.questionText,
-    elements: [
-      {
-        type: 'Control',
-        scope: '#/properties/answer',
-        options: {
-          format: formControl === 'Buttons' || formControl === 'Checkboxes' ? 'radio' : undefined,
-        },
-      },
-    ],
+  const previous = () => {
+    setCurrent(current - 1);
   };
 
   const next = () => {
     setCurrent(current + 1);
   };
 
-  const previous = () => {
-    setCurrent(current - 1);
+  const currentQuestion = questions[current];
+  const nestedQuestions = currentQuestion?.childQuestions || [];
+
+  const question = currentQuestion?.questionText;
+  const formControl = currentQuestion?.formControlType;
+  let optionsArray;
+  let questionSchema = {};
+  let uiSchema = {};
+
+  if (formControl === 'Buttons' || formControl === 'Checkboxes' || formControl === 'Drop-down list') {
+    optionsArray = currentQuestion?.optionValues.split(';');
+  }
+
+  switch (formControl) {
+    case 'Buttons':
+    case 'Checkboxes':
+      questionSchema = {
+        type: 'object',
+        properties: {
+          answer: {
+            type: 'string',
+            enum: optionsArray,
+          },
+        },
+      };
+
+      uiSchema = {
+        type: 'Group',
+        label: question,
+        elements: [
+          {
+            type: 'Control',
+            scope: '#/properties/answer',
+            options: {
+              format: 'radio',
+            },
+          },
+        ],
+      };
+      break;
+
+    // Handle other cases...
+
+    default:
+      break;
+  }
+
+  const handleRadioChange = event => {
+    const value = event.target.value;
+    setData({ ...data, answer: value }); // Set the selected answer in the data
   };
 
- 
   return (
     <>
       <JsonForms
         schema={questionSchema}
         uischema={uiSchema}
-        data={userAnswers[current]}
+        data={data}
         renderers={materialRenderers}
-        onChange={({ data }) => handleAnswer(current, data.answer)}
+        onChange={({ errors, data }) => setData(data)}
       />
-      <button onClick={previous}>Previous</button>
-      <button onClick={next}>Next</button>
 
-      <div>
-        {showChildQuestions && selectedQuestion.childQuestions && (
-          selectedQuestion.childQuestions.map(childQuestion => (
-            <LifeStyleChildQuestion
-              key={childQuestion._id}
-              childQuestion={childQuestion}
-              showChildQuestions={showChildQuestions}
-              setShowChildQuestions={setShowChildQuestions}
-            />
-          ))
-        )}
-      </div>
+      {data.answer === 'Yes' && nestedQuestions.length > 0 && (
+        <div>
+         
+          {nestedQuestions.map((nestedQuestion, nestedIndex) => (
+            <div key={nestedIndex}>
+              <p>{nestedQuestion.labelText}</p>
+              {/* Render nested question controls here */}
+              {/* Use the dynamic UI schema for nestedQuestion */}
+              <JsonForms
+                schema={nestedQuestion.dynamicSchema}
+                uischema={nestedQuestion.dynamicUISchema}
+                data={data}
+                renderers={materialRenderers}
+                onChange={({ errors, data }) => setData(data)}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+
+      <button onClick={previous} disabled={current === 0}>
+        Previous
+      </button>
+      <button onClick={next} disabled={current === questions.length - 1}>
+        Next
+      </button>
     </>
   );
-}
-
-export default LifeStyleSection;
+};

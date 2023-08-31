@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import LogoPic from './img/Victor_Logo.png'
-import GroupBenefits from './img/GroupBenefits.png'
+import LogoPic from '../img/Victor_Logo.png'
+import GroupBenefits from '../img/GroupBenefits.png'
 import { useNavigate } from 'react-router-dom';
-import './Home.css'
+import '../Style/Home.css'
 
 const Home = () => {
     const [selectedLanguage, setSelectedLanguage] = useState('English');

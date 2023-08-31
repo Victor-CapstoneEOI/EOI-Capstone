@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Stepper, Step, StepLabel, Button, LinearProgress } from '@mui/material';
-import './Stepper.css'; // Import the CSS file
+import '../Style/Stepper.css'; // Import the CSS file
 
 const StepperBar = ({ steps }) => {
   const [activeStep, setActiveStep] = useState(0);

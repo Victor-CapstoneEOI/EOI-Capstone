@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ProfilePic from "./img/ProfilePic.png";
-import GroupBenefits from "./img/GroupBenefits.png";
+import ProfilePic from "../img/ProfilePic.png";
+import GroupBenefits from "../img/GroupBenefits.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInbox,
@@ -12,7 +12,7 @@ import {
   faComment,
 } from "@fortawesome/free-solid-svg-icons";
 
-import "./Profile.css";
+import "../Style/Profile.css";
 
 const Profile = () => {
   const [user] = useState({

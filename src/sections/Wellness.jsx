@@ -132,17 +132,14 @@ export const Wellness = () => {
       break;
     }
 
-    //Defining schemas for index 22 and 24 (index 1 and 3 for my section)
-    //Next needs to skip index 22 nad 24, but logic needs to include
+    //Next needs to skip index 22 nad 24 (index 1 and 3 for my section), but logic needs to include
     //what happends when you select it
-    // if (current == 22 || current == 24){
+   
 
-      
-
-    // }
-
-      
       //check if question has trigger option
+      // if(subFormTrigger.includes(data)){
+      //   console.log("child question")
+      // }
 
       
       //also check if question has children question
@@ -150,6 +147,7 @@ export const Wellness = () => {
         //(Make sure it render just one question at a time)
 
         console.log(current)
+        console.log(data)
       
   return (
     <div>
@@ -164,6 +162,27 @@ export const Wellness = () => {
         renderers={materialRenderers}
         onChange={({ errors, data }) => setData(data)}
       />
+      {/* replicate this for each case and then try to make it dynamic 
+      Also, I will need to hard code the expected answer probably*/}
+      {data.answer === 'Yes' && nestedQuestions.length > 0 && (
+        <div>
+          <h4>{nestedQuestions.subSection1}</h4>
+          {nestedQuestions.map((nestedQuestion, nestedIndex) => (
+            <div key={nestedIndex}>
+              <p>{nestedQuestion.labelText}</p>
+              
+              {/* child questions */}
+              <JsonForms
+                schema={nestedQuestion.questionSchema}
+                uischema={nestedQuestion.uiSchema}
+                data={data}
+                renderers={materialRenderers}
+                onChange={({ errors, data }) => setData(data)}
+              />
+            </div>
+          ))}
+        </div>
+      )}
 
       <button onClick={handlePrevious}>Previous</button>
       <button onClick={handleNext}>Next</button>

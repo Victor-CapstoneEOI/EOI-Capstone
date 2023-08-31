@@ -7,12 +7,13 @@
 // import Footer from "./Footer";
 // import Header from './components/Header';
 // import "./App.css";
-// import { Parent } from "./Parent";
+import { Parent } from "./Parent";
 // import FormComponent from "./FormComponent";
 // import  Stepper from './Stepper';
 // import './Stepper.css'; // 
 import { PersonalInformation } from "./sections/personalInformation";
 import { Wellness } from "./sections/Wellness";
+import { Test2 } from "./sections/Test2";
 
 //const steps = ['Profile', 'Lifestyle', 'Wellness', 'Medical Information', 'Authorization and Consent'];
 
@@ -39,7 +40,7 @@ function App() {
         <Footer />
         <Parent index = {4}/> */}
         {/* <PersonalInformation/> */}
-        <Wellness/>
+        <Parent index={0}/>
 
     </div>
   );

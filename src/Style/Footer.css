@@ -1,0 +1,26 @@
+/* Footer.css */
+.footer-container {
+    background-color: #64CCC9;
+    padding: 4px 0; /* Adjust the padding value */
+    text-align: center;
+}
+  
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 6px; /* Adjust the margin value */
+}
+  
+.company-name {
+    font-weight: bold;
+    font-size: 16px; /* Adjust the font size value */
+    color: #ffffff;
+}
+  
+.contact-info {
+    margin-top: 1px;
+    color: #ffffff;
+}
+
+  

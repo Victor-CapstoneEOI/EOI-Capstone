@@ -1,95 +1,291 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Formik, Form, Field } from 'formik';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from "react";
+import { JsonForms } from "@jsonforms/react";
+import { materialRenderers } from "@jsonforms/material-renderers";
+import axios from "axios";
 
-function FormTest() {
-  const [parentQuestions, setParentQuestions] = useState([]);
-  const [currentChildIndex, setCurrentChildIndex] = useState(0);
-  const [currentParentIndex, setCurrentParentIndex] = useState(0);
+export const PersonalInformation = () => {
+  const [formData, setFormData] = useState({});
+  const formDataRef = useRef(formData);
+
+  const [questions, setQuestions] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [isFieldEmpty, setIsFieldEmpty] = useState(true);
 
   useEffect(() => {
+    // Fetch questions only once
     axios
-      .get('/api/parent-questions')
-      .then(response => {
-        setParentQuestions(response.data);
+      .get("/api/parent-questions")
+      .then(response => response.data)
+      .then(data => {
+        const filteredQuestions = data.filter(question => question.section === 'Personal information');
+        setQuestions(filteredQuestions);
       })
-      .catch(error => {
-        console.error('Error fetching parent questions:', error);
-      });
+      .catch(error => console.error("Error fetching parent questions:", error));
   }, []);
 
-  const handleNext = () => {
-    if (currentChildIndex < parentQuestions[currentParentIndex].childQuestions.length - 1) {
-      setCurrentChildIndex(currentChildIndex + 1);
-    } else if (currentParentIndex < parentQuestions.length - 1) {
-      setCurrentParentIndex(currentParentIndex + 1);
-      setCurrentChildIndex(0);
+  useEffect(() => {
+    const savedData = sessionStorage.getItem("formData");
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
+
+  useEffect(() => {
+    formDataRef.current = formData; // Keep the ref updated with the latest value
+  }, [formData]);
+
+  useEffect(() => {
+    const currentQuestion = questions[currentQuestionIndex];
+    if (!currentQuestion) {
+        setIsFieldEmpty(true);
+        return;
+    }
+    
+    const schema = getSchemaForQuestion(currentQuestion);
+    const requiredFields = schema.required || [];
+
+    // If the question is optional, do not check for empty fields and allow users to proceed
+    if (currentQuestion.questionText.toLowerCase().includes("(optional)")) {
+      setIsFieldEmpty(false);
+      return;
+    }
+
+    const emptyFields = requiredFields.filter(field => !formData[field]);
+    setIsFieldEmpty(emptyFields.length > 0);
+}, [currentQuestionIndex, questions, formData]);
+
+
+  useEffect(() => {
+    const currentFormData = JSON.parse(sessionStorage.getItem(`formData-${currentQuestionIndex}`) || '{}');
+    setFormData(currentFormData);
+  }, [currentQuestionIndex]);
+
+  const handleKeyPress = event => {
+    if (event.key === "Enter") {
+      handleNext();
     }
   };
 
-  const renderChildQuestion = (childData) => {
-    const formControlType = childData.formControlType || '';
-
-    return (
-      <Formik
-        initialValues={childData}
-        onSubmit={() => handleNext()}
-      >
-        <Form>
-          <h4>Child Question</h4>
-          <label>{childData.labelText}</label>
-          {formControlType === 'checkbox' ? (
-            <Field type="checkbox" name="optionValues" />
-          ) : formControlType === 'dropdown' ? (
-            <Field as="select" name="optionValues">
-              <option value="Option 1">Option 1</option>
-              <option value="Option 2">Option 2</option>
-              <option value="Option 3">Option 3</option>
-            </Field>
-          ) : (
-            <Field type="text" name="optionValues" />
-          )}
-          <button type="submit">Next</button>
-        </Form>
-      </Formik>
-    );
+  const handleNext = () => {
+    if (isFieldEmpty) {
+        alert("Please fill in the required fields before proceeding.");
+        return;
+    }
+    const nextIndex = currentQuestionIndex + 1;
+    if (nextIndex < questions.length) {
+        sessionStorage.setItem(`formData-${currentQuestionIndex}`, JSON.stringify(formData));
+        setCurrentQuestionIndex(nextIndex);
+    }
   };
 
-  return (
-    <Router>
-      <div className="App">
-        {parentQuestions.map((parent, parentIndex) => (
-          <div key={parent._id}>
-            <h3>{parent.questionText}</h3>
-            <ul>
-              {parent.childQuestions.map((childId, childIndex) => (
-                <li key={childId}>
-                  <Link to={`/child/${parentIndex}/${childIndex}`}>Child Question {childIndex + 1}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-        <Routes>
-        <Route
-          path="/child/:parentIndex/:childIndex"
-          render={({ match }) => {
-            const parentIndex = parseInt(match.params.parentIndex);
-            const childIndex = parseInt(match.params.childIndex);
-            const childData = parentQuestions[parentIndex].childQuestions[childIndex];
-            
-            return (
-              <div>
-                {parentIndex === currentParentIndex && renderChildQuestion(childData)}
-              </div>
-            );
-          }}
-        />
-        </Routes>
-      </div>
-    </Router>
-  );
-}
+  const handlePrevious = () => {
+    const prevIndex = currentQuestionIndex - 1;
+    if (prevIndex >= 0) {
+        sessionStorage.setItem(`formData-${currentQuestionIndex}`, JSON.stringify(formData));
+        setCurrentQuestionIndex(prevIndex);
+    }
+  };
 
-export default FormTest;
+  const currentQuestion = questions[currentQuestionIndex];
+
+  if (!currentQuestion) {
+    return <div>Form Complete</div>;
+  }
+
+  return (
+    <div onKeyDown={handleKeyPress}>
+      <h2>{currentQuestion.section}</h2>
+      {currentQuestion.subSection1 && <h3>{currentQuestion.subSection1}</h3>}
+      {currentQuestion.subSection2 && <h4>{currentQuestion.subSection2}</h4>}
+
+      <JsonForms
+        key={currentQuestionIndex}
+        schema={getSchemaForQuestion(currentQuestion)}
+        uischema={getUiSchemaForQuestion(currentQuestion)}
+        data={formData}
+        renderers={materialRenderers}
+        onChange={({ data }) => setFormData(data)}
+        liveValidate={true}
+      />
+
+      <button type="button" onClick={handlePrevious}>
+        Previous
+      </button>
+      <button type="button" onClick={handleNext} disabled={isFieldEmpty}>
+        Next
+      </button>
+    </div>
+  );
+};
+
+const getSchemaForQuestion = (question) => {
+  const formControl = question.formControlType;
+  let schema = {
+    type: "object",
+    properties: {},
+    required: question.requiredFields || [],
+  };
+
+  const isDateQuestion = question.questionText.includes("date") || question.questionText.includes("Date");
+  const isOptional = question.questionText.toLowerCase().includes("(optional)");
+  const isAddressQuestion = question.questionText.includes('Address');
+
+  if (isAddressQuestion) {
+    schema.properties.address = {
+      type: "object",
+      properties: {
+        street: { type: "string", title: "Street" },
+        street2: { type: "string", title: "Street" },
+        city: { type: "string", title: "City" },
+        state: { type: "string", title: "State" },
+        zip: { type: "string", title: "ZIP" }
+      }
+    };
+    if (!isOptional) {
+      schema.required = ["address"];
+    }
+  } else if (isDateQuestion) {
+    schema.properties.answer = {
+      type: "string",
+      format: "date"
+    };
+    if (!isOptional) {
+      schema.required = ["answer"];
+    }
+  } else {
+    switch (formControl) {
+      case "Buttons":
+      case "Checkboxes":
+        schema.properties.answer = {
+          type: "string",
+          enum: question.optionValues.split(";").map((option) => option.trim()),
+        };
+        break;
+
+      case "Drop-down list":
+        schema.properties.answer = {
+          type: "string",
+          enum: question.optionValues.split(";").map((option) => option.trim()),
+        };
+        break;
+
+      case "Textbox":
+        schema.properties.answer = {
+          type: "string",
+        };
+        if (!isOptional) {
+          schema.required = ["answer"];
+        }
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  return schema;
+};
+
+
+const getUiSchemaForQuestion = (question) => {
+  const formControl = question.formControlType;
+  let uiSchema = {};
+
+  const isDateQuestion = question.questionText.includes("date") || question.questionText.includes("Date");
+  const isAddressQuestion = question.questionText.includes('Address');
+
+  if (isAddressQuestion) {
+    uiSchema = {
+      type: "Group",
+      label: question.questionText,
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/address/properties/street"
+        },
+        {
+          type: "Control",
+          scope: "#/properties/address/properties/street2"
+        },
+        {
+          type: "Control",
+          scope: "#/properties/address/properties/city"
+        },
+        {
+          type: "Control",
+          scope: "#/properties/address/properties/state"
+        },
+        {
+          type: "Control",
+          scope: "#/properties/address/properties/zip"
+        }
+      ]
+    };
+  } else if (isDateQuestion) {
+    uiSchema = {
+      type: "Group",
+      label: question.questionText,
+      elements: [
+        {
+          type: "Control",
+          scope: "#/properties/answer",
+          options: {
+            widget: "date"
+          }
+        }
+      ]
+    };
+  } else {
+    switch (formControl) {
+      case "Buttons":
+      case "Checkboxes":
+        uiSchema = {
+          type: "Group",
+          label: question.questionText,
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/answer",
+              options: {
+                format: "radio",
+              },
+            },
+          ],
+        };
+        break;
+
+      case "Drop-down list":
+        uiSchema = {
+          type: "Group",
+          label: question.questionText,
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/answer",
+            },
+          ],
+        };
+        break;
+
+      case "Textbox":
+        uiSchema = {
+          type: "Group",
+          label: question.questionText,
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/answer",
+            },
+          ],
+        };
+        break;
+
+      default:
+        break;
+    }
+  }
+  
+  return uiSchema;
+};
+
+export default PersonalInformation;

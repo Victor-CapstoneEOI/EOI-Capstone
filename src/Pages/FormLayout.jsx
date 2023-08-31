@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
-import PersonalInformation from '../sections/PersonalInformation.jsx'
+import PersonalInformation from '../sections/PersonalInformation.jsx';
+import Sidebar from '../Components/Sidebar.jsx';
 import '../Styles/FormLayout.css'
 
 export const FormLayout = () => {
@@ -14,6 +15,7 @@ export const FormLayout = () => {
         <div className='container'>
           <PersonalInformation/>
         </div>
+        <Sidebar/>
       </div>
     </div>
   );

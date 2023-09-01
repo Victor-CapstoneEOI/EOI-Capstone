@@ -93,7 +93,7 @@ export const PersonalInformation = () => {
   }
 
   return (
-    <div onKeyDown={handleKeyPress}>
+    <div onKeyDown={handleKeyPress} >
       <h2>{currentQuestion.section}</h2>
       {currentQuestion.subSection1 && <h3>{currentQuestion.subSection1}</h3>}
       {currentQuestion.subSection2 && <h4>{currentQuestion.subSection2}</h4>}

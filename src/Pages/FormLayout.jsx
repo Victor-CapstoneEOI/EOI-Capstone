@@ -4,7 +4,16 @@ import PersonalInformation from '../sections/PersonalInformation.jsx';
 import Sidebar from '../Components/Sidebar.jsx';
 import '../Styles/FormLayout.css'
 
+
 export const FormLayout = () => {
+
+const navigate = useNavigate();
+
+const goToCofirmation = () =>{
+  navigate('/confirmation');  
+}
+
+
   return (
     <div>
       <h1 className='Complete'>
@@ -15,6 +24,7 @@ export const FormLayout = () => {
         <div className='container'>
           <PersonalInformation/>
         </div>
+        {/* <button className='next-button' onClick={goToCofirmation}>Next Page</button> */}
         <Sidebar/>
       </div>
     </div>

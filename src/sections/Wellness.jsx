@@ -22,7 +22,6 @@ export const Wellness = () => {
       let section = questions[current]?.section
       let subSection = questions[current]?.subSection1
       let question = questions[current]?.questionText
-      // let subFormTrigger = questions[current]?.subFormTrigger
       let formType = questions[current]?.formControlType
       let optionValues; 
 
@@ -45,7 +44,7 @@ export const Wellness = () => {
           setCurrent(newIndex);
         }
 
-        if (data.answer == 'Centimetres') {
+        if (data.answer?.trim() == 'Centimetres') {
           setShowChildQuestion(true);
         } else {
           setShowChildQuestion(false);
@@ -154,12 +153,58 @@ export const Wellness = () => {
     //(Make sure it render just one question at a time)
     // console.log(questions[current + 1]?.childQuestions[0].labelText)
     
+    let childSchema = {}
+    let uiChildSchema = {}
+    let childQuestion; 
+    let childQuestion2;
+
+    if ((data.answer?.trim()) == 'Feet/Inches'){
+
+      childQuestion = questions[current]?.childQuestions[0].labelText
+      childQuestion2 = questions[current]?.childQuestions[1].labelText
+      console.log(childQuestion)
+      console.log(childQuestion2)
+
+      
+
+      childSchema = {
+        "type": "object",
+        "properties": {
+          "Feet": {
+            "type": 'string',
+            "enum": questions[current]?.childQuestions[0].optionValues.split(";")
+          },
+
+          "Inches": {
+            "type": 'string',
+            "enum": questions[current]?.childQuestions[1].optionValues.split(";")
+          }
+        }
+      }
+
+      uiChildSchema = {
+        "type": "HorizontalLayout",
+        "elements": [
+          {
+            "type": "Control",
+            "label": childQuestion,
+            "scope": `#/properties/${childQuestion}`
+          },
+          {
+            "type": "Control",
+            "label": childQuestion2,
+            "scope": `#/properties/${childQuestion2}`
+          }
+        ]
+      }
+
+    }
   
     if ((data.answer?.trim()) == 'Centimetres'){
-      question = questions[current + 1]?.childQuestions[0].labelText
-      console.log(question)
+      childQuestion = questions[current + 1]?.childQuestions[0].labelText
+      console.log(childQuestion)
 
-      let childSchema = {
+      childSchema = {
         "type": "object",
                 "properties": {
                   "answer": {
@@ -168,9 +213,9 @@ export const Wellness = () => {
                 }
       }
 
-      let uiChildSchema = {
+      uiChildSchema = {
         "type": "Group",
-        "label": question,
+        "label": childQuestion,
         "elements": 
         [{
             "type": "Control",
@@ -180,6 +225,8 @@ export const Wellness = () => {
       }
 
     }
+
+    console.log(data.answer)
     
       
   return (
@@ -217,11 +264,6 @@ export const Wellness = () => {
       </div>
     )}
 
-      
-      
-
-      {/* <button onClick={handlePrevious}>Previous</button>
-      <button onClick={handleNext}>Next</button> */}
 
 
     </div>

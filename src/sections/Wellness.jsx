@@ -6,18 +6,24 @@ import { materialRenderers } from '@jsonforms/material-renderers';
 export const Wellness = () => {
     const [questions, setQuestions] = useState([])
     const [current, setCurrent] = useState(0)
-    const [data, setData] = useState({})
+    const [userAnswer, setUserAnswer] = useState({})
     const [showChildQuestion, setShowChildQuestion] = useState(false)
+    
 
     useEffect(() => {
         fetch('/api/parent-questions')  
           .then(response => response.json())
           .then(data => {
             setQuestions(data.slice(21,26));
+           
             // console.log('Questions:', data);
           })
           .catch(error => console.error('Error fetching questions:', error));
       }, []);
+
+      // Setting up all dynamic values for schema and uiSchemas
+      let questionSchema = {}
+      let uiSchema = {} 
 
       let section = questions[current]?.section
       let subSection = questions[current]?.subSection1
@@ -25,26 +31,25 @@ export const Wellness = () => {
       let formType = questions[current]?.formControlType
       let optionValues; 
 
-      let questionSchema = {}
-      let uiSchema = {}
-
-
+    
       if (formType== "Drop-down List"|| formType== "Buttons"){
         optionValues = questions[current]?.optionValues.split(";")
         console.log(optionValues)
        }
 
     
+      // Handling next and previous button for form logic 
 
+      //Next
       const handleNext = () => {
         const newIndex = current + 1;
-        if (newIndex === 1 || newIndex === 3 && newIndex === current + 1) {
+        if (newIndex === 1 || newIndex === 3 ) {
           setCurrent(newIndex + 1); 
         } else if (newIndex < questions.length){
           setCurrent(newIndex);
         }
 
-        if (data.answer?.trim() == 'Centimetres') {
+        if (userAnswer.answer?.trim() == 'Feet/Inches') {
           setShowChildQuestion(true);
         } else {
           setShowChildQuestion(false);
@@ -52,7 +57,7 @@ export const Wellness = () => {
 
     };
         
-    
+      //Previous
       const handlePrevious = () => {
         const newIndex = current - 1;
         if (newIndex === 1 || newIndex === 3 && newIndex === current - 1) {
@@ -63,7 +68,7 @@ export const Wellness = () => {
         setShowChildQuestion(false);
       };
 
-      // get schemas to render questions with Json forms 
+      // Assign schemas to render questions with Json forms 
       switch (formType) {
 
         case "Drop-down List":
@@ -137,70 +142,67 @@ export const Wellness = () => {
     
       default:
       break;
-    }
-
-    //Next needs to skip index 22 nad 24 (index 1 and 3 for my section), but logic needs to include
-    //what happends when you select it
-   
-
-      //check if question has trigger option
-      // if(subFormTrigger.includes(data)){
-      //   console.log("child question")
-      // }
-
+    }   
     
-    //conditionally render the question if trigger option is selected
-    //(Make sure it render just one question at a time)
-    // console.log(questions[current + 1]?.childQuestions[0].labelText)
+
+    //Setting up values for child question schemas 
     
     let childSchema = {}
     let uiChildSchema = {}
     let childQuestion; 
     let childQuestion2;
 
-    if ((data.answer?.trim()) == 'Feet/Inches'){
-
+    if((userAnswer.answer?.trim() == 'Feet/Inches')){
       childQuestion = questions[current]?.childQuestions[0].labelText
-      childQuestion2 = questions[current]?.childQuestions[1].labelText
-      console.log(childQuestion)
-      console.log(childQuestion2)
-
       
 
       childSchema = {
-        "type": "object",
-        "properties": {
-          "Feet": {
-            "type": 'string',
-            "enum": questions[current]?.childQuestions[0].optionValues.split(";")
+        type: 'object',
+        properties: {
+          
+          answer1: {
+            type: 'string',
+            title: 'Answer 1',
+            enum: ['Option 1A', 'Option 1B', 'Option 1C'],
           },
-
-          "Inches": {
-            "type": 'string',
-            "enum": questions[current]?.childQuestions[1].optionValues.split(";")
-          }
-        }
-      }
+          answer2: {
+            type: 'string',
+            title: 'Answer 2',
+            enum: ['Option 2A', 'Option 2B', 'Option 2C'],
+          },
+        },
+      };
 
       uiChildSchema = {
-        "type": "HorizontalLayout",
-        "elements": [
+        type: 'VerticalLayout',
+        elements: [
+          
           {
-            "type": "Control",
-            "label": childQuestion,
-            "scope": `#/properties/${childQuestion}`
+            type: 'Control',
+            label: 'Answer 1',
+            scope: '#/properties/answer1',
+            options: {
+              enum: ['Option 1A', 'Option 1B', 'Option 1C'],
+            },
           },
           {
-            "type": "Control",
-            "label": childQuestion2,
-            "scope": `#/properties/${childQuestion2}`
-          }
-        ]
-      }
+            type: 'Control',
+            label: 'Answer 2',
+            scope: '#/properties/answer2',
+            options: {
+              enum: ['Option 2A', 'Option 2B', 'Option 2C'],
+            },
+          },
+        ],
+      };
+      
+
 
     }
+
+    
   
-    if ((data.answer?.trim()) == 'Centimetres'){
+    if ((userAnswer.answer?.trim()) == 'Centimetres'){
       childQuestion = questions[current + 1]?.childQuestions[0].labelText
       console.log(childQuestion)
 
@@ -226,7 +228,7 @@ export const Wellness = () => {
 
     }
 
-    console.log(data.answer)
+    console.log(userAnswer.answer)
     
       
   return (
@@ -238,9 +240,9 @@ export const Wellness = () => {
       <JsonForms
         schema={questionSchema}
         uischema={uiSchema}
-        data={data}
+        data={userAnswer}
         renderers={materialRenderers}
-        onChange={({ errors, data }) => setData(data)}
+        onChange={({ errors, data }) => setUserAnswer(data)}
       />
 
 {showChildQuestion && (
@@ -248,9 +250,9 @@ export const Wellness = () => {
         <JsonForms
           schema={childSchema}
           uischema={uiChildSchema}
-          data={data}
+          data={userAnswer}
           renderers={materialRenderers}
-          onChange={({ errors, data }) => setData(data)}
+          onChange={({ errors, data }) => setUserAnswer(data)}
         />
         <button onClick={handlePrevious}>Previous</button>
         <button onClick={handleNext}>Next</button>
@@ -263,9 +265,9 @@ export const Wellness = () => {
         <button onClick={handleNext}>Next</button>
       </div>
     )}
-
-
+        
 
     </div>
   )
+  
 }

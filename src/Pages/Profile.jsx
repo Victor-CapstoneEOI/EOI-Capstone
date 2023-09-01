@@ -11,7 +11,6 @@ import {
   faLandmark,
   faComment,
 } from "@fortawesome/free-solid-svg-icons";
-
 import "../Styles/Profile.css";
 
 const Profile = () => {
@@ -42,7 +41,7 @@ const Profile = () => {
               <img
                 src={GroupBenefits}
                 alt="GroupBenefits"
-                className="group-benefits"
+                className="group"
               />
             </div>
           </div>

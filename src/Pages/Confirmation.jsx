@@ -20,3 +20,6 @@ export const Confirmation = () => {
     </div>
   );
 };
+
+
+export default Confirmation;

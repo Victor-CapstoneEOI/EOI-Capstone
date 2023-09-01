@@ -32,6 +32,7 @@ export const Wellness = () => {
 
       if (formType== "Drop-down List"|| formType== "Buttons"){
         optionValues = questions[current]?.optionValues.split(";")
+        console.log(optionValues)
        }
 
     
@@ -60,6 +61,7 @@ export const Wellness = () => {
         } else if (newIndex > questions.length){
           setCurrent(newIndex);
         }
+        setShowChildQuestion(false);
       };
 
       // get schemas to render questions with Json forms 
@@ -151,13 +153,13 @@ export const Wellness = () => {
     //conditionally render the question if trigger option is selected
     //(Make sure it render just one question at a time)
     // console.log(questions[current + 1]?.childQuestions[0].labelText)
-    let childSchema = {}
-    let uiChildSchema = {}
-    if (data.answer == 'Centimetres'){
+    
+  
+    if ((data.answer?.trim()) == 'Centimetres'){
       question = questions[current + 1]?.childQuestions[0].labelText
       console.log(question)
 
-      childSchema = {
+      let childSchema = {
         "type": "object",
                 "properties": {
                   "answer": {
@@ -166,7 +168,7 @@ export const Wellness = () => {
                 }
       }
 
-      uiChildSchema = {
+      let uiChildSchema = {
         "type": "Group",
         "label": question,
         "elements": 
@@ -179,10 +181,6 @@ export const Wellness = () => {
 
     }
     
-
-
-        console.log(current)
-        console.log(data.answer)
       
   return (
     <div>

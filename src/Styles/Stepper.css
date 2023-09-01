@@ -1,41 +1,45 @@
+/* Stepper.css */
+.progress-bar {
+  margin-top: 32px;
+}
 
-  /* Stepper.css */
-  .progress-bar {
-    margin-top: 32px;
-  }
-  
-  
-  .stepper-container {
-    text-align: center; /* Center-align the buttons */
-    margin-top: 16px; /* Add margin to the button container */
-  }
-  
-  .button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 16px;
-  }
-  
-  /* Style the buttons */
-  .button-container button {
-    margin: 0 8px; /* Add space between buttons */
-    padding: 10px 20px; /* Adjust padding for consistent button size */
-    border-radius: 5px; /* Add rounded corners to buttons */
-    background-color: #007bff; /* Set button background color */
-    color: white; /* Set button text color */
-    font-weight: bold; /* Make button text bold */
-    border: none; /* Remove button border */
-    cursor: pointer; /* Add cursor pointer on hover */
-    transition: background-color 0.2s ease; /* Add transition effect */
-  }
-  
-  .button-container button:hover {
-    background-color: #0056b3; /* Change background color on hover */
-  }
-  
-  /* Style for the "All steps completed" message */
-  .text-center {
-    text-align: center;
-    margin-top: 16px; /* Add margin to center-align the message */
-  }
-  
+
+.stepper-container {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.stepper-bar {
+  text-align: left; /* Left-align the Stepper Bar */
+  margin: 0; /* Remove any margins */
+  padding: 0; /* Remove any padding */
+  width: 80%; /* Make it span the entire width */
+  align-self: flex-start;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.button-container button {
+  margin: 0 8px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button-container button:hover {
+  background-color: #0056b3;
+}
+
+.text-center {
+  text-align: center;
+  margin-top: 16px;
+}

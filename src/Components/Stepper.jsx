@@ -4,6 +4,7 @@ import '../Styles/Stepper.css'; // Import the CSS file
 
 const StepperBar = ({ steps }) => {
   const [activeStep, setActiveStep] = useState(0);
+  const [showButtons, setShowButtons] = useState(true); // New state
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -15,6 +16,10 @@ const StepperBar = ({ steps }) => {
 
   const handleReset = () => {
     setActiveStep(0);
+  };
+
+  const toggleButtons = () => {
+    setShowButtons(!showButtons); // Toggle button visibility
   };
 
   return (
@@ -39,26 +44,27 @@ const StepperBar = ({ steps }) => {
           </div>
         ) : (
           <div>
-            {/* Uncomment the following line if you want to render a step-specific component */}
-            {/* <div>{/* Render step component }</div> */}
-            <div className="button-container">
-              <div className="stepper-container">
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  className="button-back"
-                >
-                  Back
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={handleNext}
-                  className="button-next"
-                >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </Button>
+            {showButtons && ( // Conditionally render buttons
+              <div className="button-container">
+                <div className="stepper-container">
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    className="button-back"
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={handleNext}
+                    className="button-next"
+                  >
+                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  </Button>
+                </div>
               </div>
-            </div>
+            )}
+            <button onClick={toggleButtons} className="toggle-button">{showButtons ? '↓' : '↑'}</button> {/* Button to toggle visibility */}
           </div>
         )}
       </div>

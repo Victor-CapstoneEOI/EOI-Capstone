@@ -2,7 +2,7 @@
 
 .sidebar-container {
   position: fixed;
-  top: 180px; /* Adjust this to the height of your header */
+  top: 200px; /* Adjust this to the height of your header */
   right: 0;
   bottom: 90px; /* Adjust this to the height of your footer */
   width: 250px;
@@ -11,12 +11,6 @@
   overflow-y: auto; /* Enable scrolling if the content exceeds the container */
   box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow on the left side */
   z-index: 9999; /* Make it appear above all other elements */
-}
-
-/* ...rest of your styles */
-
-.sidebar-container {
-  overflow-y: auto;
   scrollbar-width: none; /* For Firefox */
 }
 
@@ -24,6 +18,8 @@
 .sidebar-container::-webkit-scrollbar {
   display: none;
 }
+
+
 
 .sidebar-item {
   display: flex;

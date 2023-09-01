@@ -1,47 +1,67 @@
-.Complete{
-    color: #E55204;
-    font-family: 'Rubik', sans-serif;
-    margin-top: 50px;
-    margin-bottom: 80px;
-    margin-left: 20px;
+/* General styles */
+body {
+  background-color: #ffffff;
 }
 
-.Rest{
-color:black ;
-font-family: 'Rubik', sans-serif;
-margin-top: 20px;
+.Complete,
+.Rest {
+  font-family: 'Rubik', sans-serif;
+}
+
+.Complete {
+  color: #E55204;
+  margin: 10px 0 20px 10px;
+}
+
+.Rest {
+  color: rgb(0, 0, 0);
+  margin-top: 5px;
+}
+
+/* Flex container styles */
+.container,
+.parent-container {
+  display: flex;
+  align-items: center;
+}
+
+.container-wrapper {
+  display: flex;
+  justify-content: flex-start;  /* Align to the left */
+  align-items: flex-start;  /* Align to the top */
+  width: calc(100% - 250px);  /* Full width minus sidebar width */
+  height: 100vh;
 }
 
 .container {
-    width: 200px; 
-    height: 200px;
-    padding: 20px;
-    display: flex;
-    margin-left: 60px;
-    align-items: center;
-    margin-top: 60px;
-   
-  }
+  text-align: left;  /* Left-align the text */
+  width: 100%;  /* Full width */
+  height: auto;  /* Auto height */
+  padding: 10px;
+  margin: 0;  /* No margin */
+}
 
 .parent-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #F2F2F2;
-    
-  }
+  flex-direction: column;
+  justify-content: flex-start;  /* Align to the top */
+  width: 100%;  /* Full width */
+  height: 100vh;
+  background-color: #FFFFFF;
+}
 
+/* Medical Questions styles */
+.medical-questions-title {
+  background-color: #64CCC9;
+  padding: 10px;
+  font-size: 30px;
+  margin-top: 10px;
+  width: 100%;  /* Full width */
+}
 
-  .medical-questions-title {
-    background-color: #64CCC9;
-    margin-top: -400px; 
-    padding: 35px 1400px;
-    margin-right: 1380px;
-    margin-left: 200px;
-    font-family: 'Rubik', sans-serif;
-    font-size: 40px;
-
-  }
-  
+/* Additional flex container for medical questions */
+.flex-container {
+  display: flex;
+  align-items: flex-start;  /* Align to the top */
+  justify-content: flex-start;  /* Align to the left */
+  width: 100%;  /* Full width */
+}

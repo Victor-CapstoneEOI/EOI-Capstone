@@ -10,8 +10,8 @@ export const FormLayout = () => {
 
 const navigate = useNavigate();
 
-const goToCofirmation = () =>{
-  navigate('/confirmation');  
+const goToReview = () =>{
+  navigate('/review');  
 }
 
 
@@ -23,14 +23,13 @@ const goToCofirmation = () =>{
 
  
 
-      <div className='parent-container'>
+      <div className='parent'>
         <div className='medical-questions-title'>Medical Questions</div>
         
-      
-        <div className='container'>
+        <div className='Inputbox'>
           <PersonalInformation/>
         </div>
-        {/* <button className='next-button' onClick={goToCofirmation}>Next Page</button> */}
+        <button className='next-button' onClick={goToReview}>Next Page</button>
         <Sidebar/>
       </div>
     </div>

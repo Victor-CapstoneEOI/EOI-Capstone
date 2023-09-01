@@ -2,13 +2,12 @@ import React, {useState, useEffect} from 'react'
 import { JsonForms } from '@jsonforms/react';
 import { materialRenderers } from '@jsonforms/material-renderers';
 
-import {generateQuestionSchemaAndUISchema} from '../schemas/schemaUtils'
-
 
 export const Wellness = () => {
     const [questions, setQuestions] = useState([])
     const [current, setCurrent] = useState(0)
     const [data, setData] = useState({})
+    const [showChildQuestion, setShowChildQuestion] = useState(false)
 
     useEffect(() => {
         fetch('/api/parent-questions')  
@@ -23,7 +22,7 @@ export const Wellness = () => {
       let section = questions[current]?.section
       let subSection = questions[current]?.subSection1
       let question = questions[current]?.questionText
-      let subFormTrigger = questions[current]?.subFormTrigger
+      // let subFormTrigger = questions[current]?.subFormTrigger
       let formType = questions[current]?.formControlType
       let optionValues; 
 
@@ -39,17 +38,24 @@ export const Wellness = () => {
 
       const handleNext = () => {
         const newIndex = current + 1;
-        if (newIndex === 1 || newIndex === 3) {
+        if (newIndex === 1 || newIndex === 3 && newIndex === current + 1) {
           setCurrent(newIndex + 1); 
         } else if (newIndex < questions.length){
           setCurrent(newIndex);
         }
+
+        if (data.answer == 'Centimetres') {
+          setShowChildQuestion(true);
+        } else {
+          setShowChildQuestion(false);
+        }
+
     };
         
     
       const handlePrevious = () => {
         const newIndex = current - 1;
-        if (newIndex === 1 || newIndex === 3) {
+        if (newIndex === 1 || newIndex === 3 && newIndex === current - 1) {
           setCurrent(newIndex - 1); 
         } else if (newIndex > questions.length){
           setCurrent(newIndex);
@@ -141,13 +147,42 @@ export const Wellness = () => {
       //   console.log("child question")
       // }
 
-      
-      //also check if question has children question
-        //conditionally render the question if trigger option is selected
-        //(Make sure it render just one question at a time)
+    
+    //conditionally render the question if trigger option is selected
+    //(Make sure it render just one question at a time)
+    // console.log(questions[current + 1]?.childQuestions[0].labelText)
+    let childSchema = {}
+    let uiChildSchema = {}
+    if (data.answer == 'Centimetres'){
+      question = questions[current + 1]?.childQuestions[0].labelText
+      console.log(question)
+
+      childSchema = {
+        "type": "object",
+                "properties": {
+                  "answer": {
+                    "type": 'string'
+                  }
+                }
+      }
+
+      uiChildSchema = {
+        "type": "Group",
+        "label": question,
+        "elements": 
+        [{
+            "type": "Control",
+            "scope": "#/properties/answer"
+          }]
+
+      }
+
+    }
+    
+
 
         console.log(current)
-        console.log(data)
+        console.log(data.answer)
       
   return (
     <div>
@@ -162,30 +197,33 @@ export const Wellness = () => {
         renderers={materialRenderers}
         onChange={({ errors, data }) => setData(data)}
       />
-      {/* replicate this for each case and then try to make it dynamic 
-      Also, I will need to hard code the expected answer probably*/}
-      {data.answer === 'Yes' && nestedQuestions.length > 0 && (
-        <div>
-          <h4>{nestedQuestions.subSection1}</h4>
-          {nestedQuestions.map((nestedQuestion, nestedIndex) => (
-            <div key={nestedIndex}>
-              <p>{nestedQuestion.labelText}</p>
-              
-              {/* child questions */}
-              <JsonForms
-                schema={nestedQuestion.questionSchema}
-                uischema={nestedQuestion.uiSchema}
-                data={data}
-                renderers={materialRenderers}
-                onChange={({ errors, data }) => setData(data)}
-              />
-            </div>
-          ))}
-        </div>
-      )}
 
-      <button onClick={handlePrevious}>Previous</button>
-      <button onClick={handleNext}>Next</button>
+{showChildQuestion && (
+      <div>
+        <JsonForms
+          schema={childSchema}
+          uischema={uiChildSchema}
+          data={data}
+          renderers={materialRenderers}
+          onChange={({ errors, data }) => setData(data)}
+        />
+        <button onClick={handlePrevious}>Previous</button>
+        <button onClick={handleNext}>Next</button>
+      </div>
+    )}
+
+    {!showChildQuestion && (
+      <div>
+        <button onClick={handlePrevious}>Previous</button>
+        <button onClick={handleNext}>Next</button>
+      </div>
+    )}
+
+      
+      
+
+      {/* <button onClick={handlePrevious}>Previous</button>
+      <button onClick={handleNext}>Next</button> */}
 
 
     </div>

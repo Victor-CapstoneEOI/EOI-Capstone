@@ -1,48 +1,234 @@
-export function generateQuestionSchemaAndUISchema(currentQuestion) {
-    const question = currentQuestion?.questionText;
-    const formControl = currentQuestion?.formControlType;
-    let optionsArray;
-    let questionSchema = {};
-    let uiSchema = {};
-  
-    if (formControl === 'Buttons' || formControl === 'Checkboxes' || formControl === 'Drop-down list') {
-      optionsArray = currentQuestion?.optionValues.split(';');
+export const getSchemaForQuestion = (question) => {
+  const formControl = question.formControlType;
+
+  let schema = {
+    type: "object",
+    properties: {},
+    required: question.requiredFields || [],
+  };
+
+const questionText = question?.questionText || "";
+
+const isDateQuestion = questionText.includes("date") || questionText.includes("Date");
+const isOptional = questionText.toLowerCase().includes("(optional)");
+const isAddressQuestion = questionText.includes('Address');
+
+  if (isAddressQuestion) {
+    schema.properties.address = {
+      type: "object",
+      properties: {
+        street: { type: "string", title: "Street" },
+        street2: { type: "string", title: "Street" },
+        city: { type: "string", title: "City" },
+        state: { type: "string", title: "State" },
+        zip: { type: "string", title: "ZIP" }
+      }
+    };
+    if (!isOptional) {
+      schema.required = ["address"];
     }
-  
+  } else if (isDateQuestion) {
+    schema.properties.answer = {
+      type: "string",
+      format: "date"
+    };
+    if (!isOptional) {
+      schema.required = ["answer"];
+    }
+  } else {
     switch (formControl) {
-      case 'Buttons':
-      case 'Checkboxes':
-        questionSchema = {
-          type: 'object',
-          properties: {
-            answer: {
-              type: 'string',
-              enum: optionsArray,
-            },
-          },
-        };
-  
-        uiSchema = {
-          type: 'Group',
-          label: question,
-          elements: [
-            {
-              type: 'Control',
-              scope: '#/properties/answer',
-              options: {
-                format: 'radio',
-              },
-            },
-          ],
+      case "Buttons":
+      case "Checkbox":
+      case "Checkboxes":
+      case "Optionbox":
+        schema.properties.answer = {
+          type: "string",
+          enum: question.optionValues.split(";").map((option) => option.trim()),
         };
         break;
-  
-      // Handle other cases...
-  
+
+      case "Drop-down List":
+        schema.properties.answer = {
+          type: "string", 
+          enum: ["", ...question.optionValues.split(";").map((option) => option.trim())],
+          default: ""  // Set the default value to the dummy option
+        };
+        break;
+      
+      case "Multi-line Textbox":
+        schema.properties.answer = {
+          type: "string",
+          description: "Enter multi-line text here",  // Optional description for clarity
+          maxLength: 500  // Optional constraint for max characters
+        };
+        if (!isOptional) {
+          schema.required = ["answer"];
+        }
+        break;
+
+      case "Textbox":
+      case "Textbox ":
+      case "Textboxes":
+      case "Autofill":
+        schema.properties.answer = {
+          type: "string",
+        };
+        if (!isOptional) {
+          schema.required = ["answer"];
+        }
+        break;
+
       default:
         break;
     }
+  }
+
+  return schema;
+};
+
+
+export const getUiSchemaForQuestion = (question, isChild = false) => {
+  const formControl = question.formControlType;
+  let uiSchema = {};
   
-    return { questionSchema, uiSchema };
+  // Determine the appropriate label for the UI Schema
+  const displayLabel = isChild ? question.labelText : question.questionText;
+
+  const questionText = (question?.questionText || "").toLowerCase();
+  const isDateQuestion = questionText.includes("date") || questionText.includes("Date");
+  const isAddressQuestion = questionText.includes('Address');
+
+  if (isAddressQuestion) {
+    uiSchema = {
+      type: "Group",
+      label: displayLabel,  // Modified here
+      elements: [
+        { type: "Control", scope: "#/properties/address/properties/street" },
+        { type: "Control", scope: "#/properties/address/properties/street2" },
+        { type: "Control", scope: "#/properties/address/properties/city" },
+        { type: "Control", scope: "#/properties/address/properties/state" },
+        { type: "Control", scope: "#/properties/address/properties/zip" }
+      ]
+    };
+  } else if (isDateQuestion) {
+    uiSchema = {
+      type: "Group",
+      label: displayLabel,  // Modified here
+      elements: [
+        { 
+          type: "Control",
+          scope: "#/properties/answer",
+          options: { widget: "date" }
+        }
+      ]
+    };
+  } else {
+    switch (formControl) {
+      case "Buttons":
+      case "Checkbox":
+      case "Checkboxes":
+      case "Optionbox":
+        uiSchema = {
+          type: "Group",
+          label: displayLabel,  // Modified here
+          elements: [
+            {
+              type: "Control",
+              scope: "#/properties/answer",
+              options: { format: "radio" }
+            }
+          ]
+        };
+        break;
+
+      case "Drop-down List":
+        uiSchema = {
+          type: "Group",
+          label: displayLabel, 
+          elements: [
+            { 
+              type: "Control", 
+              scope: "#/properties/answer",
+              options: {
+                enumTitles: ["Select an option...", ...question.optionValues.split(";").map((option) => option.trim())]
+              }
+            }
+          ]
+        };
+        break;
+        
+      case "Multi-line Textbox":
+        uiSchema = {
+          type: "Group",
+          label: displayLabel,
+          elements: [
+            { 
+              type: "Control", 
+              scope: "#/properties/answer",
+              options: {
+                "render": "textarea", // Suggests rendering as a textarea
+                "rows": 5 // Optionally specify the number of rows or height
+              }
+            }
+          ]
+        };
+        break;
+
+      case "Textbox":
+      case "Textbox ":
+      case "Textboxes":
+      case "Autofill":
+        uiSchema = {
+          type: "Group",
+          label: displayLabel,  // Modified here
+          elements: [
+            { type: "Control", scope: "#/properties/answer" }
+          ]
+        };
+        break;
+
+      default:
+        break;
+    }
   }
   
+  return uiSchema;
+};
+
+export const getCombinedSchemaForChildQuestions = (childQuestions) => {
+  const combinedSchema = {
+      type: "object",
+      properties: {},
+      required: [],
+  };
+
+  childQuestions.forEach((question, index) => {
+      const schema = getSchemaForQuestion(question);
+      combinedSchema.properties[`question_${index}`] = schema.properties.answer;
+      
+      if (schema.required && schema.required.includes('answer')) {
+          combinedSchema.required.push(`question_${index}`);
+      }
+  });
+
+  return combinedSchema;
+};
+
+export const getCombinedUiSchemaForChildQuestions = (childQuestions) => {
+  const uiElements = [];
+
+  childQuestions.forEach((question, index) => {
+    const uiSchema = getUiSchemaForQuestion(question, true);
+    if (uiSchema && uiSchema.elements && uiSchema.elements[0]) {
+        uiSchema.elements[0].scope = `#/properties/question_${index}`;
+        uiElements.push(uiSchema);
+    } else {
+        console.warn("Invalid UI schema for question", question);
+    }
+  });
+
+  return {
+      type: "VerticalLayout",
+      elements: uiElements,
+  };
+};

@@ -49,7 +49,7 @@ export const Wellness = () => {
           setCurrent(newIndex);
         }
 
-        if (userAnswer.answer?.trim() == 'Feet/Inches') {
+        if (userAnswer.answer?.trim() == 'Yes') {
           setShowChildQuestion(true);
         } else {
           setShowChildQuestion(false);
@@ -60,7 +60,7 @@ export const Wellness = () => {
       //Previous
       const handlePrevious = () => {
         const newIndex = current - 1;
-        if (newIndex === 1 || newIndex === 3 && newIndex === current - 1) {
+        if (newIndex === 1 || newIndex === 3){
           setCurrent(newIndex - 1); 
         } else if (newIndex > questions.length){
           setCurrent(newIndex);
@@ -149,125 +149,55 @@ export const Wellness = () => {
     
     let childSchema = {}
     let uiChildSchema = {}
-    let childQuestion; 
-    let childQuestion2;
+    // let childQuestion; 
+    // let childQuestion2;
 
-    if((userAnswer.answer?.trim() == 'Feet/Inches')){
-      childQuestion = questions[current]?.childQuestions[0].labelText
-      
-
-      childSchema = {
-        type: 'object',
-        properties: {
-          
-          answer1: {
-            type: 'string',
-            title: 'Answer 1',
-            enum: ['Option 1A', 'Option 1B', 'Option 1C'],
-          },
-          answer2: {
-            type: 'string',
-            title: 'Answer 2',
-            enum: ['Option 2A', 'Option 2B', 'Option 2C'],
-          },
-        },
-      };
-
-      uiChildSchema = {
-        type: 'VerticalLayout',
-        elements: [
-          
-          {
-            type: 'Control',
-            label: 'Answer 1',
-            scope: '#/properties/answer1',
-            options: {
-              enum: ['Option 1A', 'Option 1B', 'Option 1C'],
-            },
-          },
-          {
-            type: 'Control',
-            label: 'Answer 2',
-            scope: '#/properties/answer2',
-            options: {
-              enum: ['Option 2A', 'Option 2B', 'Option 2C'],
-            },
-          },
-        ],
-      };
-      
-
+    if((userAnswer.answer?.trim() == 'Yes')){
+      // childQuestion = questions[current]?.childQuestions[0].labelText
+    
 
     }
 
     
   
-    if ((userAnswer.answer?.trim()) == 'Centimetres'){
-      childQuestion = questions[current + 1]?.childQuestions[0].labelText
-      console.log(childQuestion)
-
-      childSchema = {
-        "type": "object",
-                "properties": {
-                  "answer": {
-                    "type": 'string'
-                  }
-                }
-      }
-
-      uiChildSchema = {
-        "type": "Group",
-        "label": childQuestion,
-        "elements": 
-        [{
-            "type": "Control",
-            "scope": "#/properties/answer"
-          }]
-
-      }
-
-    }
 
     console.log(userAnswer.answer)
     
       
-  return (
-    <div>
-  
-      <h2>{section}</h2>
-      <h3>{subSection}</h3>
-
-      <JsonForms
-        schema={questionSchema}
-        uischema={uiSchema}
-        data={userAnswer}
-        renderers={materialRenderers}
-        onChange={({ errors, data }) => setUserAnswer(data)}
-      />
-
-{showChildQuestion && (
+    return (
       <div>
-        <JsonForms
-          schema={childSchema}
-          uischema={uiChildSchema}
-          data={userAnswer}
-          renderers={materialRenderers}
-          onChange={({ errors, data }) => setUserAnswer(data)}
-        />
-        <button onClick={handlePrevious}>Previous</button>
-        <button onClick={handleNext}>Next</button>
-      </div>
-    )}
+        <h2>{section}</h2>
+        <h3>{subSection}</h3>
 
-    {!showChildQuestion && (
-      <div>
-        <button onClick={handlePrevious}>Previous</button>
-        <button onClick={handleNext}>Next</button>
-      </div>
-    )}
-        
-
-    </div>
-  )
+        {!showChildQuestion && (
+          <div>
+            
+            <JsonForms
+              schema={questionSchema}
+              uischema={uiSchema}
+              data={userAnswer}
+              renderers={materialRenderers}
+              onChange={({ errors, data }) => setUserAnswer(data)}
+            />
+          </div>
+        )}
   
-}
+        {showChildQuestion && (
+          <div>
+            <JsonForms
+              schema={childSchema}
+              uischema={uiChildSchema}
+              data={userAnswer}
+              renderers={materialRenderers}
+              onChange={({ errors, data }) => setUserAnswer(data)}
+            />
+          </div>
+        )}
+  
+        <div>
+          <button onClick={handlePrevious}>Previous</button>
+          <button onClick={handleNext}>Next</button>
+        </div>
+      </div>
+    );
+  };

@@ -9,7 +9,7 @@ import React from "react";
 import { LifeStyleSection } from "./sections/LifeStyleSection";
 import { Wellness } from "./sections/Wellness";
 import { PastApplications } from "./sections/PastApplications";
-import YourFormComponent from "./sections/Test";
+
 
 
 

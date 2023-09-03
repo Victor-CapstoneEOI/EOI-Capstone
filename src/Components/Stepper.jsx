@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Stepper, Step, StepLabel, Button, LinearProgress } from '@mui/material';
+import PropTypes from 'prop-types'; // Import PropTypes
 import '../Styles/Stepper.css'; // Import the CSS file
 
 const StepperBar = ({ steps }) => {
@@ -35,7 +36,9 @@ const StepperBar = ({ steps }) => {
         {activeStep === steps.length ? (
           <div className="text-center">
             <p>All steps completed</p>
-            <Button onClick={handleReset} className="button-reset">Reset</Button>
+            <Button onClick={handleReset} className="button-reset">
+              Reset
+            </Button>
           </div>
         ) : (
           <div>
@@ -64,6 +67,11 @@ const StepperBar = ({ steps }) => {
       </div>
     </div>
   );
+};
+
+// PropTypes validation
+StepperBar.propTypes = {
+  steps: PropTypes.array.isRequired, // Validate that steps is an array and is required
 };
 
 export default StepperBar;

@@ -243,5 +243,7 @@ export const getCombinedUiSchemaForChildQuestions = (childQuestions) => {
       type: "VerticalLayout",
       elements: uiElements,
   };
+
+
 };
 

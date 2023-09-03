@@ -11,10 +11,10 @@ import React from "react";
 // import { LifeStyleSection } from "./sections/LifeStyleSection";
 
 
-// import { Wellness2 } from "./sections/Wellness2";
+import { Wellness } from "./sections/Wellness";
 // import { MedicalSection } from "./sections/MedicalSection.jsx";
 // import Header from './Components/Header';
-import { PastApplications } from "./sections/PastApplications";
+// import { PastApplications } from "./sections/PastApplications";
 import Footer from "./Components/Footer";
 
 
@@ -34,8 +34,8 @@ function App() {
         </Routes>
       </BrowserRouter>
       {/* <img src={Benefits} alt='Benefits' className="group-benefits" /> */}
-      {/* <Wellness2/> */}
-      <PastApplications />
+      <Wellness/>
+      {/* <PastApplications /> */}
       
       <Footer />
     </div>

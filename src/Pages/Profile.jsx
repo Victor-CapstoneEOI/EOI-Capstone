@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfilePic from "../img/ProfilePic.png";
-// import GroupBenefits from "../img/GroupBenefits.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInbox,
@@ -28,7 +27,6 @@ const Profile = () => {
 
   return (
     <div>
-      
       <div className="profile-container">
         <div className="profile-header">
           <div className="profile-info">
@@ -37,13 +35,6 @@ const Profile = () => {
               alt={`${user.firstName} ${user.lastName}`}
               className="profile-picture"
             />
-            {/* <div className="group-benefits-container">
-              <img
-                src={GroupBenefits}
-                alt="GroupBenefits"
-                className="group"
-              />
-            </div> */}
           </div>
         </div>
         <div className="profile-content">
@@ -54,28 +45,46 @@ const Profile = () => {
           </div>
           <div className="buttons-container">
             <div className="button-row">
-              <button style={{ marginRight: "30px" }}>
-                <FontAwesomeIcon icon={faInbox} />
-              </button>
-              <button>
-                <FontAwesomeIcon icon={faAddressBook} />
-              </button>
+              <div className="icon-with-description">
+                <button>
+                  <FontAwesomeIcon icon={faInbox} />
+                </button>
+                <span>Inbox</span>
+              </div>
+              <div className="icon-with-description">
+                <button>
+                  <FontAwesomeIcon icon={faAddressBook} />
+                </button>
+                <span>Contact</span>
+              </div>
             </div>
             <div className="button-row">
-              <button style={{ marginRight: "30px" }}>
-                <FontAwesomeIcon icon={faComment} />
-              </button>
-              <button>
-                <FontAwesomeIcon icon={faCalendarDays} />
-              </button>
+              <div className="icon-with-description">
+                <button>
+                  <FontAwesomeIcon icon={faComment} />
+                </button>
+                <span>Messenger</span>
+              </div>
+              <div className="icon-with-description">
+                <button>
+                  <FontAwesomeIcon icon={faCalendarDays} />
+                </button>
+                <span>Time Off</span>
+              </div>
             </div>
             <div className="button-row">
-              <button style={{ marginRight: "30px" }}>
-                <FontAwesomeIcon icon={faLandmark} />
-              </button>
-              <button onClick={goToFormLayout}>
-                <FontAwesomeIcon icon={faUsers} />
-              </button>
+              <div className="icon-with-description">
+                <button>
+                  <FontAwesomeIcon icon={faLandmark} />
+                </button>
+                <span>Accounts</span>
+              </div>
+              <div className="icon-with-description">
+                <button onClick={goToFormLayout}>
+                  <FontAwesomeIcon icon={faUsers} />
+                </button>
+                <span>Group Benefits</span>
+              </div>
             </div>
           </div>
         </div>

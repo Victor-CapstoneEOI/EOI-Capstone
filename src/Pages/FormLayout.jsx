@@ -5,7 +5,16 @@ import Sidebar from '../Components/Sidebar.jsx';
 import '../Styles/FormLayout.css'
 // import Stepper from '../Components/Stepper.jsx'
 
+
 export const FormLayout = () => {
+
+const navigate = useNavigate();
+
+const goToReview = () =>{
+  navigate('/review');  
+}
+
+
   return (
     <div>
       <h1 className='Complete'>
@@ -14,13 +23,13 @@ export const FormLayout = () => {
 
  
 
-      <div className='parent-container'>
+      <div className='parent'>
         <div className='medical-questions-title'>Medical Questions</div>
         
-      
-        <div className='container'>
+        <div className='Inputbox'>
           <PersonalInformation/>
         </div>
+        <button className='next-button' onClick={goToReview}>Next Page</button>
         <Sidebar/>
       </div>
     </div>

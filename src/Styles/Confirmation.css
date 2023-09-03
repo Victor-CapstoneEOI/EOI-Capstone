@@ -1,0 +1,42 @@
+  
+  
+  
+  .half-top {
+    flex: 1;
+    background-color: lightgray;
+    width: auto;
+    height: 300px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+  }
+
+  .ThankYou p{
+    color: #E35205;
+    font-weight: 24px;
+    font-size: 24px;
+  }
+  
+  .half-bottom {
+    flex: 1;
+    background-color: #F0ECE3;
+    width: auto;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+  
+  .Download p{
+    color: black;
+    font-weight: 24px;
+    font-size: 24px;
+  }
+
+  .bolder-link {
+  font-weight: 900; /* making it more bolder */
+}

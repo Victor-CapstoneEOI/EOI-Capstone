@@ -6,7 +6,7 @@ import '../Styles/Header.css'; // Import the CSS file
 
 const headerStyles = {
   backgroundColor: '#ffffff', // Set your desired background color
-  color: '#000000', // Set your desired text color
+  color: '#000000', 
 };
 
 const Header = () => {

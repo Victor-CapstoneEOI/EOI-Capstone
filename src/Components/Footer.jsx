@@ -8,6 +8,11 @@ const Footer = () => {
       color="#ffffff"
       py={2}
       textAlign="center"
+      sx={{
+        position: 'fixed', // or 'sticky' based on your needs
+        bottom: 0,
+        width: '100%'
+      }}
     >
       <Typography variant="subtitle1" fontWeight="bold">
         VICTOR

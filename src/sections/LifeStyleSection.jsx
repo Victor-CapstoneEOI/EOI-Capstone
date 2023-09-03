@@ -11,7 +11,7 @@ export const LifeStyleSection = ({ index }) => {
   const [current, setCurrent] = useState(index);
   const [nestedIndex, setNestedIndex] = useState(0);
   
-  // Track if the main question's field is empty
+  
   const [isMainFieldEmpty, setIsMainFieldEmpty] = useState(true);
 
   useEffect(() => {
@@ -47,7 +47,6 @@ export const LifeStyleSection = ({ index }) => {
       if (nestedIndex < nestedQuestions.length - 1) {
         setNestedIndex(nestedIndex + 1);
       } else {
-        // Navigate to the next parent question
         if (current < questions.length - 1) {
           setCurrent(current + 1);
           initializeCurrentQuestionData();
@@ -55,14 +54,12 @@ export const LifeStyleSection = ({ index }) => {
         setNestedIndex(0);
       }
     } else {
-      // Handle validation error, e.g., show an error message to the user
       console.error('Validation error: Answer is required.');
     }
   };
 
   const validateAnswer = (data) => {
-    // Add your validation logic here
-    // For example, check if the "answer" field is not empty or null
+   
     return data.answer !== undefined && data.answer !== null && data.answer !== '';
   };
 
@@ -86,7 +83,6 @@ export const LifeStyleSection = ({ index }) => {
     setNestedQuestionData({ ...nestedQuestionData, answer: value });
   };
 
-  // Update the main field's empty state when it changes
   useEffect(() => {
     setIsMainFieldEmpty(!currentQuestionData.answer);
   }, [currentQuestionData]);
@@ -118,7 +114,6 @@ export const LifeStyleSection = ({ index }) => {
             renderers={[...materialRenderers, ...materialCells]}
             onChange={({ errors, data }) => {
               setNestedQuestionData(data);
-              // Update the nested field's empty state
               setIsMainFieldEmpty(!data.answer);
             }}
           />

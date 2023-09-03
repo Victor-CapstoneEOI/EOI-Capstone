@@ -150,12 +150,15 @@ export const getUiSchemaForQuestion = (question, isChild = false) => {
               type: "Control", 
               scope: "#/properties/answer",
               options: {
-                enumTitles: ["Select an option...", ...question.optionValues.split(";").map((option) => option.trim())]
+                // This will be displayed as a hint/placeholder
+                description: "Select an option from the drop-down list...",
+                enumTitles: ["", ...question.optionValues.split(";").map((option) => option.trim())]
               }
             }
           ]
         };
         break;
+      
         
       case "Multi-line Textbox":
         uiSchema = {
@@ -201,7 +204,7 @@ export const getCombinedSchemaForChildQuestions = (childQuestions) => {
       properties: {},
       required: [],
   };
-
+  
   childQuestions.forEach((question, index) => {
       const schema = getSchemaForQuestion(question);
       combinedSchema.properties[`question_${index}`] = schema.properties.answer;
@@ -210,7 +213,7 @@ export const getCombinedSchemaForChildQuestions = (childQuestions) => {
           combinedSchema.required.push(`question_${index}`);
       }
   });
-
+ 
   return combinedSchema;
 };
 
@@ -219,16 +222,24 @@ export const getCombinedUiSchemaForChildQuestions = (childQuestions) => {
 
   childQuestions.forEach((question, index) => {
     const uiSchema = getUiSchemaForQuestion(question, true);
+    
+    if (question.formControlType === "Drop-down List" && uiSchema && uiSchema.elements && uiSchema.elements[0] && uiSchema.elements[0].options) {
+        // Set or override the placeholder for drop-down lists
+        uiSchema.elements[0].options.enumTitles = [
+            "Please select an option", 
+            ...question.optionValues.split(";").map((option) => option.trim())
+        ];
+    }
     if (uiSchema && uiSchema.elements && uiSchema.elements[0]) {
         uiSchema.elements[0].scope = `#/properties/question_${index}`;
         uiElements.push(uiSchema);
-    } else {
-        console.warn("Invalid UI schema for question", question);
-    }
+    } 
   });
+
 
   return {
       type: "VerticalLayout",
       elements: uiElements,
   };
 };
+

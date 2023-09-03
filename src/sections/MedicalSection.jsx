@@ -13,10 +13,13 @@ export const MedicalSection = () => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isFieldEmpty, setIsFieldEmpty] = useState(true);
+  const [shouldCheckChildStatus, setShouldCheckChildStatus] = useState(false);
+  const [navigationHistory, setNavigationHistory] = useState([]);
 
   const [childQuestions, setChildQuestions] = useState([]);
   const [isChildQuestion, setIsChildQuestion] = useState(false);
- 
+  const [currentParentQuestion, setCurrentParentQuestion] = useState(null);
+
 
   useEffect(() => {
     fetch("/api/parent-questions")
@@ -32,8 +35,12 @@ export const MedicalSection = () => {
   }, []);
 
   useEffect(() => {
-    determineChildQuestionStatus();
-  }, [formData, currentQuestionIndex, questions]);
+    if (shouldCheckChildStatus) {
+        determineChildQuestionStatus();
+        setShouldCheckChildStatus(false);  // Reset after checking
+    }
+}, [formData, currentQuestionIndex, questions, shouldCheckChildStatus]);
+
 
   useEffect(() => {
     formDataRef.current = formData; // Keep the ref updated with the latest value
@@ -52,14 +59,15 @@ export const MedicalSection = () => {
         if (answer !== 'Unknown' && answer !== 'None of the above') {
             shouldShowChildQuestions = true;
         }
-    } else if (currentQuestion.subFormTrigger && currentQuestion.subFormTrigger.includes("Yes")) {
-        shouldShowChildQuestions = true;
-    }
-
+    } else if (currentQuestion.subFormTrigger && currentQuestion.subFormTrigger.includes(`Selecting '${answer}'`)) {
+      shouldShowChildQuestions = true;
+    }  
     if (shouldShowChildQuestions) {
+      setCurrentParentQuestion(currentQuestion);  // Store the current parent question
       setChildQuestions(currentQuestion.childQuestions);
       setIsChildQuestion(true);
     } else {
+      setCurrentParentQuestion(null);
       setIsChildQuestion(false);
       setChildQuestions([]);
     }
@@ -72,20 +80,28 @@ const handleNavigation = (direction) => {
           return;
       }
 
-      // If currently at a child question, always move to the next parent question
-      if (isChildQuestion) {
-        setCurrentQuestionIndex(prev => prev + 1);
-        setIsChildQuestion(false);
-      } else {
-        const nextParentQuestion = questions[currentQuestionIndex + 1];
-        if (nextParentQuestion && determineChildQuestionStatus(nextParentQuestion)) {
-          setIsChildQuestion(true);
-        } else {
-          setCurrentQuestionIndex(prev => prev + 1);
-        }
+      // Push current state to the navigation history stack
+      setNavigationHistory(prevHistory => [...prevHistory, {
+        index: currentQuestionIndex,
+        isChild: isChildQuestion
+    }]);
+
+    if (isChildQuestion) {
+      setIsChildQuestion(false); // When on child questions, go back to the parent question's main content
+    } else {
+      determineChildQuestionStatus(); // Determine child status for current parent question
+      if (!isChildQuestion) {
+        setCurrentQuestionIndex(prev => prev + 1); // Increment to the next parent question only if we're not showing child questions
       }
-  } else if (direction === "previous" && currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(prev => prev - 1);
+    }
+    } else if (direction === "previous") {
+      if (navigationHistory.length > 0) {
+          // Pop the last state from the navigation history stack
+          const lastState = navigationHistory.pop();
+          setCurrentQuestionIndex(lastState.index);
+          setIsChildQuestion(lastState.isChild);
+          setNavigationHistory([...navigationHistory]);  // This line updates the state with the modified history
+      }
   }
 };
 
@@ -110,12 +126,13 @@ const handleNavigation = (direction) => {
   };
 
   let currentQuestion = determineCurrentQuestion();
-  
+  let displayQuestion = isChildQuestion ? currentParentQuestion : currentQuestion;
+
   return (
     <div onKeyDown={handleKeyPress}>
-      {currentQuestion?.section && <h2>{currentQuestion.section}</h2>}
-      {currentQuestion?.subSection1 && <h3>{currentQuestion.subSection1}</h3>}
-      {currentQuestion?.subSection2 && <h4>{currentQuestion.subSection2}</h4>}
+      {displayQuestion?.section && <h2>{displayQuestion.section}</h2>}
+      {displayQuestion?.subSection1 && <h3>{displayQuestion.subSection1}</h3>}
+      {displayQuestion?.subSection2 && <h4>{displayQuestion.subSection2}</h4>}
 
 
       <JsonForms

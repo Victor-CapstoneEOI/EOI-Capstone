@@ -41,6 +41,30 @@ export const Wellness = () => {
   const getNextQuestion = (currentIndex, questions, userAnswer) => {
     const currentQuestion = questions[currentIndex];
 
+    if (userAnswer.answer?.trim() === "Feet/Inches" && currentQuestion.childQuestions) {
+      console.log(currentQuestion);
+      childQuestionsSchemas(currentQuestion);
+      setShowChildQuestion(true);
+    }
+
+    if (userAnswer.answer?.trim() === "Centimetres" && currentQuestion.childQuestions) {
+      console.log(currentQuestion);
+      childQuestionsSchemas(currentQuestion);
+      setShowChildQuestion(true);
+    }
+
+    if (userAnswer.answer?.trim() === "Pounds" && currentQuestion.childQuestions) {
+      console.log(currentQuestion);
+      childQuestionsSchemas(currentQuestion);
+      setShowChildQuestion(true);
+    }
+
+    if (userAnswer.answer?.trim() === "Kilograms" && currentQuestion.childQuestions) {
+      console.log(currentQuestion);
+      childQuestionsSchemas(currentQuestion);
+      setShowChildQuestion(true);
+    }
+
     if (userAnswer.answer?.trim() === "Yes" && currentQuestion.childQuestions) {
       console.log(currentQuestion);
       childQuestionsSchemas(currentQuestion);
@@ -169,10 +193,9 @@ export const Wellness = () => {
   console.log(userAnswer.answer);
 
   const childQuestionsSchemas = (question) => {
-    if (userAnswer.answer?.trim() === "Yes") {
-      console.log("inside 'if'");
-      console.log(question.childQuestions[0]?.optionValues.split(";"));
 
+    if (userAnswer.answer?.trim() === "Yes") {
+    
       let childSchema = {
         type: "object",
         properties: {
@@ -192,6 +215,44 @@ export const Wellness = () => {
             options: {
               format: "radio",
             },
+          },
+        ],
+      };
+
+      setChildSchema(childSchema);
+      setUiChildSchema(uiChildSchema);
+    }
+
+    if (userAnswer.answer?.trim() === "Feet/Inches") {
+    
+      let childSchema = {
+        type: "object",
+        properties: {
+          answer1: {
+            type: 'string',
+            title: question.childQuestions[0]?.labelText,
+            enum: question.childQuestions[0]?.optionValues.split(";"),
+          },
+          answer2: {
+            type: 'string',
+            title: question.childQuestions[1]?.labelText,
+            enum: question.childQuestions[1]?.optionValues.split(";"),
+          },
+        },
+      };
+      let uiChildSchema = {
+        type: "HorizontalLayout",
+        elements: [
+          {
+            type: 'Control',
+            label: question.childQuestions[0]?.labelText,
+            scope: '#/properties/answer1',
+            
+          },
+          {
+            type: 'Control',
+            label: question.childQuestions[0]?.labelText,
+            scope: '#/properties/answer2',
           },
         ],
       };

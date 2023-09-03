@@ -61,7 +61,10 @@ export const MedicalSection = () => {
         }
     } else if (currentQuestion.subFormTrigger && currentQuestion.subFormTrigger.includes(`Selecting '${answer}'`)) {
       shouldShowChildQuestions = true;
-    }  
+
+    } if (currentQuestionIndex === 16 && answer !== 'None of the above') { // indices are 0-based, so 16 represents the 17th question
+      shouldShowChildQuestions = true;
+    }
     if (shouldShowChildQuestions) {
       setCurrentParentQuestion(currentQuestion);  // Store the current parent question
       setChildQuestions(currentQuestion.childQuestions);

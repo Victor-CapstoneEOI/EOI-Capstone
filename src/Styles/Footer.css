@@ -1,20 +1,23 @@
-/* Footer.css */
 .footer-container {
     background-color: #64CCC9;
-    padding: 4px 0; /* Adjust the padding value */
+    padding: 4px 0;
     text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 999;
 }
   
 .footer-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 6px; /* Adjust the margin value */
+    margin-top: 6px;
 }
   
 .company-name {
     font-weight: bold;
-    font-size: 16px; /* Adjust the font size value */
+    font-size: 16px;
     color: #ffffff;
 }
   
@@ -22,5 +25,3 @@
     margin-top: 1px;
     color: #ffffff;
 }
-
-  

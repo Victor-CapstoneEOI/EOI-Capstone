@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material';
 
 const Footer = () => {
   return (
+    
     <Box
       bgcolor="#64CCC9"
       color="#ffffff"

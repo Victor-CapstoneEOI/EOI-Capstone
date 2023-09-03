@@ -41,35 +41,15 @@ export const Wellness = () => {
   const getNextQuestion = (currentIndex, questions, userAnswer) => {
     const currentQuestion = questions[currentIndex];
 
-    if (userAnswer.answer?.trim() === "Feet/Inches" && currentQuestion.childQuestions) {
+    if ((userAnswer.answer?.trim() === "Feet/Inches") || (userAnswer.answer?.trim() === "Centimetres") 
+    || (userAnswer.answer?.trim() === "Pounds") || (userAnswer.answer?.trim() === "Kilograms") ||
+    (userAnswer.answer?.trim() === "Yes") && currentQuestion.childQuestions) {
+
       console.log(currentQuestion);
       childQuestionsSchemas(currentQuestion);
       setShowChildQuestion(true);
     }
 
-    if (userAnswer.answer?.trim() === "Centimetres" && currentQuestion.childQuestions) {
-      console.log(currentQuestion);
-      childQuestionsSchemas(currentQuestion);
-      setShowChildQuestion(true);
-    }
-
-    if (userAnswer.answer?.trim() === "Pounds" && currentQuestion.childQuestions) {
-      console.log(currentQuestion);
-      childQuestionsSchemas(currentQuestion);
-      setShowChildQuestion(true);
-    }
-
-    if (userAnswer.answer?.trim() === "Kilograms" && currentQuestion.childQuestions) {
-      console.log(currentQuestion);
-      childQuestionsSchemas(currentQuestion);
-      setShowChildQuestion(true);
-    }
-
-    if (userAnswer.answer?.trim() === "Yes" && currentQuestion.childQuestions) {
-      console.log(currentQuestion);
-      childQuestionsSchemas(currentQuestion);
-      setShowChildQuestion(true);
-    }
 
     let nextIndex = currentIndex + 1;
     while (nextIndex === 1 || nextIndex === 3) {
@@ -267,7 +247,7 @@ export const Wellness = () => {
         type: "object",
         properties: {
           answer: {
-            type: "string",
+            type: "number",
           },
         },
       };
@@ -292,7 +272,7 @@ export const Wellness = () => {
         type: "object",
         properties: {
           answer: {
-            type: "string",
+            type: "number",
           },
         },
       };
@@ -317,7 +297,7 @@ export const Wellness = () => {
         type: "object",
         properties: {
           answer: {
-            type: "string",
+            type: "number",
           },
         },
       };

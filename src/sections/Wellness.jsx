@@ -260,6 +260,81 @@ export const Wellness = () => {
       setChildSchema(childSchema);
       setUiChildSchema(uiChildSchema);
     }
+
+    if (userAnswer.answer?.trim() === "Centimetres") {
+    
+      let childSchema = {
+        type: "object",
+        properties: {
+          answer: {
+            type: "string",
+          },
+        },
+      };
+      let uiChildSchema = {
+        type: "Group",
+        label: questions[1].childQuestions[0]?.labelText,
+        elements: [
+          {
+            type: "Control",
+            scope: "#/properties/answer",
+          },
+        ],
+      };
+
+      setChildSchema(childSchema);
+      setUiChildSchema(uiChildSchema);
+    }
+
+    if (userAnswer.answer?.trim() === "Pounds") {
+    
+      let childSchema = {
+        type: "object",
+        properties: {
+          answer: {
+            type: "string",
+          },
+        },
+      };
+      let uiChildSchema = {
+        type: "Group",
+        label: question.childQuestions[0]?.labelText,
+        elements: [
+          {
+            type: "Control",
+            scope: "#/properties/answer",
+          },
+        ],
+      };
+
+      setChildSchema(childSchema);
+      setUiChildSchema(uiChildSchema);
+    }
+
+    if (userAnswer.answer?.trim() === "Kilograms") {
+    
+      let childSchema = {
+        type: "object",
+        properties: {
+          answer: {
+            type: "string",
+          },
+        },
+      };
+      let uiChildSchema = {
+        type: "Group",
+        label: questions[3].childQuestions[0]?.labelText,
+        elements: [
+          {
+            type: "Control",
+            scope: "#/properties/answer",
+          },
+        ],
+      };
+
+      setChildSchema(childSchema);
+      setUiChildSchema(uiChildSchema);
+    }
   };
 
   return (

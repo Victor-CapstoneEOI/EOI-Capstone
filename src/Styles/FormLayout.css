@@ -19,11 +19,11 @@ body {
 }
 
 /* Flex container styles */
-.container,
+/* .container,
 .parent-container {
   display: flex;
   align-items: center;
-}
+} */
 
 .container-wrapper {
   display: flex;
@@ -35,7 +35,7 @@ body {
 
 .container {
   text-align: left;  /* Left-align the text */
-  width: 100%;  /* Full width */
+  width: 90%;  /* Full width */
   height: auto;  /* Auto height */
   padding: 10px;
   margin: 0;  /* No margin */

@@ -1,7 +1,7 @@
 .Complete{
     color: #E55204;
     font-family: 'Rubik', sans-serif;
-    margin-top: 50px;
+    margin-top: 20px;
     margin-bottom: 80px;
     margin-left: 20px;
 }
@@ -30,15 +30,15 @@ margin-top: 20px;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #F2F2F2;
+    /* background-color: #F2F2F2; */
     
   }
 
 
   .medical-questions-title {
     background-color: #64CCC9;
-    margin-top: -300px; 
-    padding: 35px 1400px;
+    margin-top: 0px; 
+    padding: 5px 1400px;
     margin-right: 1380px;
     margin-left: 200px;
     font-family: 'Rubik', sans-serif;

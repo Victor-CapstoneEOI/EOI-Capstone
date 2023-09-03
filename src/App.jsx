@@ -10,8 +10,11 @@ import React from "react";
 // import { FormComponent } from "./FormComponent";
 // import { LifeStyleSection } from "./sections/LifeStyleSection";
 
-import { MedicalSection } from "./sections/MedicalSection.jsx";
-import Header from './Components/Header';
+
+// import { Wellness2 } from "./sections/Wellness2";
+// import { MedicalSection } from "./sections/MedicalSection.jsx";
+// import Header from './Components/Header';
+import { PastApplications } from "./sections/PastApplications";
 import Footer from "./Components/Footer";
 
 
@@ -31,7 +34,9 @@ function App() {
         </Routes>
       </BrowserRouter>
       {/* <img src={Benefits} alt='Benefits' className="group-benefits" /> */}
-      <MedicalSection/>
+      {/* <Wellness2/> */}
+      <PastApplications />
+      
       <Footer />
     </div>
   );

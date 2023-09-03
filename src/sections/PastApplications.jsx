@@ -12,10 +12,11 @@ export const PastApplications = () => {
           .then(data => {
             const pastApplications = data.filter(q => q.section.includes("Past applications"));
             setQuestions(pastApplications);
-            console.log(pastApplications)
           })
           .catch(error => console.error("Error fetching questions:", error));
       }, []);
+
+      console.log(questions)
   return (
     <div>PastApplications</div>
   )

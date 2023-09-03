@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfilePic from "../img/ProfilePic.png";
-import GroupBenefits from "../img/GroupBenefits.png";
+// import GroupBenefits from "../img/GroupBenefits.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInbox,
@@ -11,8 +11,7 @@ import {
   faLandmark,
   faComment,
 } from "@fortawesome/free-solid-svg-icons";
-
-import "../Style/Profile.css";
+import "../Styles/Profile.css";
 
 const Profile = () => {
   const [user] = useState({
@@ -38,13 +37,13 @@ const Profile = () => {
               alt={`${user.firstName} ${user.lastName}`}
               className="profile-picture"
             />
-            <div className="group-benefits-container">
+            {/* <div className="group-benefits-container">
               <img
                 src={GroupBenefits}
                 alt="GroupBenefits"
-                className="group-benefits"
+                className="group"
               />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="profile-content">

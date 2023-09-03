@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import LogoPic from '../img/Victor_Logo.png'
-import GroupBenefits from '../img/GroupBenefits.png'
+import Benefits from '../img/removebg.png'
+// import GroupBenefits from '../img/GroupBenefits.png'
 import { useNavigate } from 'react-router-dom';
-import '../Style/Home.css'
+import '../Styles/Home.css'
 
 const Home = () => {
     const [selectedLanguage, setSelectedLanguage] = useState('English');
@@ -29,7 +30,7 @@ const Home = () => {
                         <button onClick={() => handleLanguageChange('French')}>French</button>
                     </div>
 
-                    <img src={GroupBenefits} alt='GroupBenefits' className="group-benefits" />
+                    {/* <img src={Benefits} alt='Benefits' className="group-benefits" /> */}
                 </div>
             </div>
         </div>

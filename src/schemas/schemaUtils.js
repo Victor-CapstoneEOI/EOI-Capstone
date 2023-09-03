@@ -70,6 +70,7 @@ const isAddressQuestion = questionText.includes('Address');
       case "Textbox ":
       case "Textboxes":
       case "Autofill":
+      case "Autofill ":
         schema.properties.answer = {
           type: "string",
         };
@@ -181,6 +182,7 @@ export const getUiSchemaForQuestion = (question, isChild = false) => {
       case "Textbox ":
       case "Textboxes":
       case "Autofill":
+      case "Autofill ":
         uiSchema = {
           type: "Group",
           label: displayLabel,  // Modified here

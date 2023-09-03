@@ -13,10 +13,11 @@ body {
 }
 .logo {
     position: absolute;
-    top: 130px;
+    top: 90px;
+    bottom: 100px;
     right: 0px; /* Adjust this value to move the logo to the right */
-    width: 800px;
-    height: auto;
+    width: 600px;
+    height: 570px;
     z-index: 1;
 }
 
@@ -31,7 +32,7 @@ h1.welcome {
 
 
 
-
+/* 
 .group-benefits {
     position: absolute;
     bottom: -60px;
@@ -39,7 +40,7 @@ h1.welcome {
     width:100px;
     height: auto;
     margin-top: 50px;
-}
+} */
 
 .button {
     position: absolute;

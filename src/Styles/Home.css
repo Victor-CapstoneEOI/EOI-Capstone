@@ -13,7 +13,7 @@ body {
 }
 .logo {
     position: absolute;
-    top: 160px;
+    top: 90px;
     bottom: 100px;
     right: 0px; /* Adjust this value to move the logo to the right */
     width: 600px;

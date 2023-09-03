@@ -1,7 +1,7 @@
 .Complete{
     color: #E55204;
     font-family: 'Rubik', sans-serif;
-    margin-top: 50px;
+    margin-top: 100px;
     margin-bottom: 80px;
     margin-left: 20px;
 }
@@ -30,7 +30,7 @@ margin-top: 20px;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #F2F2F2;
+    /* background-color: #F2F2F2; */
     
   }
 

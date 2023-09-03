@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router';
 import PersonalInformation from '../sections/PersonalInformation.jsx';
 import Sidebar from '../Components/Sidebar.jsx';
 import '../Styles/FormLayout.css'
+import { LifeStyleSection } from '../sections/LifeStyleSection.jsx';
+import Header from '../Components/Header.jsx';
+// import { MedicalSection } from '../sections/MedicalSection.jsx';
 // import Stepper from '../Components/Stepper.jsx'
 
 
@@ -17,6 +20,7 @@ const goToReview = () =>{
 
   return (
     <div>
+     
       <h1 className='Complete'>
         Complete <span className='Rest'>Your Evidence of Insurability Form</span>
       </h1>
@@ -27,7 +31,10 @@ const goToReview = () =>{
         <div className='medical-questions-title'>Medical Questions</div>
         
         <div className='Inputbox'>
+          {/* <Stepper/> */}
           <PersonalInformation/>
+          <LifeStyleSection index={0} />
+          {/* <MedicalSection/> */}
         </div>
         <button className='next-button' onClick={goToReview}>Next Page</button>
         <Sidebar/>

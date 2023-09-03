@@ -1,7 +1,6 @@
 // App.js
 import React from "react";
-
-import { Wellness } from "./sections/Wellness";
+import YourFormComponent from "./sections/Well";
 
 function App() {
   return (
@@ -18,7 +17,8 @@ function App() {
       <Footer /> */}
       {/* <LifeStyleSection index={0} /> */}
       {/* <Wellness/> */}
-      <Wellness/>
+      <YourFormComponent />
+      
     </div>
   );
 }

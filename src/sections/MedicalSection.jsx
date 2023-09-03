@@ -59,14 +59,12 @@ export const MedicalSection = () => {
         if (answer !== 'Unknown' && answer !== 'None of the above') {
             shouldShowChildQuestions = true;
         }
-    } 
-    else if (currentQuestion.subFormTrigger && currentQuestion.subFormTrigger.includes(`Selecting '${answer}'`)) {
+    } else if (currentQuestion.subFormTrigger && currentQuestion.subFormTrigger.includes(`Selecting '${answer}'`)) {
       shouldShowChildQuestions = true;
-    } 
-    if (currentQuestionIndex === 16 && answer !== 'None of the above') { // indices are 0-based, so 16 represents the 17th question
+
+    } if (currentQuestionIndex === 16 && answer !== 'None of the above') { // indices are 0-based, so 16 represents the 17th question
       shouldShowChildQuestions = true;
-      }
-    }  
+    }
     if (shouldShowChildQuestions) {
       setCurrentParentQuestion(currentQuestion);  // Store the current parent question
       setChildQuestions(currentQuestion.childQuestions);
@@ -78,37 +76,37 @@ export const MedicalSection = () => {
     }
 };
 
-const handleNavigation = (direction) => {
-  if (direction === "next") {
-      if (isFieldEmpty) {
-          alert("Please fill in the required fields before proceeding.");
-          return;
-      }
+  const handleNavigation = (direction) => {
+    if (direction === "next") {
+        if (isFieldEmpty) {
+            alert("Please fill in the required fields before proceeding.");
+            return;
+        }
 
-      // Push current state to the navigation history stack
-      setNavigationHistory(prevHistory => [...prevHistory, {
-        index: currentQuestionIndex,
-        isChild: isChildQuestion
-    }]);
+        // Push current state to the navigation history stack
+        setNavigationHistory(prevHistory => [...prevHistory, {
+          index: currentQuestionIndex,
+          isChild: isChildQuestion
+      }]);
 
-    if (isChildQuestion) {
-      setIsChildQuestion(false); // When on child questions, go back to the parent question's main content
-    } else {
-      determineChildQuestionStatus(); // Determine child status for current parent question
-      if (!isChildQuestion) {
-        setCurrentQuestionIndex(prev => prev + 1); // Increment to the next parent question only if we're not showing child questions
+      if (isChildQuestion) {
+        setIsChildQuestion(false); // When on child questions, go back to the parent question's main content
+      } else {
+        determineChildQuestionStatus(); // Determine child status for current parent question
+        if (!isChildQuestion) {
+          setCurrentQuestionIndex(prev => prev + 1); // Increment to the next parent question only if we're not showing child questions
+        }
       }
+      } else if (direction === "previous") {
+        if (navigationHistory.length > 0) {
+            // Pop the last state from the navigation history stack
+            const lastState = navigationHistory.pop();
+            setCurrentQuestionIndex(lastState.index);
+            setIsChildQuestion(lastState.isChild);
+            setNavigationHistory([...navigationHistory]);  // This line updates the state with the modified history
+        }
     }
-    } else if (direction === "previous") {
-      if (navigationHistory.length > 0) {
-          // Pop the last state from the navigation history stack
-          const lastState = navigationHistory.pop();
-          setCurrentQuestionIndex(lastState.index);
-          setIsChildQuestion(lastState.isChild);
-          setNavigationHistory([...navigationHistory]);  // This line updates the state with the modified history
-      }
-  }
-};
+  };
 
   const handleKeyPress = event => {
     if (event.key === "Enter") handleNavigation("next");
@@ -139,7 +137,6 @@ const handleNavigation = (direction) => {
       {displayQuestion?.subSection1 && <h3>{displayQuestion.subSection1}</h3>}
       {displayQuestion?.subSection2 && <h4>{displayQuestion.subSection2}</h4>}
 
-
       <JsonForms
         schema={currentSchema}
         uischema={currentUISchema}
@@ -161,4 +158,3 @@ const handleNavigation = (direction) => {
     </div>
   );
 };
- 

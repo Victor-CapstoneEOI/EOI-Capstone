@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import apiRoutes from './routes/api.js'
+import apiRoutes from './routes/api.jsx'
 import cors from 'cors'
 
 const app = express();

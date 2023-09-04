@@ -1,44 +1,78 @@
-import React, { useState, useEffect } from "react";
-import { JsonForms } from "@jsonforms/react";
+import React, { useState, useEffect } from 'react';
+import { JsonForms } from '@jsonforms/react';
 import { materialRenderers, materialCells } from "@jsonforms/material-renderers";
-import {generateQuestionSchemaAndUISchema} from '../schemas/schemaUtils'
-import LifeStyleChildQuestion from "./LifeStyleChildQuestions";
 
-const FallbackRenderer = ({ errorMsg }) => <div>{errorMsg}</div>;
+import { generateQuestionSchemaAndUISchema } from '../schemas/generateQuestionSchemaAndUISchema';
 
-const doesAnswerMatchSubFormTrigger = (answer, subFormTrigger) => {
-  return subFormTrigger?.includes(`'${answer}'`);
-};
-
-export const LifeStyleSection = ({ index = 0 }) => {
-  const [parentData, setParentData] = useState({});
-  const [childData, setChildData] = useState({});
+export const LifeStyleSection = ({ index }) => {
+  const [currentQuestionData, setCurrentQuestionData] = useState({});
+  const [nestedQuestionData, setNestedQuestionData] = useState({});
   const [questions, setQuestions] = useState([]);
   const [current, setCurrent] = useState(index);
-  const [showNestedQuestions, setShowNestedQuestions] = useState(false);
-  const [currentNestedIndex, setCurrentNestedIndex] = useState(0);
+  const [nestedIndex, setNestedIndex] = useState(0);
+  
+  
+  const [isMainFieldEmpty, setIsMainFieldEmpty] = useState(true);
 
   useEffect(() => {
-    fetch("/api/parent-questions")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
+    fetch('/api/parent-questions/Lifestyle')
+      .then(response => response.json())
+      .then(data => {
+        setQuestions(data);
+        console.log('Questions:', data);
       })
-      .then((data) => {
-        const filteredQuestions = data.filter((q) => q.section === "Lifestyle questions (1 of 3)");
-        setQuestions(filteredQuestions);
-      })
-      .catch((error) => {
-        console.error("Error fetching questions:", error);
-      });
+      .catch(error => console.error('Error fetching questions:', error));
   }, []);
+
+  const previous = () => {
+    if (nestedIndex === 0) {
+      if (current > 0) {
+        setCurrent(current - 1);
+        initializeCurrentQuestionData();
+      }
+      setNestedIndex(0);
+    } else {
+      setNestedIndex(nestedIndex - 1);
+    }
+  };
+
+  const next = () => {
+    // Validate the current question's answer field
+    const isMainValid = validateAnswer(currentQuestionData);
+
+    // Validate the nested question's answer field
+    const isNestedValid = validateAnswer(nestedQuestionData);
+
+    if (isMainValid && isNestedValid) {
+      if (nestedIndex < nestedQuestions.length - 1) {
+        setNestedIndex(nestedIndex + 1);
+      } else {
+        if (current < questions.length - 1) {
+          setCurrent(current + 1);
+          initializeCurrentQuestionData();
+        }
+        setNestedIndex(0);
+      }
+    } else {
+      console.error('Validation error: Answer is required.');
+    }
+  };
+
+  const validateAnswer = (data) => {
+   
+    return data.answer !== undefined && data.answer !== null && data.answer !== '';
+  };
+
+  const initializeCurrentQuestionData = () => {
+    setCurrentQuestionData({});
+    setNestedQuestionData({});
+  };
 
   const currentQuestion = questions[current];
   const nestedQuestions = currentQuestion?.childQuestions || [];
-  const { questionSchema, uiSchema } = generateQuestionSchemaAndUISchema(currentQuestion);
 
+  const { questionSchema, uiSchema } = generateQuestionSchemaAndUISchema(currentQuestion);
+  
   const parseDisplayLogic = (logic) => {
     if (!logic) return null;
 
@@ -48,7 +82,7 @@ export const LifeStyleSection = ({ index = 0 }) => {
     if (questionMatch && answerMatch) {
         const question = questionMatch[1];
         const answer = answerMatch[1].replace(/'/g, "");
-
+        
         return { question, answer };
     }
     return null;
@@ -60,7 +94,7 @@ export const LifeStyleSection = ({ index = 0 }) => {
     if (logic === "Page Load") return true;
 
     const parsedLogic = parseDisplayLogic(logic);
-
+    
     return parsedLogic && childData[parsedLogic.question] === parsedLogic.answer;
   };
 
@@ -82,7 +116,7 @@ const next = () => {
 
       console.log('Checking nested question:', nextNestedQuestion);
       console.log('Child data:', childData);
-
+      
       if (shouldDisplayNestedQuestion(nextNestedQuestion, childData)) {
         console.log('Match found for:', nextNestedQuestion);
         setCurrentNestedIndex(i);
@@ -98,7 +132,7 @@ const next = () => {
     }
   } else if (doesAnswerMatchSubFormTrigger(parentData.answer, currentQuestion?.subFormTrigger) && nestedQuestions.length) {
     setShowNestedQuestions(true);
-
+    
     // Initially check for any question with the "Page Load" logic to set as the first question
     const pageLoadIndex = nestedQuestions.findIndex(q => q["Display Question Logic"] === "Page Load");
     setCurrentNestedIndex(pageLoadIndex >= 0 ? pageLoadIndex : 0);
@@ -112,7 +146,7 @@ const next = () => {
 
 const previous = () => {
   console.log("Previous button clicked");
-
+  
   // If showing nested questions and not at the first nested question
   if (showNestedQuestions && currentNestedIndex > 0) {
     setCurrentNestedIndex(prevNestedIndex => prevNestedIndex - 1);
@@ -138,39 +172,48 @@ const handleKeyPress = event => {
 const disableNext = (current >= questions.length - 1 && (!nestedQuestions.length || !doesAnswerMatchSubFormTrigger(parentData.answer, currentQuestion?.subFormTrigger))) || questions.length === 0;
 const disablePrevious = current <= 0 && currentNestedIndex <= 0;
 
-return (
-  <>
-    <div onKeyDown={handleKeyPress}>
-      {/* Render Parent Question */}
-      {!showNestedQuestions && (
-        <JsonForms
-          schema={questionSchema}
-          uischema={uiSchema}
-          data={parentData}
-          renderers={[...materialRenderers, ...materialCells, { tester: () => true, renderer: FallbackRenderer }]}
-          onChange={({ errors, data }) => setParentData(data)}
-        />
+  return (
+    <>
+      <h2>{currentQuestion?.section}</h2>
+
+      <JsonForms
+        schema={questionSchema}
+        uischema={uiSchema}
+        data={currentQuestionData}
+        renderers={[...materialRenderers, ...materialCells]}
+        onChange={({ errors, data }) => setCurrentQuestionData(data)}
+      />
+
+      {currentQuestionData.answer === 'Yes' && nestedQuestions.length > 0 && (
+        <div>
+          <h4>{currentQuestion.subSection1}</h4>
+
+          <h4>{nestedQuestions[nestedIndex].subSection1}</h4>
+
+          <p>{nestedQuestions[nestedIndex].labelText}</p>
+
+          <JsonForms
+            schema={generateQuestionSchemaAndUISchema(nestedQuestions[nestedIndex]).questionSchema}
+            uischema={generateQuestionSchemaAndUISchema(nestedQuestions[nestedIndex]).uiSchema}
+            data={nestedQuestionData}
+            renderers={[...materialRenderers, ...materialCells]}
+            onChange={({ errors, data }) => {
+              setNestedQuestionData(data);
+              setIsMainFieldEmpty(!data.answer);
+            }}
+          />
+        </div>
       )}
 
-      {/* Render Nested (Child) Questions if conditions are met */}
-      {showNestedQuestions && nestedQuestions.length > 0 && (
-        <LifeStyleChildQuestion 
-          childQuestion={nestedQuestions[currentNestedIndex]} 
-          showChildQuestions={true}
-          data={childData}
-          onChange={({ data }) => {
-            setChildData(data);
-          }}
-        />
-      )}
-
-      <button onClick={previous} disabled={disablePrevious}>
+      <button onClick={previous} disabled={current === 0 && nestedIndex === 0}>
         Previous
       </button>
-      <button onClick={next} disabled={disableNext}>
+      <button
+        onClick={next}
+        disabled={(current === questions.length - 1 && nestedIndex === nestedQuestions.length - 1) || isMainFieldEmpty}
+      >
         Next
       </button>
-    </div>
-  </>
-);
+    </>
+  );
 };

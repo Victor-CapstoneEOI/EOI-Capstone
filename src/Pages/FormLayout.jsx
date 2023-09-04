@@ -1,7 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
 import { PersonalInformation } from '../sections/personalInformation.jsx';
+import { PastApplications } from '../sections/PastApplications.jsx';
 import { LifeStyleSection } from '../sections/LifeStyleSection.jsx';
+import { Wellness } from '../sections/Wellness.jsx';
 import { MedicalSection } from '../sections/MedicalSection.jsx';
 import Sidebar from '../Components/Sidebar.jsx';
 import '../Styles/FormLayout.css'
@@ -27,7 +29,9 @@ export const FormLayout = () => {
           {/* <Stepper/> */}
           <div className="section">
             <PersonalInformation />
+            <PastApplications />
             <LifeStyleSection index={0} />
+            <Wellness />
             <MedicalSection />
           </div>
         </div>

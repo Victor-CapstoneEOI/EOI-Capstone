@@ -45,23 +45,23 @@ router.get("/child-questions", async (req, res) => {
 });
 
 router.post("/save-full-form", async (req, res) => {
-  const { userId, sections } = req.body;
-
-  try {
-      const newFullFormAnswer = new FullFormAnswer({
-          userId,
-          sections
-      });
-
-      await newFullFormAnswer.save();
-      
-      // Here, you can also add logic to generate the PDF.
-
-      res.status(201).json({ message: "Form saved successfully" });
-  } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
-  }
-});
+    const { sections } = req.body;
+  
+    try {
+        const newFullFormAnswer = new FullFormAnswer({
+            sections
+        });
+  
+        await newFullFormAnswer.save();
+        
+        // Here, you can also add logic to generate the PDF.
+  
+        res.status(201).json({ message: "Form saved successfully" });
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+    }
+  });
+  
 
 
 export default router;

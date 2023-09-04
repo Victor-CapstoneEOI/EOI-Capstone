@@ -1,15 +1,17 @@
-import React from "react";
-import { useNavigate } from "react-router";
-import PersonalInformation from "../sections/PersonalInformation.jsx";
-import Sidebar from "../Components/Sidebar.jsx";
-import "../Styles/FormLayout.css";
-import { LifeStyleSection } from "../sections/LifeStyleSection.jsx";
-import Header from "../Components/Header.jsx";
-import { MedicalSection } from "../sections/MedicalSection.jsx";
-// import Stepper from '../Components/Stepper.jsx'
+
+
+import React from 'react';
+import { useNavigate } from 'react-router';
+import { PersonalInformation } from '../sections/personalInformation.jsx';
+import { LifeStyleSection } from '../sections/LifeStyleSection.jsx';
+import { MedicalSection } from '../sections/MedicalSection.jsx';
+import Sidebar from '../Components/Sidebar.jsx';
+import '../Styles/FormLayout.css'
+
 
 export const FormLayout = () => {
   const navigate = useNavigate();
+
 
   const goToReview = () => {
     navigate("/review");
@@ -42,4 +44,4 @@ export const FormLayout = () => {
   );
 };
 
-export default FormLayout;
+  

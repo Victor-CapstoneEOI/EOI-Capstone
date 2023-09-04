@@ -2,28 +2,16 @@
 
 .sidebar-container {
   position: fixed;
-  top: 180px; /* Adjust this to the height of your header */
+  top: 220px;
   right: 0;
-  bottom: 90px; /* Adjust this to the height of your footer */
+  bottom: 80px;
   width: 250px;
-  background-color: transparent; /* Make it transparent */
+  background-color: transparent; 
   padding: 20px;
-  overflow-y: auto; /* Enable scrolling if the content exceeds the container */
-  box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow on the left side */
-  z-index: 9999; /* Make it appear above all other elements */
+  box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.1); 
+  z-index: 9999; 
 }
 
-/* ...rest of your styles */
-
-.sidebar-container {
-  overflow-y: auto;
-  scrollbar-width: none; /* For Firefox */
-}
-
-/* For Chrome, Safari, and Opera */
-.sidebar-container::-webkit-scrollbar {
-  display: none;
-}
 
 .sidebar-item {
   display: flex;
@@ -67,4 +55,9 @@
 .help-icon svg {
   font-size: 40px;
   color: #64CCC9;
+}
+
+/* Move the first item a bit higher */
+.sidebar-item:first-child {
+  margin-top: 0;  /* Change as needed */
 }

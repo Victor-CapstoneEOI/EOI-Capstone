@@ -1,4 +1,4 @@
-.Complete{
+.Complete {
   color: #E55204;
   font-family: 'Rubik', sans-serif;
   margin-top: 20px;
@@ -6,8 +6,8 @@
   margin-left: 20px;
 }
 
-.Rest{
-  color:black;
+.Rest {
+  color: black;
   font-family: 'Rubik', sans-serif;
   margin-top: 20px;
 }
@@ -27,7 +27,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 120vh;
 }
 
 .medical-questions-title {
@@ -36,12 +36,10 @@
   font-family: 'Rubik', sans-serif;
   font-size: 40px;
   text-align: left;
-  padding: 20px 0;
-  padding-left: 25px;  /* Added padding to the left side */
-  margin: 230px 0 0 0;
+  padding: 10px 0;
+  padding-left: 40px;  
+  margin-top: 230px;
 }
-
-
 
 .next-button {
   padding: 10px 20px;
@@ -51,19 +49,19 @@
   border-radius: 4px;
   cursor: pointer;
   margin-top: 9px;
-} 
+}
 
 .next-button:hover {
   background-color: #0056b3;
-} 
+}
 
 .jsonForms {
   display: flex;
   flex-wrap: wrap;
   width: 900px;
-  justify-content: left;
-  align-items: left;
-  margin-left: 20px;
+  justify-content: flex-start;  
+  align-items: flex-start;  
+  margin-left: -520px;
 }
 
 .section {
@@ -73,4 +71,39 @@
   margin-bottom: 20px;
   min-height: 200px;
   overflow-y: auto;
+}
+
+/* Media Query */
+@media (max-width: 900px) {
+  .Complete, .Rest {
+    text-align: center;
+    margin-left: 0;
+  }
+
+  .parent {
+    align-items: flex-start;
+    padding: 0 20px;
+  }
+
+  .medical-questions-title {
+    font-size: 30px;
+    padding-left: 20px;
+    margin-top: 100px;
+  }
+
+ 
+  /* .jsonForms {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .section {
+    min-width: 100%;
+    margin-right: 0;
+  } */
+
+  .next-button {
+    align-self: flex-end;
+  }
 }

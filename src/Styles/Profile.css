@@ -79,3 +79,55 @@ p {
   margin-top: -10px;
   font-weight: bold;
 }
+
+/* Media Query for small screens */
+@media (max-width: 767px) {
+  .profile-container {
+    max-width: 100%;
+    margin: 20px auto;
+    padding: 15px;
+  }
+
+  .profile-info {
+    text-align: left;
+  }
+
+  .profile-picture {
+    max-width: 80px;
+  }
+
+  .name-info {
+    margin-top: 5px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .profile-content {
+    padding: 8px;
+  }
+
+  .buttons-container {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .buttons-container button {
+    width: 80px;
+    height: 35px;
+    margin: 5px;
+  }
+
+  .icon-with-description span {
+    font-size: 10px;
+  }
+}
+
+/* Media Query for medium screens */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .profile-container {
+    max-width: 90%;
+    margin: 50px auto;
+  }
+}

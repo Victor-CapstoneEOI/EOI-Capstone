@@ -1,7 +1,32 @@
-.group{
-    position: absolute;
-   bottom: 60px;
-    left: 0;
-    width:100px;
-    height: auto;
+/* Mobile-first styles */
+.group {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  width: 80px;
+  height: auto;
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  .group {
+    bottom: 40px;
+    width: 90px;
   }
+}
+
+/* Laptop styles */
+@media (min-width: 1024px) {
+  .group {
+    bottom: 50px;
+    width: 95px;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1200px) {
+  .group {
+    bottom: 60px;
+    width: 100px;
+  }
+}

@@ -6,10 +6,12 @@ export const Wellness = () => {
   const [questions, setQuestions] = useState([]);
   const [current, setCurrent] = useState(0);
   const [userAnswer, setUserAnswer] = useState({});
-  
+
   const [showChildQuestion, setShowChildQuestion] = useState(false);
   const [childSchema, setChildSchema] = useState(null);
   const [uiChildSchema, setUiChildSchema] = useState(null);
+
+  const [showAdditionalQuestions, setShowAdditionalQuestions] = useState(false)
 
   useEffect(() => {
     fetch("/api/parent-questions")
@@ -17,7 +19,7 @@ export const Wellness = () => {
       .then((data) => {
         setQuestions(data.slice(21, 26));
 
-        // console.log('Questions:', data);
+        
       })
       .catch((error) => console.error("Error fetching questions:", error));
   }, []);
@@ -43,8 +45,14 @@ export const Wellness = () => {
     const currentQuestion = questions[currentIndex];
 
     if ((userAnswer.answer?.trim() === "Feet/Inches") || (userAnswer.answer?.trim() === "Centimetres") 
-    || (userAnswer.answer?.trim() === "Pounds") || (userAnswer.answer?.trim() === "Kilograms") ||
-    (userAnswer.answer?.trim() === "Yes") && currentQuestion.childQuestions) {
+    || (userAnswer.answer?.trim() === "Pounds") || (userAnswer.answer?.trim() === "Kilograms") && currentQuestion.childQuestions) {
+
+      console.log(currentQuestion);
+      childQuestionsSchemas(currentQuestion);
+      setShowChildQuestion(true);
+    } 
+
+    if (userAnswer.answer?.trim() === "Yes" && currentQuestion.childQuestions) {
 
       console.log(currentQuestion);
       childQuestionsSchemas(currentQuestion);

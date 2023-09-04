@@ -23,9 +23,14 @@ export const FormLayout = () => {
 
       <div className="parent">
         <div className="medical-questions-title"> EOI Form </div>
+        
+        <div className="stepper-container"> 
+        
+          <StepperBar steps={['Personal Information', 'LifeStyle', 'Medical', 'Wellness', 'Past Applications', 'Review']} />
+        </div>
      
         <div className="jsonForms">
-          
+
           <div className="section">
             <PersonalInformation />
             <LifeStyleSection index={0} />
@@ -35,7 +40,7 @@ export const FormLayout = () => {
         <button className="next-button" onClick={goToReview}>
           Next Page
         </button>
-        {/* <StepperBar/>  */}
+        
         <Sidebar />
       </div>
     </div>

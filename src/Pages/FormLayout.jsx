@@ -6,8 +6,8 @@ import { LifeStyleSection } from '../sections/LifeStyleSection.jsx';
 import { Wellness } from '../sections/Wellness.jsx';
 import { MedicalSection } from '../sections/MedicalSection.jsx';
 import Sidebar from '../Components/Sidebar.jsx';
-import Stepper from '../Components/Stepper.jsx'; 
 import '../Styles/FormLayout.css';
+import StepperBar from '../Components/Stepper.jsx';
 
 export const FormLayout = () => {
   const navigate = useNavigate();
@@ -15,7 +15,6 @@ export const FormLayout = () => {
   const goToReview = () => {
     navigate("/review");
   };
-
   return (
     <div>
       <h1 className="Complete">
@@ -25,9 +24,14 @@ export const FormLayout = () => {
 
       <div className="parent">
         <div className="medical-questions-title"> EOI Form </div>
-
+        
+        <div className="stepper-container"> 
+        
+          <StepperBar steps={['Personal Information', 'Past Applications', 'Lifestyle', 'Wellness', 'Medical', 'Review']} />
+        </div>
+     
         <div className="jsonForms">
-          
+
           <div className="section">
             <PersonalInformation />
             <PastApplications />
@@ -39,11 +43,12 @@ export const FormLayout = () => {
         <button className="next-button" onClick={goToReview}>
           Next Page
         </button>
-        {/* <Stepper/>  */}
+        
         <Sidebar />
       </div>
     </div>
   );
+  
 };
 
 export default FormLayout;

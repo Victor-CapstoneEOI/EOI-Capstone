@@ -29,6 +29,7 @@ export const FormProvider = ({ children }) => {
                 console.log("Form saved successfully");
                 setFormData({});
                 // Assuming we might want to handle submission status outside.
+
                 // If not, this state (submissionStatus) and its usage can be removed.
                 // setSubmissionStatus('success');  
             } else {

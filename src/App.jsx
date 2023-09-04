@@ -9,8 +9,6 @@ import Review from "./Pages/Review.jsx";
 import Confirmation from './Pages/Confirmation.jsx';
 import Header from './Components/Header';
 import Footer from "./Components/Footer";
-// import Benefits from './img/removebg.png'
-
 
 function App() {
   return (

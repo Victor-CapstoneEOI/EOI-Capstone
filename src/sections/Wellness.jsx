@@ -6,6 +6,7 @@ export const Wellness = () => {
   const [questions, setQuestions] = useState([]);
   const [current, setCurrent] = useState(0);
   const [userAnswer, setUserAnswer] = useState({});
+  
   const [showChildQuestion, setShowChildQuestion] = useState(false);
   const [childSchema, setChildSchema] = useState(null);
   const [uiChildSchema, setUiChildSchema] = useState(null);

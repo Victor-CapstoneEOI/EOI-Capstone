@@ -26,7 +26,7 @@ export const FormLayout = () => {
         
         <div className="stepper-container"> 
         
-          <StepperBar steps={['Personal Information', 'LifeStyle', 'Medical', 'Wellness', 'Past Applications', 'Review']} />
+          <StepperBar steps={['Personal Information', 'Past Applications', 'Lifestyle', 'Wellness', 'Medical', 'Review']} />
         </div>
      
         <div className="jsonForms">

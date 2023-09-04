@@ -5,7 +5,10 @@ import { materialRenderers } from "@jsonforms/material-renderers";
 export const PastApplications = () => {
   const [questions, setQuestions] = useState([]);
   const [userAnswer, setUserAnswer] = useState({});
+  const [current, setCurrent] = useState(0);
   const [showchildQuestion, setShowChildQuestion] = useState(false);
+
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     fetch("/api/parent-questions")
@@ -18,11 +21,10 @@ export const PastApplications = () => {
       .catch((error) => console.error("Error fetching questions:", error));
   }, []);
 
-  console.log(questions);
-  let section = questions[0]?.section;
-  let subSection = questions[0]?.subSection1;
-  let question = questions[0]?.questionText;
-  let optionValues = questions[0]?.optionValues.split(";");
+  let section = questions[current]?.section;
+  let subSection = questions[current]?.subSection1;
+  let question = questions[current]?.questionText;
+  let optionValues = questions[current]?.optionValues.split(";");
 
   let questionSchema = {
     type: "object",
@@ -32,7 +34,7 @@ export const PastApplications = () => {
         enum: optionValues,
       },
     },
-    required: ["answer"]
+    required: ["answer"],
   };
 
   let uiSchema = {
@@ -49,10 +51,18 @@ export const PastApplications = () => {
     ],
   };
 
-  
-  const toggleQuestion = () => {
-    setShowChildQuestion(!showchildQuestion);
+  const handleNext = () => {
+    if (current === 0 ){
+      setShowChildQuestion(true);
+      setIsVisible(false);
+    }
+
   };
+
+  const handlePrevious = () => {
+    setShowChildQuestion(false)
+    setIsVisible(true)
+  }
 
   return (
     <div>
@@ -71,7 +81,7 @@ export const PastApplications = () => {
         </div>
       )}
 
-      {showchildQuestion &&  userAnswer.answer?.trim() === "Yes" &&(
+      {showchildQuestion && userAnswer.answer?.trim() === "Yes" && (
         <div>
           <JsonForms
             schema={{
@@ -85,7 +95,7 @@ export const PastApplications = () => {
             }}
             uischema={{
               type: "Control",
-              label: questions[0].childQuestions[0]?.labelText,
+              label: questions[current].childQuestions[0]?.labelText,
               scope: "#/properties/answer",
               options: {
                 format: "textarea",
@@ -98,8 +108,8 @@ export const PastApplications = () => {
           />
         </div>
       )}
-      <button onClick={toggleQuestion}>Previous</button>
-      <button onClick={toggleQuestion}>Next</button>
+      {!isVisible &&<button onClick={handlePrevious}>Previous</button>}
+      {isVisible && userAnswer.answer?.trim() === "Yes" && <button onClick={handleNext}>Next</button>}
     </div>
   );
 };

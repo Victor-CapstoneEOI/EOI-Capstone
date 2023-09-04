@@ -7,6 +7,9 @@ import '../Styles/Header.css'; // Import the CSS file
 const headerStyles = {
   backgroundColor: '#ffffff', // Set your desired background color
   color: '#000000', 
+  position: 'sticky',
+  top: 0,
+  zIndex: 1,
 };
 
 const Header = () => {

@@ -13,10 +13,11 @@ body {
 }
 .logo {
     position: absolute;
-    top: 130px;
+    top: 100px;
+    bottom: 100px;
     right: 0px; /* Adjust this value to move the logo to the right */
-    width: 800px;
-    height: auto;
+    width: 600px;
+    height: 570px;
     z-index: 1;
 }
 
@@ -24,14 +25,14 @@ h1.welcome {
     font-size: 50px;
     color: #E55204;
     margin-top: 10px; /* Adjust this value to lower the heading */
-    margin-bottom: 30px;
+    margin-bottom: 110px;
     position: absolute;
     z-index: 2;
 }
 
 
 
-
+/* 
 .group-benefits {
     position: absolute;
     bottom: -60px;
@@ -39,11 +40,11 @@ h1.welcome {
     width:100px;
     height: auto;
     margin-top: 50px;
-}
+} */
 
 .button {
     position: absolute;
-    bottom: 150px;
+    bottom: 200px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;

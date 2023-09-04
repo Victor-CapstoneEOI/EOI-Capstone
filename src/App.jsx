@@ -15,6 +15,7 @@ function App() {
     <div className="App">
       
       <BrowserRouter>
+ 
         <Header />
         <FormProvider >
         <Routes>
@@ -28,6 +29,9 @@ function App() {
         </FormProvider>
       </BrowserRouter>
       {/* <img src={Benefits} alt='Benefits' className="group-benefits" /> */}
+      {/* <Wellness/> */}
+      
+      
       <Footer />
     </div>
   );

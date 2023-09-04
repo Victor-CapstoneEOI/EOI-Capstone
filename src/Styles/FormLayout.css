@@ -1,51 +1,48 @@
 .Complete{
-    color: #E55204;
-    font-family: 'Rubik', sans-serif;
-    margin-top: 20px;
-    margin-bottom: 80px;
-    margin-left: 20px;
+  color: #E55204;
+  font-family: 'Rubik', sans-serif;
+  margin-top: 20px;
+  margin-bottom: 80px;
+  margin-left: 20px;
 }
 
 .Rest{
-color:black ;
-font-family: 'Rubik', sans-serif;
-margin-top: 20px;
+  color:black;
+  font-family: 'Rubik', sans-serif;
+  margin-top: 20px;
 }
 
 .container {
-    width: 200px; 
-    height: 200px;
-    padding: 20px;
-    display: flex;
-    margin-left: 60px;
-    align-items: center;
-    margin-top: 60px;
-   
-  }
-  
+  width: 200px;
+  height: 200px;
+  padding: 20px;
+  display: flex;
+  margin-left: 60px;
+  align-items: center;
+  margin-top: 60px;
+}
 
 .parent {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    /* background-color: #F2F2F2; */
-    
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.medical-questions-title {
+  background-color: #64CCC9;
+  width: 100%;
+  font-family: 'Rubik', sans-serif;
+  font-size: 40px;
+  text-align: left;
+  padding: 20px 0;
+  padding-left: 40px;  /* Added padding to the left side */
+  margin: 230px 0 0 0;
+}
 
 
-  .medical-questions-title {
-    background-color: #64CCC9;
-    margin-top: 0px; 
-    padding: 5px 1400px;
-    margin-right: 1380px;
-    margin-left: 200px;
-    font-family: 'Rubik', sans-serif;
-    font-size: 40px;
 
-  }
-  
 .next-button {
   padding: 10px 20px;
   background-color: #007bff;
@@ -53,9 +50,27 @@ margin-top: 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 98px;
+  margin-top: 9px;
 } 
 
 .next-button:hover {
   background-color: #0056b3;
 } 
+
+.jsonForms {
+  display: flex;
+  flex-wrap: wrap;
+  width: 900px;
+  justify-content: left;
+  align-items: left;
+  margin-left: 20px;
+}
+
+.section {
+  flex: 1;
+  min-width: 200px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  min-height: 200px;
+  overflow-y: auto;
+}

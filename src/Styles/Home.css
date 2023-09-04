@@ -25,7 +25,7 @@ h1.welcome {
     font-size: 50px;
     color: #E55204;
     margin-top: 10px; /* Adjust this value to lower the heading */
-    margin-bottom: 30px;
+    margin-bottom: 110px;
     position: absolute;
     z-index: 2;
 }
@@ -44,7 +44,7 @@ h1.welcome {
 
 .button {
     position: absolute;
-    bottom: 150px;
+    bottom: 200px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;

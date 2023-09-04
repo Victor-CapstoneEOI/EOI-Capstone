@@ -1,46 +1,45 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
-import PersonalInformation from '../sections/PersonalInformation.jsx';
-import Sidebar from '../Components/Sidebar.jsx';
-import '../Styles/FormLayout.css'
+import { PersonalInformation } from '../sections/personalInformation.jsx';
 import { LifeStyleSection } from '../sections/LifeStyleSection.jsx';
-import Header from '../Components/Header.jsx';
-// import { MedicalSection } from '../sections/MedicalSection.jsx';
-// import Stepper from '../Components/Stepper.jsx'
-
+import { MedicalSection } from '../sections/MedicalSection.jsx';
+import Sidebar from '../Components/Sidebar.jsx';
+import Stepper from '../Components/Stepper.jsx'; 
+import '../Styles/FormLayout.css';
 
 export const FormLayout = () => {
+  const navigate = useNavigate();
 
-const navigate = useNavigate();
-
-const goToReview = () =>{
-  navigate('/review');  
-}
-
+  const goToReview = () => {
+    navigate("/review");
+  };
 
   return (
     <div>
-     
-      <h1 className='Complete'>
-        Complete <span className='Rest'>Your Evidence of Insurability Form</span>
+      <h1 className="Complete">
+        Complete{" "}
+        <span className="Rest">Your Evidence of Insurability Form</span>
       </h1>
 
- 
+      <div className="parent">
+        <div className="medical-questions-title"> EOI Form </div>
 
-      <div className='parent'>
-        <div className='medical-questions-title'>Medical Questions</div>
-        
-        <div className='Inputbox'>
-          {/* <Stepper/> */}
-          <PersonalInformation/>
-          <LifeStyleSection index={0} />
-          {/* <MedicalSection/> */}
+        <div className="jsonForms">
+          
+          <div className="section">
+            <PersonalInformation />
+            <LifeStyleSection index={0} />
+            <MedicalSection />
+          </div>
         </div>
-        <button className='next-button' onClick={goToReview}>Next Page</button>
-        <Sidebar/>
+        <button className="next-button" onClick={goToReview}>
+          Next Page
+        </button>
+        {/* <Stepper/>  */}
+        <Sidebar />
       </div>
     </div>
   );
-}
+};
 
 export default FormLayout;

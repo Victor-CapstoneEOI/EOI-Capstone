@@ -22,6 +22,7 @@ export const Parent = ({index}) => {
     }, []);
 
 
+    if (parentQuestions.length > 0){
     console.log(parentQuestions[current])
 
     let question = parentQuestions[current].questionText // Questions to be asked to user
@@ -40,7 +41,6 @@ export const Parent = ({index}) => {
 
     
     // switch statement defines schemas for Json forms depending on the type of input
-
     switch ( formControl ) {
         case "Buttons"|| "Checkboxes": // buttons no available in json forms; will use radio enum
         questionSchema = {
@@ -67,7 +67,7 @@ export const Parent = ({index}) => {
           }
           break;
         
-        case "Drop-down list":
+        case "Drop-down List":
             questionSchema = {
                 "type": "object",
                 "properties": {
@@ -114,14 +114,19 @@ export const Parent = ({index}) => {
     //     //TODO case "Textboxes": // Date and signature for consent page
     }
 
-    const next = () =>{
-      return setCurrent(++index)
-      
-    }
-
-    const previous = () =>{
-      return setCurrent(--index)
-    }
+    const handleNext = () => {
+      const newIndex = current + 1;
+      if (newIndex < parentQuestions.length) {
+        setCurrent(newIndex);
+      }
+    };
+  
+    const handlePrevious = () => {
+      const newIndex = current - 1;
+      if (newIndex >= 0) {
+        setCurrent(newIndex);
+      }
+    };
 
   return (
     <>
@@ -131,9 +136,10 @@ export const Parent = ({index}) => {
         data = {data}
         renderers = {materialRenderers}
         onChange = {({errors, data}) => setData(data)}/>
-        <button onClick={previous}>Previous</button>
-        <button onClick={next}>Next</button>
+        <button onClick={handlePrevious}>Previous</button>
+        <button onClick={handleNext}>Next</button>
         
     </>
   )
+}
 }

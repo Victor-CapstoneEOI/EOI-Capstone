@@ -8,15 +8,18 @@ export const Confirmation = () => {
   const location = useLocation();
   const { formData } = useContext(FormContext);
 
+  // Extract the signature from the query parameters
+  const searchParams = new URLSearchParams(location.search);
+  const signature = searchParams.get('signature');
+
   return (
     <div className='confirmation-wrapper'>
       <div className='confirmation-message'>
         <h2>Thank You!</h2>
         <p>Your form has been submitted successfully.</p>
       </div>
-      
-      <PDFGeneration signature={location.state.signature} formData={formData} />
 
+      <PDFGeneration signature={signature} formData={formData} />
     </div>
   );
 };

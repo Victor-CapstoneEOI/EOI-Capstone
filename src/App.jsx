@@ -10,26 +10,28 @@ import Confirmation from './Pages/Confirmation.jsx';
 import Header from './Components/Header';
 import Footer from "./Components/Footer";
 
+import { Wellness } from "./sections/Wellness.jsx";
+
 function App() {
   return (
     <div className="App">
       
-      <BrowserRouter>
+      {/* <BrowserRouter>
  
         <Header />
         <FormProvider >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/profil" element={<FrenchProfile />} />
+          <Route path="/profil" element={<FrenchProfile />} /> */}
           {/* <Route path="/formlayout" element={<FormLayout />} /> */}
-          <Route path='/review'  element = {<Review/>}/>
+          {/* <Route path='/review'  element = {<Review/>}/>
           <Route path = "/confirmation" element={<Confirmation/>}/>
         </Routes>
         </FormProvider>
-      </BrowserRouter>
+      </BrowserRouter> */}
       {/* <img src={Benefits} alt='Benefits' className="group-benefits" /> */}
-      {/* <Wellness/> */}
+      <Wellness/>
       
       
       <Footer />

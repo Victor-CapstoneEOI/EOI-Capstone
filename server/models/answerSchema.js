@@ -34,6 +34,10 @@ const sectionAnswerSchema = mongoose.Schema({
 
 const fullFormAnswerSchema = mongoose.Schema({
     sections: [sectionAnswerSchema],
+    signature: {  // Add this field for the signature
+        type: String,
+        required: true
+    },
     timestamp: {
         type: Date,
         default: Date.now

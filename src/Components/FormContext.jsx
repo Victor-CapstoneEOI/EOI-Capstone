@@ -5,13 +5,16 @@ const FormContext = React.createContext({
     activeSection: 0,
     setActiveSection: () => {},
     formData: {},
+    signature: '', // Added a new state to hold the signature
     updateFormData: () => {},
+    updateSignature: () => {}, // Added a new function to update the signature
     saveToDatabase: () => {}
 });
 
 export const FormProvider = ({ children }) => {
-    const [activeSection, setActiveSection] = useState(0); // Controls which section is currently active
-    const [formData, setFormData] = useState({}); // To store all the form data across sections
+    const [activeSection, setActiveSection] = useState(0);
+    const [formData, setFormData] = useState({});
+    const [signature, setSignature] = useState(''); // Added a new state for the signature
 
     const updateFormData = useCallback((sectionData) => {
         setFormData(prevData => ({
@@ -21,34 +24,36 @@ export const FormProvider = ({ children }) => {
         console.log("Updating form data", sectionData);
     }, []);
 
+    const updateSignature = useCallback((newSignature) => { // Function to update the signature
+        setSignature(newSignature);
+    }, []);
+
     const saveToDatabase = useCallback(async () => {
         try {
-            const response = await axios.post('/api/save-full-form', { sections: formData });
+            // Modified the structure of the sent data to include the signature
+            const response = await axios.post('/api/save-full-form', { sections: formData, signature: signature });
             
             if (response.status === 201) {
                 console.log("Form saved successfully");
                 setFormData({});
-                // Assuming we might want to handle submission status outside.
-
-                // If not, this state (submissionStatus) and its usage can be removed.
-                // setSubmissionStatus('success');  
+                setSignature(''); // Resetting the signature after successful submission
             } else {
                 console.error("Error saving form:", response.data.error);
-                // setSubmissionStatus('error');
             }
         } catch (error) {
             console.error("Error saving form:", error);
-            // setSubmissionStatus('error');
         }
-    }, [formData]);
+    }, [formData, signature]);
 
     const contextValue = useMemo(() => ({
         activeSection, 
         setActiveSection,
         formData,
+        signature,
         updateFormData,
+        updateSignature,
         saveToDatabase
-    }), [activeSection, formData, updateFormData, saveToDatabase]);
+    }), [activeSection, formData, signature, updateFormData, updateSignature, saveToDatabase]);
 
     return (
         <FormContext.Provider value={contextValue}>

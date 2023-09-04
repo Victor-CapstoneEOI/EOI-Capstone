@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Stepper, Step, StepLabel, Button, LinearProgress } from '@mui/material';
-import PropTypes from 'prop-types'; // Import PropTypes
-import '../Styles/Stepper.css'; // Import the CSS file
+import PropTypes from 'prop-types';
+import '../Styles/Stepper.css';
 
 const StepperBar = ({ steps }) => {
   const [activeStep, setActiveStep] = useState(0);
@@ -26,52 +26,33 @@ const StepperBar = ({ steps }) => {
         className="progress-bar"
       />
       <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label, index) => (
+        {steps.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>
         ))}
       </Stepper>
-      <div>
-        {activeStep === steps.length ? (
-          <div className="text-center">
-            <p>All steps completed</p>
-            <Button onClick={handleReset} className="button-reset">
-              Reset
-            </Button>
-          </div>
-        ) : (
-          <div>
-            {/* Uncomment the following line if you want to render a step-specific component */}
-            {/* <div>{/* Render step component }</div> */}
-            <div className="button-container">
-              <div className="stepper-container">
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  className="button-back"
-                >
-                  Back
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={handleNext}
-                  className="button-next"
-                >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
+      <div className="button-container">
+        <Button
+          disabled={activeStep === 0}
+          onClick={handleBack}
+        >
+          Back
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleNext}
+        >
+          {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+        </Button>
       </div>
     </div>
   );
 };
 
-// PropTypes validation
 StepperBar.propTypes = {
-  steps: PropTypes.array.isRequired, // Validate that steps is an array and is required
+  steps: PropTypes.array.isRequired,
 };
 
 export default StepperBar;

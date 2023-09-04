@@ -1,4 +1,4 @@
-import React from 'react';
+import {useContext} from 'react';
 import { useNavigate } from 'react-router';
 import { PersonalInformation } from '../sections/personalInformation.jsx';
 import { PastApplications } from '../sections/PastApplications.jsx';
@@ -8,8 +8,10 @@ import { MedicalSection } from '../sections/MedicalSection.jsx';
 import Sidebar from '../Components/Sidebar.jsx';
 import '../Styles/FormLayout.css';
 import StepperBar from '../Components/Stepper.jsx';
+import FormContext from '../Components/FormContext.jsx';
 
 export const FormLayout = () => {
+  const {activeSection} = useContext(FormContext)
   const navigate = useNavigate();
 
   const goToReview = () => {
@@ -33,11 +35,11 @@ export const FormLayout = () => {
         <div className="jsonForms">
 
           <div className="section">
-            <PersonalInformation />
-            <PastApplications />
-            <LifeStyleSection index={0} />
-            <Wellness />
-            <MedicalSection />
+            {activeSection == 0 &&<PersonalInformation />}
+            {activeSection == 1 &&<PastApplications />}
+            {activeSection == 2 && <LifeStyleSection index={0} />}
+            {activeSection == 3 && <Wellness />}
+            {activeSection == 4 && <MedicalSection />}
           </div>
         </div>
         <button className="next-button" onClick={goToReview}>

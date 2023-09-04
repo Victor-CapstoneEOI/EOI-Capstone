@@ -4,7 +4,7 @@ import { materialRenderers, materialCells } from "@jsonforms/material-renderers"
 import { getSchemaForQuestion, 
   getUiSchemaForQuestion, 
   getCombinedSchemaForChildQuestions, 
-  getCombinedUiSchemaForChildQuestions } from '../schemas/schemaUtils';  // Import your functions
+  getCombinedUiSchemaForChildQuestions } from '../schemas/schemaUtils'; 
 
 export const MedicalSection = () => {
   const [formData, setFormData] = useState({});
@@ -12,8 +12,8 @@ export const MedicalSection = () => {
 
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [isFieldEmpty, setIsFieldEmpty] = useState(true);
   const [shouldCheckChildStatus, setShouldCheckChildStatus] = useState(false);
+  const [isFieldEmpty, setIsFieldEmpty] = useState(true);
   const [navigationHistory, setNavigationHistory] = useState([]);
 
   const [childQuestions, setChildQuestions] = useState([]);

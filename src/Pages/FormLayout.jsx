@@ -19,7 +19,7 @@ const goToReview = () =>{
 
 
   return (
-    <div>
+    <div className='FormLayout'>
      
       <h1 className='Complete'>
         Complete <span className='Rest'>Your Evidence of Insurability Form</span>

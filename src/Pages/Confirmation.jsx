@@ -43,7 +43,7 @@ export const Confirmation = () => {
   };
 
   return (
-    <div>
+    <div className='confirmation'>
       <div className="half-top">
         <div className="ThankYou">
           <p>Thanks for joining.</p>

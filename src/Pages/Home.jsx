@@ -12,7 +12,7 @@ const Home = () => {
     const handleLanguageChange = (language) => {
         setSelectedLanguage(language);
         console.log(`Selected language: ${language}`);
-        if (language == 'French'){
+        if (language === 'French'){
             navigate('/profil');
         } else{
             navigate('/profile'); 

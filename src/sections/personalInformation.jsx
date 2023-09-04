@@ -6,10 +6,15 @@ import { JsonForms } from "@jsonforms/react";
 import { materialRenderers } from "@jsonforms/material-renderers";
 import { getSchemaForQuestion, getUiSchemaForQuestion } from '../schemas/schemaUtils';
 import FormContext from "../Components/FormContext";
+import { useSectionName } from '../Components/SectionNameContext';
 
 
-export const PersonalInformation = () => {
+export const PersonalInformation = ({setSectionName}) => {
+  console.log('Type of SetSectionName:' , typeof setSectionName);
+
   const { updateFormData } = useContext(FormContext);
+  const { setSectionName: setSectionNameFromHook } = useSectionName();
+  console.log('Type of setSectionNameFromHook:', typeof setSectionNameFromHook)
 
   const [formData, setFormData] = useState({});
   const formDataRef = useRef(formData);
@@ -26,6 +31,11 @@ export const PersonalInformation = () => {
       })
       .then(data => {
         const filteredQuestions = data.filter(q => q.section === "Personal information");
+        if (filteredQuestions.length > 0){
+          setSectionNameFromHook(filteredQuestions[0].section);
+
+        }
+        
         setQuestions(filteredQuestions);
         setCurrentQuestionIndex(0); 
         console.log(filteredQuestions)
@@ -112,7 +122,7 @@ export const PersonalInformation = () => {
 
   return (
     <div onKeyDown={handleKeyPress} >
-      <h2>{currentQuestion.section}</h2>
+      {/* <h2>{currentQuestion.section}</h2> */}
       {currentQuestion.subSection1 && <h3>{currentQuestion.subSection1}</h3>}
       {currentQuestion.subSection2 && <h4>{currentQuestion.subSection2}</h4>}
 

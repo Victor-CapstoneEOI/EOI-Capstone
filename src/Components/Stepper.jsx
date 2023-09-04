@@ -33,19 +33,19 @@ const StepperBar = ({ steps }) => {
         ))}
       </Stepper>
       <div className="button-container">
-        <Button
+        {/* <Button
           disabled={activeStep === 0}
           onClick={handleBack}
         >
           Back
-        </Button>
-        <Button
+        </Button> */}
+        {/* <Button
           variant="contained"
           color="primary"
           onClick={handleNext}
         >
           {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

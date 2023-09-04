@@ -6,9 +6,12 @@ import { MedicalSection } from '../sections/MedicalSection.jsx';
 import Sidebar from '../Components/Sidebar.jsx';
 import '../Styles/FormLayout.css';
 import StepperBar from '../Components/Stepper.jsx';
+import { SectionNameProvider, useSectionName } from '../Components/SectionNameContext.jsx';
+
 
 export const FormLayout = () => {
   const navigate = useNavigate();
+  const {sectionName} = useSectionName();
 
   const goToReview = () => {
     navigate("/review");
@@ -21,7 +24,9 @@ export const FormLayout = () => {
       </h1>
 
       <div className="parent">
-        <div className="medical-questions-title"> EOI Form </div>
+        <SectionNameProvider>
+        <div className="medical-questions-title">{sectionName||"EOI Form"} </div>
+        </SectionNameProvider>
         
         <div className="stepper-container"> 
         

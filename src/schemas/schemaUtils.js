@@ -1,6 +1,7 @@
 export const getSchemaForQuestion = (question) => {
   const formControl = question.formControlType;
 
+
   let schema = {
     type: "object",
     properties: {},
@@ -9,25 +10,10 @@ export const getSchemaForQuestion = (question) => {
 
 const questionText = question?.questionText || "";
 
-const isDateQuestion = questionText.includes("date") || questionText.includes("Date");
+const isDateQuestion = questionText.includes("Date of birth");
 const isOptional = questionText.toLowerCase().includes("(optional)");
-const isAddressQuestion = questionText.includes('Address');
 
-  if (isAddressQuestion) {
-    schema.properties.address = {
-      type: "object",
-      properties: {
-        street: { type: "string", title: "Street" },
-        street2: { type: "string", title: "Street" },
-        city: { type: "string", title: "City" },
-        state: { type: "string", title: "State" },
-        zip: { type: "string", title: "ZIP" }
-      }
-    };
-    if (!isOptional) {
-      schema.required = ["address"];
-    }
-  } else if (isDateQuestion) {
+  if (isDateQuestion) {
     schema.properties.answer = {
       type: "string",
       format: "date"
@@ -78,6 +64,22 @@ const isAddressQuestion = questionText.includes('Address');
           schema.required = ["answer"];
         }
         break;
+      
+      case "Address":
+          schema.properties.address = {
+            type: "object",
+            properties: {
+              street: { type: "string", title: "Street" },
+              street2: { type: "string", title: "Street" },
+              city: { type: "string", title: "City" },
+              state: { type: "string", title: "State" },
+              zip: { type: "string", title: "ZIP" }
+            }
+          };
+          if (!isOptional) {
+            schema.required = ["address"];
+          }
+          break;
 
       default:
         break;
@@ -96,22 +98,9 @@ export const getUiSchemaForQuestion = (question, isChild = false) => {
   const displayLabel = isChild ? question.labelText : question.questionText;
 
   const questionText = (question?.questionText || "").toLowerCase();
-  const isDateQuestion = questionText.includes("date") || questionText.includes("Date");
-  const isAddressQuestion = questionText.includes('Address');
-
-  if (isAddressQuestion) {
-    uiSchema = {
-      type: "Group",
-      label: displayLabel,  // Modified here
-      elements: [
-        { type: "Control", scope: "#/properties/address/properties/street" },
-        { type: "Control", scope: "#/properties/address/properties/street2" },
-        { type: "Control", scope: "#/properties/address/properties/city" },
-        { type: "Control", scope: "#/properties/address/properties/state" },
-        { type: "Control", scope: "#/properties/address/properties/zip" }
-      ]
-    };
-  } else if (isDateQuestion) {
+  const isDateQuestion = questionText.toLowerCase().includes("Date of birth");
+  
+  if (isDateQuestion) {
     uiSchema = {
       type: "Group",
       label: displayLabel,  // Modified here
@@ -191,12 +180,28 @@ export const getUiSchemaForQuestion = (question, isChild = false) => {
           ]
         };
         break;
+      
+      case "Address":
+        uiSchema = {
+          type: "Group",
+          label: displayLabel,  // Modified here
+          elements: [
+            { type: "Control", scope: "#/properties/address/properties/street" },
+            { type: "Control", scope: "#/properties/address/properties/street2" },
+            { type: "Control", scope: "#/properties/address/properties/city" },
+            { type: "Control", scope: "#/properties/address/properties/state" },
+            { type: "Control", scope: "#/properties/address/properties/zip" }
+          ]
+        };
+        break;
 
       default:
         break;
     }
   }
-  
+
+  console.log('Resulting uiSchema:', uiSchema);
+
   return uiSchema;
 };
 
@@ -243,8 +248,6 @@ export const getCombinedUiSchemaForChildQuestions = (childQuestions) => {
       type: "VerticalLayout",
       elements: uiElements,
   };
-
-
 };
 
 

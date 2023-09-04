@@ -72,105 +72,20 @@ export const LifeStyleSection = ({ index }) => {
   const nestedQuestions = currentQuestion?.childQuestions || [];
 
   const { questionSchema, uiSchema } = generateQuestionSchemaAndUISchema(currentQuestion);
-  
-  const parseDisplayLogic = (logic) => {
-    if (!logic) return null;
 
-    const questionMatch = logic.match(/\[(.*?)\]/);
-    const answerMatch = logic.match(/\(('.*?')\)/);
-
-    if (questionMatch && answerMatch) {
-        const question = questionMatch[1];
-        const answer = answerMatch[1].replace(/'/g, "");
-        
-        return { question, answer };
-    }
-    return null;
+  const handleRadioChange = event => {
+    const value = event.target.value;
+    setCurrentQuestionData({ ...currentQuestionData, answer: value });
   };
 
-  const shouldDisplayNestedQuestion = (nestedQuestion, childData) => {
-    const logic = nestedQuestion["displayQuestionLogic"];
-    if (!logic) return false;
-    if (logic === "Page Load") return true;
-
-    const parsedLogic = parseDisplayLogic(logic);
-    
-    return parsedLogic && childData[parsedLogic.question] === parsedLogic.answer;
+  const handleNestedRadioChange = event => {
+    const value = event.target.value;
+    setNestedQuestionData({ ...nestedQuestionData, answer: value });
   };
 
-
-const next = () => {
-  console.log("Next button clicked. Parent answer:", parentData.answer, "Subform trigger:", currentQuestion?.subFormTrigger);
-
-  // If showing nested questions, store the current nested question answer into childData.
-  if (showNestedQuestions && currentNestedIndex < nestedQuestions.length) {
-    const questionText = nestedQuestions[currentNestedIndex].labelText;
-    setChildData(prevData => ({ ...prevData, [questionText]: childData[questionText] }));
-  }
-
-  if (showNestedQuestions) {
-    let foundMatch = false;
-
-    for (let i = currentNestedIndex + 1; i < nestedQuestions.length; i++) {
-      const nextNestedQuestion = nestedQuestions[i];
-
-      console.log('Checking nested question:', nextNestedQuestion);
-      console.log('Child data:', childData);
-      
-      if (shouldDisplayNestedQuestion(nextNestedQuestion, childData)) {
-        console.log('Match found for:', nextNestedQuestion);
-        setCurrentNestedIndex(i);
-        foundMatch = true;
-        break;
-      }
-    }
-
-    if (!foundMatch) {
-      setCurrent(prevCurrent => prevCurrent + 1);
-      setShowNestedQuestions(false);
-      setCurrentNestedIndex(0);  // Reset nested index for future questions
-    }
-  } else if (doesAnswerMatchSubFormTrigger(parentData.answer, currentQuestion?.subFormTrigger) && nestedQuestions.length) {
-    setShowNestedQuestions(true);
-    
-    // Initially check for any question with the "Page Load" logic to set as the first question
-    const pageLoadIndex = nestedQuestions.findIndex(q => q["Display Question Logic"] === "Page Load");
-    setCurrentNestedIndex(pageLoadIndex >= 0 ? pageLoadIndex : 0);
-  } else {
-    setCurrent(prevCurrent => prevCurrent + 1);
-    setShowNestedQuestions(false);  // Reset for the next question
-    setChildData({});  // Clear childData for the next question
-  }
-};
-
-
-const previous = () => {
-  console.log("Previous button clicked");
-  
-  // If showing nested questions and not at the first nested question
-  if (showNestedQuestions && currentNestedIndex > 0) {
-    setCurrentNestedIndex(prevNestedIndex => prevNestedIndex - 1);
-  } else {
-    setCurrent(prevCurrent => prevCurrent - 1);
-    // If the previous parent question has nested questions
-    if (current - 1 >= 0 && questions[current - 1].childQuestions?.length) {
-      setShowNestedQuestions(true);
-      setCurrentNestedIndex(questions[current - 1].childQuestions.length - 1);  // Go to the last nested question of the previous parent question
-    } else {
-      setShowNestedQuestions(false); // Reset for previous question
-    }
-  }
-  setChildData({});
-};
-
-const handleKeyPress = event => {
-  if (event.key === "Enter") {
-    next();
-  }
-};
-
-const disableNext = (current >= questions.length - 1 && (!nestedQuestions.length || !doesAnswerMatchSubFormTrigger(parentData.answer, currentQuestion?.subFormTrigger))) || questions.length === 0;
-const disablePrevious = current <= 0 && currentNestedIndex <= 0;
+  useEffect(() => {
+    setIsMainFieldEmpty(!currentQuestionData.answer);
+  }, [currentQuestionData]);
 
   return (
     <>

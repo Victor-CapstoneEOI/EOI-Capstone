@@ -48,7 +48,7 @@ export const Wellness = () => {
       console.log(currentQuestion);
       childQuestionsSchemas(currentQuestion);
       setShowChildQuestion(true);
-    }
+    } 
 
 
     let nextIndex = currentIndex + 1;
@@ -69,7 +69,6 @@ export const Wellness = () => {
     if (newIndex < questions.length) {
       setCurrent(newIndex);
     }
-    // setShowChildQuestion(false);
   };
 
   //Previous
@@ -208,12 +207,12 @@ export const Wellness = () => {
       let childSchema = {
         type: "object",
         properties: {
-          answer1: {
+          Feet: {
             type: 'string',
             title: question.childQuestions[0]?.labelText,
             enum: question.childQuestions[0]?.optionValues.split(";"),
           },
-          answer2: {
+          Inches: {
             type: 'string',
             title: question.childQuestions[1]?.labelText,
             enum: question.childQuestions[1]?.optionValues.split(";"),
@@ -226,13 +225,13 @@ export const Wellness = () => {
           {
             type: 'Control',
             label: question.childQuestions[0]?.labelText,
-            scope: '#/properties/answer1',
+            scope: '#/properties/Feet',
             
           },
           {
             type: 'Control',
-            label: question.childQuestions[0]?.labelText,
-            scope: '#/properties/answer2',
+            label: question.childQuestions[1]?.labelText,
+            scope: '#/properties/Inches',
           },
         ],
       };
@@ -246,7 +245,7 @@ export const Wellness = () => {
       let childSchema = {
         type: "object",
         properties: {
-          answer: {
+          Centimetres: {
             type: "number",
           },
         },
@@ -257,7 +256,7 @@ export const Wellness = () => {
         elements: [
           {
             type: "Control",
-            scope: "#/properties/answer",
+            scope: "#/properties/Centimetres",
           },
         ],
       };
@@ -316,6 +315,8 @@ export const Wellness = () => {
       setUiChildSchema(uiChildSchema);
     }
   };
+
+  console.log(userAnswer)
 
   return (
     <div>

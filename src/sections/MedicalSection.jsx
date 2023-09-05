@@ -154,10 +154,10 @@ export const MedicalSection = () => {
         liveValidate={true}
       />
 
-      <button type="button" onClick={() => handleNavigation("previous")}>
+      <button type="button" onClick={() => handleNavigation("previous")} className="previous">
         Previous
       </button>
-      <button type="button" onClick={() => handleNavigation("next")} disabled={!formData.answer || formData.answer === ""}>
+      <button type="button" onClick={() => handleNavigation("next")} disabled={!formData.answer || formData.answer === ""} className="next">
         Next
       </button>
     </div>

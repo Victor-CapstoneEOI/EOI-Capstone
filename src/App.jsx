@@ -9,12 +9,13 @@ import Confirmation from './Pages/Confirmation.jsx';
 import Header from './Components/Header';
 import Footer from "./Components/Footer";
 import { Wellness } from "./sections/Wellness.jsx";
+import { LifeStyleSection } from "./sections/LifeStyleSection.jsx";
 
 function App() {
   return (
     <div className="App">
       
-      {/* <BrowserRouter>
+      <BrowserRouter>
         <Header />
         <FormProvider >
         <Routes>
@@ -26,8 +27,7 @@ function App() {
           <Route path = "/confirmation" element={<Confirmation/>}/>
         </Routes>
         </FormProvider>
-      </BrowserRouter>       */}
-      <Wellness/>
+      </BrowserRouter>      
       <Footer />
     </div>
   );

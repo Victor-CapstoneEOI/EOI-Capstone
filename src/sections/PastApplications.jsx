@@ -72,6 +72,10 @@ export const PastApplications = () => {
       setActiveSection(activeSection - 1)
     }
     setShowChildQuestion(false)
+
+    if (showchildQuestion && userAnswer.Details?.trim()){
+      setCurrentParent(0)
+    }
   }
 
   return (
@@ -97,7 +101,7 @@ export const PastApplications = () => {
             schema={{
               type: "object",
               properties: {
-                answer: {
+                Details: {
                   type: "string",
                 },
               },
@@ -106,7 +110,7 @@ export const PastApplications = () => {
             uischema={{
               type: "Control",
               label: questions[currentParent].childQuestions[0]?.labelText,
-              scope: "#/properties/answer",
+              scope: "#/properties/Details",
               options: {
                 format: "textarea",
                 rows: 5,

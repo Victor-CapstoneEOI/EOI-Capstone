@@ -1,10 +1,8 @@
-
 import { useState, useEffect, useContext } from "react";
 import { JsonForms } from "@jsonforms/react";
 import { materialRenderers } from "@jsonforms/material-renderers";
 import { getSchemaForQuestion, getUiSchemaForQuestion } from '../schemas/schemaUtils';
 import FormContext from "../Components/FormContext";
-
 
 export const PersonalInformation = () => {
   const { formData, updateFormData, activeSection, setActiveSection } = useContext(FormContext);
@@ -72,7 +70,6 @@ export const PersonalInformation = () => {
     }
   };
 
-
   const currentQuestion = questions[currentQuestionIndex];
 
   if (!currentQuestion) {
@@ -86,24 +83,22 @@ export const PersonalInformation = () => {
       {currentQuestion.subSection2 && <h4>{currentQuestion.subSection2}</h4>}
     
       <JsonForms
-    key={currentQuestionIndex}
-    schema={getSchemaForQuestion(currentQuestion)}
-    uischema={getUiSchemaForQuestion(currentQuestion)}
-    data={formData[currentQuestion.questionText]?.answer || {}}
-    renderers={materialRenderers}
-    onChange={({ data }) => updateFormData({ 
-        [currentQuestion.questionText]: {
-            answer: data,
-            metadata: {
-                section: currentQuestion.section, // Assuming 'section' is part of the question data
-                id: currentQuestion._id // Assuming each question has an 'id' field
+        key={currentQuestionIndex}
+        schema={getSchemaForQuestion(currentQuestion)}
+        uischema={getUiSchemaForQuestion(currentQuestion)}
+        data={formData[currentQuestion.questionText]?.answer || {}}
+        renderers={materialRenderers}
+        onChange={({ data }) => updateFormData({ 
+            [currentQuestion.questionText]: {
+                answer: data,
+                metadata: {
+                    section: currentQuestion.section, // Assuming 'section' is part of the question data
+                    id: currentQuestion._id // Assuming each question has an 'id' field
+                }
             }
-        }
-    })}
-    liveValidate={true}
-/>
-
-
+        })}
+        liveValidate={true}
+    />
       <button type="button" onClick={handlePrevious}>
         Previous
       </button>

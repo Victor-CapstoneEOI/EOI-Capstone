@@ -51,6 +51,8 @@ button.next, button.previous {
 }
 
 
+
+
 .next-button{
   margin-bottom: 90px;
   padding: 10px 30px;
@@ -109,5 +111,6 @@ button.next, button.previous {
   .section {
     min-width: 100%;
     margin-right: 0;
-  }
-}
+
+ }
+  } 

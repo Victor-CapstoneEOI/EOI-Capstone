@@ -1,10 +1,11 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import { JsonForms } from "@jsonforms/react";
 import { materialRenderers, materialCells } from "@jsonforms/material-renderers";
 import { getSchemaForQuestion, 
   getUiSchemaForQuestion, 
   getCombinedSchemaForChildQuestions, 
   getCombinedUiSchemaForChildQuestions } from '../schemas/schemaUtils'; 
+import FormContext from "../Components/FormContext";
 
 export const MedicalSection = () => {
   const [formData, setFormData] = useState({});
@@ -19,6 +20,8 @@ export const MedicalSection = () => {
   const [childQuestions, setChildQuestions] = useState([]);
   const [isChildQuestion, setIsChildQuestion] = useState(false);
   const [currentParentQuestion, setCurrentParentQuestion] = useState(null);
+
+  const {setActiveSection, activeSection} = useContext(FormContext)
 
 
   useEffect(() => {

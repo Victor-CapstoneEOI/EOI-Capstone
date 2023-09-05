@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const PDFGeneration = ({ signature, formData }) => {
   const [pdfBytes, setPdfBytes] = useState(null);
-  const [formData, setFormData] = useState({});
+  const [fData, setFData] = useState({});
 
 
   useEffect(() => {
@@ -12,7 +12,7 @@ const PDFGeneration = ({ signature, formData }) => {
       try {
         const response = await axios.get('/api/getFormData'); 
         const formDataFromBackend = response.data;
-        setFormData(formDataFromBackend);
+        setFData(formDataFromBackend);
       } catch (error) {
         console.error('Error fetching form data:', error);
       }

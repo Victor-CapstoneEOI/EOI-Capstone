@@ -68,9 +68,9 @@ router.post("/save-full-form", async (req, res) => {
 });
 
 // API endpoint to fetch form data
-router.get('/api/getFormData', async (req, res) => {
+router.get('/getFormData', async (req, res) => {
   try {
-    const formData = await FormData.findOne({}); // Adjust the query as needed
+    const formData = await FormData.findOne({}); 
     res.json({ formData });
   } catch (error) {
     console.error('Error fetching form data:', error);

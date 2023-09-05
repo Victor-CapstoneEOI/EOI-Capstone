@@ -1,35 +1,35 @@
-.stepper-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start !important; /* Left-align the stepper */
-  justify-content: flex-start !important; /* Top-align the stepper */
-  margin-left: 0 !important; /* No left margin */
-  margin-top: 0 !important; /* No top margin */
-}
-
-.progress-bar {
-  margin-top: 0 !important;  /* Reduced margin-top */
-  margin-bottom: 16px !important;
-}
 
 .button-container {
   display: flex;
-  justify-content: center !important;
-  align-items: center !important;
-  margin-top: 16px !important;  /* Reduced margin-top */
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;  
+  width: 100%;
 }
 
+
+
 .button-container button {
-  margin: 0 8px !important;
-  padding: 10px 20px !important;
-  border-radius: 5px !important;
-  background-color: #007bff !important;
-  color: white !important;
-  border: none !important;
-  cursor: pointer !important;
-  transition: background-color 0.2s ease !important;
+  margin: 0 8px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #FFA500;  
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .button-container button:hover {
-  background-color: #0056b3 !important;
+  background-color: #FF8C00; 
+}
+
+/* Style for active step */
+.MuiStepIcon-active {
+  color: #FFA500 !important;
+}
+
+/* Style for completed step */
+.MuiStepIcon-completed {
+  color: #FFA500 !important;
 }

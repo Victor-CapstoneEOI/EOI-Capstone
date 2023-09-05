@@ -6,6 +6,7 @@ import { getSchemaForQuestion,
   getUiSchemaForQuestion, 
   getCombinedSchemaForChildQuestions, 
   getCombinedUiSchemaForChildQuestions } from '../schemas/schemaUtils'; 
+import FormContext from "../Components/FormContext";
 
 export const MedicalSection = () => {
   const { formData, updateFormData, activeSection, setActiveSection } = useContext(FormContext); // Use context values
@@ -18,6 +19,8 @@ export const MedicalSection = () => {
   const [childQuestions, setChildQuestions] = useState([]);
   const [isChildQuestion, setIsChildQuestion] = useState(false);
   const [currentParentQuestion, setCurrentParentQuestion] = useState(null);
+
+  const {setActiveSection, activeSection} = useContext(FormContext)
 
 
   useEffect(() => {
@@ -142,8 +145,10 @@ const handleNavigation = (direction) => {
   let displayQuestion = isChildQuestion ? currentParentQuestion : currentQuestion;
 
   return (
+
+    
     <div onKeyDown={handleKeyPress}>
-      {/* {displayQuestion?.section && <h2>{displayQuestion.section}</h2>} */}
+      
       {displayQuestion?.subSection1 && <h3>{displayQuestion.subSection1}</h3>}
       {displayQuestion?.subSection2 && <h4>{displayQuestion.subSection2}</h4>}
 

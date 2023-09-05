@@ -14,6 +14,16 @@ export const Review = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+      // Check if the signature is empty
+      if (!signature) {
+        alert("Please provide a signature before submitting.");
+        return;
+      }
+      
+  // Log the formData and signature before saving
+  console.log("Saving formData: ", formData);
+  console.log("Saving signature: ", signature);
+
     // Save the complete data to the database
     await saveToDatabase();
 

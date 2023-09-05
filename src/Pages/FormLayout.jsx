@@ -1,6 +1,6 @@
 import {useContext} from 'react';
 import { useNavigate } from 'react-router';
-import { PersonalInformation } from '../sections/personalInformation.jsx';
+import { PersonalInformation } from '../sections/PersonalInformation.jsx';
 import { PastApplications } from '../sections/PastApplications.jsx';
 import { LifeStyleSection } from '../sections/LifeStyleSection.jsx';
 import { Wellness } from '../sections/Wellness.jsx';
@@ -8,6 +8,7 @@ import { MedicalSection } from '../sections/MedicalSection.jsx';
 import Sidebar from '../Components/Sidebar.jsx';
 import '../Styles/FormLayout.css';
 import StepperBar from '../Components/Stepper.jsx';
+import Review from './Review.jsx';
 import FormContext from '../Components/FormContext.jsx';
 
 export const FormLayout = () => {

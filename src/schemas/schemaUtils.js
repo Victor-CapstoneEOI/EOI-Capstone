@@ -199,9 +199,7 @@ export const getUiSchemaForQuestion = (question, isChild = false) => {
         break;
     }
   }
-
-  console.log('Resulting uiSchema:', uiSchema);
-
+  
   return uiSchema;
 };
 

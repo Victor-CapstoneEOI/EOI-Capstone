@@ -43,6 +43,14 @@ export const Wellness = () => {
     console.log(optionValues);
   }
 
+  const getNextChildQuestion = (childIndex, childQuestion) => {
+    const currentQuestion = childQuestion[childIndex];
+
+    
+
+
+  }
+
  
 
   const getNextQuestion = (parentIndex, questions, userAnswer) => {
@@ -80,27 +88,21 @@ export const Wellness = () => {
 
   const handleNext = () => {
     const newParentIndex = getNextQuestion(currentParent, questions, userAnswer);
+    const newChildIndex = getNextChildQuestion(nestedIndex, nestedQuestions)
     if (newParentIndex < questions.length) {
       setCurrentParent(newParentIndex);
+    }
+
+    if (newChildIndex > 4){
+      setActiveSection(activeSection + 1)
     }
   };
 
   //Previous
   const handlePrevious = () => {
-    let newParentIndex = currentParent - 1;
-    // Find the previous valid question index
-    while (newParentIndex >= 0) {
-      if (newParentIndex === 1 || newParentIndex === 3) {
-        newParentIndex--;
-      } else {
-        break;
-      }
-    }
-
-    if (newParentIndex >= 0) {
-      setCurrentParent(newParentIndex);
-    }
-    setShowChildQuestion(false);
+    if(currentParent == 0) setActiveSection(activeSection)
+    if(currentParent == 0 && showChildQuestion) setShowChildQuestion(false)
+    
   };
 
   // Assign schemas to render questions with Json forms

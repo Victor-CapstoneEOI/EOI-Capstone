@@ -131,7 +131,7 @@ export const LifeStyleSection = ({ index }) => {
           <h4>{nestedQuestions[nestedIndex].subSection1}</h4>
 
           <p>{nestedQuestions[nestedIndex].labelText}</p>
-
+          .
           <JsonForms
             schema={
               generateQuestionSchemaAndUISchema(nestedQuestions[nestedIndex])

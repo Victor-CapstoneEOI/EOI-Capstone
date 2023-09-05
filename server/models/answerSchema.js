@@ -6,7 +6,7 @@ const childAnswerSchema = mongoose.Schema({
         ref: 'ChildQuestion'
     },
     answer: {
-        type: String,
+        type: mongoose.Schema.Types.Mixed,
         required: true
     }
 });
@@ -18,7 +18,7 @@ const parentAnswerSchema = mongoose.Schema({
         ref: 'ParentQuestion'
     },
     answer: {
-        type: String,
+        type: mongoose.Schema.Types.Mixed,
         required: true
     },
     childAnswers: [childAnswerSchema]

@@ -1,11 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
-import { PersonalInformation } from '../sections/personalInformation.jsx';
+import { PersonalInformation } from '../sections/PersonalInformation.jsx';
 import { LifeStyleSection } from '../sections/LifeStyleSection.jsx';
 import { MedicalSection } from '../sections/MedicalSection.jsx';
 import Sidebar from '../Components/Sidebar.jsx';
 import '../Styles/FormLayout.css';
 import StepperBar from '../Components/Stepper.jsx';
+import Review from './Review.jsx';
 
 export const FormLayout = () => {
   const navigate = useNavigate();
@@ -32,8 +33,9 @@ export const FormLayout = () => {
 
           <div className="section">
             <PersonalInformation />
-            <LifeStyleSection index={0} />
-            <MedicalSection />
+            {/* <LifeStyleSection index={0} /> */}
+            {/* <MedicalSection /> */}
+            <Review />
           </div>
         </div>
         <button className="next-button" onClick={goToReview}>

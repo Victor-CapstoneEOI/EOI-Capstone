@@ -5,38 +5,77 @@ const FormContext = React.createContext({
     activeSection: 0,
     setActiveSection: () => {},
     formData: {},
-    signature: '', // Added a new state to hold the signature
+    signature: '', 
     updateFormData: () => {},
-    updateSignature: () => {}, // Added a new function to update the signature
+    updateSignature: () => {},
     saveToDatabase: () => {}
 });
 
 export const FormProvider = ({ children }) => {
     const [activeSection, setActiveSection] = useState(0);
     const [formData, setFormData] = useState({});
-    const [signature, setSignature] = useState(''); // Added a new state for the signature
+    const [signature, setSignature] = useState('');
+
+    function transformData(formData) {
+        const transformed = {
+            sections: []
+        };
+    
+        for (let questionText in formData) {
+            const questionData = formData[questionText];
+            const metadata = questionData.metadata;
+    
+            if (!metadata) {
+                console.warn("No metadata for question:", questionText); 
+                continue;
+            }
+    
+            let section = transformed.sections.find(s => s.section === metadata.section);
+            if (!section) {
+                section = {
+                    section: metadata.section,
+                    answers: []
+                };
+                transformed.sections.push(section);
+            }            
+    
+            const answer = {
+                questionId: metadata.id,  // Change to questionId
+                answer: questionData.answer,
+                childAnswers: []   // Add default childAnswers array
+            };
+            section.answers.push(answer);  // Change questions to answers
+        }
+        return transformed;
+    }
+    
+    
 
     const updateFormData = useCallback((sectionData) => {
         setFormData(prevData => ({
             ...prevData,
             ...sectionData
         }));
-        console.log("Updating form data", sectionData);
     }, []);
 
-    const updateSignature = useCallback((newSignature) => { // Function to update the signature
+    const updateSignature = useCallback((newSignature) => {
         setSignature(newSignature);
     }, []);
 
     const saveToDatabase = useCallback(async () => {
+        const organizedData = transformData(formData);
+        console.log("Transformed data before sending:", organizedData);
+
         try {
-            // Modified the structure of the sent data to include the signature
-            const response = await axios.post('/api/save-full-form', { sections: formData, signature: signature });
-            
+            const response = await axios.post('/api/save-full-form', {
+                sections: organizedData.sections,
+                signature: signature
+            });
+
             if (response.status === 201) {
                 console.log("Form saved successfully");
                 setFormData({});
-                setSignature(''); // Resetting the signature after successful submission
+                setSignature('');
             } else {
                 console.error("Error saving form:", response.data.error);
             }

@@ -133,7 +133,7 @@ export const MedicalSection = () => {
 
   return (
     <div onKeyDown={handleKeyPress}>
-      {displayQuestion?.section && <h2>{displayQuestion.section}</h2>}
+      {/* {displayQuestion?.section && <h2>{displayQuestion.section}</h2>} */}
       {displayQuestion?.subSection1 && <h3>{displayQuestion.subSection1}</h3>}
       {displayQuestion?.subSection2 && <h4>{displayQuestion.subSection2}</h4>}
 

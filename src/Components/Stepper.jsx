@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { useState, useContext, useEffect } from 'react';
 import { Stepper, Step, StepLabel, Button, LinearProgress } from '@mui/material';
+=======
+import {useContext} from 'react';
+import { Stepper, Step, StepLabel,LinearProgress } from '@mui/material';
+>>>>>>> main
 import PropTypes from 'prop-types';
 import '../Styles/Stepper.css';
 import FormContext from './FormContext';

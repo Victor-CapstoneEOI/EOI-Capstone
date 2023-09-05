@@ -1,17 +1,20 @@
-.profile-container {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  margin-top: 110px;
-  margin-bottom: 110px;
-  margin-left: 430px;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 20px 20px 20px 20px rgba(0, 0, 0, 0.1);
-  text-align: center; /* Center text within the container */
+/* .main-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
 }
 
+.profile-container {
+  flex: 1;
+  max-width: 400px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background-color: #ffffff;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0px 10px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
 
 .profile-info {
   display: flex;
@@ -19,14 +22,11 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 600px;
 }
 
 .profile-picture {
   max-width: 100px;
-  border-radius: 50%;
-  margin-top: 15px;
-  
+  border-radius: 20%;
 }
 
 .name-info {
@@ -43,7 +43,6 @@ p {
   margin: 0;
 }
 
-/* Profile content */
 .profile-content {
   padding: 10px;
   background-color: #f0f0f0;
@@ -53,49 +52,130 @@ p {
   box-shadow: 0px 10px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Bio section */
-.profile-bio {
-  margin-bottom: 20px;
-}
-
-h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
 .buttons-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
 }
 
-.button-row{
+.button-row {
   display: flex;
   justify-content: space-between;
-  margin-right: 10px;
-  
-
 }
 
 .buttons-container button {
-  width: 100px; /* Set the width for all buttons */
-  height: 40px; /* Set the height for all buttons */
-  padding: 10px; /* Adjust the padding for the buttons */
-  background-color: #E55204; /* Example button background color */
-  color: #ffffff; /* Example button text color */
+  width: 100px;
+  height: 40px;
+  padding: 10px;
+  background-color: #E55204;
+  color: #ffffff;
   border: none;
-  border-radius: 45%; /* Make the buttons round */
+  border-radius: 45%;
   cursor: pointer;
   font-size: 16px;
-  margin-top: 10px; /* Adjust the margin between buttons as needed */
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 
 .buttons-container button:hover {
-  background-color: #e5a904; /* Example button background color on hover */
+  background-color: #e5a904;
 }
 
-.group-benefits-container{
-margin-bottom: -1px;
+.dashboard-container {
+  flex: 1;
+  display: flex;
+  margin-top: 20px;
+}
+
+.dashboard-left {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+.dashboard-main {
+  flex: 3;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+.dashboard-icon {
+  margin-bottom: 20px;
+  text-align: center;
+} */
+
+/* .SProfile{
+  display: flex;
+  flex: content;
+  justify-content: center;
+} */
+
+
+.Name {
+  margin-left: 200px;
+  padding: 40px 20px;
+  border-top: 90px solid #EF8732;
+  margin-top: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 300px);
+}
+
+.TransparentBox {
+  width: 1000px;
+  height: 500px;
+  background-color: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  margin-top: 50%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.buttons {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.square-button {
+  appearance: none; /* Add this line */
+  width: 150px;
+  height: 150px;
+  background-color: #8D4E7B;
+  color: white;
+  font-size: 20px;
+  margin: 30px; 
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  flex-basis: calc(30% - 30px);
+}
+
+
+.square-button:hover {
+  background-color: rgba(211, 211, 211, 0.7);;
+}
+
+.icon-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.description {
+  flex: 1;
+  text-align: center;
 }

@@ -1,24 +1,52 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormContext from '../Components/FormContext';
 import '../Styles/Review.css';
 
 export const Review = () => {
-  const [signature, setSignature] = useState('');
+  const { formData, saveToDatabase, signature, updateSignature, setActiveSection  } = useContext(FormContext);
   const navigate = useNavigate();
-  
-  // Use the FormContext
-  const { saveToDatabase } = useContext(FormContext);
 
   const customTitles = ["Personal Information", "Past Applications", "LifeStyle", "Wellness", "Medical", "Authorization and Consent"];
 
+  // Mapping titles to their respective routes
+  const sectionIndices = {
+    "Personal Information": 0,
+    "Past Applications": 1,
+    "LifeStyle": 2,
+    "Wellness": 3,
+    "Medical": 4,
+    "Authorization and Consent": 5
+  };
+
+  const handleEdit = (title) => {
+    // Update the activeSection using the title-to-index map
+    if(sectionIndices[title] !== undefined) {
+        setActiveSection(sectionIndices[title]);
+    }
+    
+    // Navigate to the FormLayout component
+    navigate("/formlayout");  // Adjust this path if needed based on your Routes setup
+};
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Save form data to database
-    await saveToDatabase();
-    
-    navigate(`/confirmation?signature=${signature}`);
+
+      // Check if the signature is empty
+      if (!signature) {
+        alert("Please provide a signature before submitting.");
+        return;
+      }
+      
+  // Log the formData and signature before saving
+  console.log("Saving formData: ", formData);
+  console.log("Saving signature: ", signature);
+
+  // Save the complete data to the database
+  await saveToDatabase();
+
+  // Navigate to the confirmation page
+  navigate(`/confirmation?signature=${signature}`);
   };
 
   return (
@@ -36,7 +64,7 @@ export const Review = () => {
                   type="text"
                   id="signature"
                   value={signature}
-                  onChange={e => setSignature(e.target.value)}
+                  onChange={e => updateSignature(e.target.value)}  // Use the updateSignature function
                 />
               </div>
             ) : (
@@ -45,12 +73,12 @@ export const Review = () => {
                 <option>Option 2</option>
               </select>
             )}
-            <button className='edit-button'>Edit</button>
+            <button className='edit-button' onClick={() => handleEdit(title)}>Edit</button>
           </div>
         </details>
       ))}
 
-      <div className='form-wrapper'>
+      <div className='form'>
         <form onSubmit={handleSubmit}>
           <button type="submit" className='submit-button'>Submit</button>
         </form>

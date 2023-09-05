@@ -6,7 +6,7 @@ const childAnswerSchema = mongoose.Schema({
         ref: 'ChildQuestion'
     },
     answer: {
-        type: String,
+        type: mongoose.Schema.Types.Mixed,
         required: true
     }
 });
@@ -18,7 +18,7 @@ const parentAnswerSchema = mongoose.Schema({
         ref: 'ParentQuestion'
     },
     answer: {
-        type: String,
+        type: mongoose.Schema.Types.Mixed,
         required: true
     },
     childAnswers: [childAnswerSchema]
@@ -32,14 +32,32 @@ const sectionAnswerSchema = mongoose.Schema({
     answers: [parentAnswerSchema]
 });
 
-const fullFormAnswerSchema = mongoose.Schema({
+const formDataSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    age: Number,
+    address: String,
+  });
+  
+  const fullFormAnswerSchema = mongoose.Schema({
     sections: [sectionAnswerSchema],
+    signature: {
+      type: String,
+      required: true,
+    },
+    formData: formDataSchema, 
     timestamp: {
-        type: Date,
-        default: Date.now
-    }
-});
+      type: Date,
+      default: Date.now,
+    },
+  });
 
+const formDataSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    // Add more fields as needed,
+    formAnswers: [fullFormAnswerSchema] // Embed the form data schema as a subdocument
+});
 const FullFormAnswer = mongoose.model('FullFormAnswer', fullFormAnswerSchema);
 
 export default FullFormAnswer;

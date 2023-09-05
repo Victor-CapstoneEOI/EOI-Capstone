@@ -45,23 +45,41 @@ router.get("/child-questions", async (req, res) => {
 });
 
 router.post("/save-full-form", async (req, res) => {
-    const { sections } = req.body;
+    // Check if the request body or the sections property is missing
+    if (!req.body || !req.body.sections || !req.body.signature) {
+        return res.status(400).json({ error: "Missing or invalid request body" });
+    }
+
+    const { sections, signature } = req.body;
   
     try {
         const newFullFormAnswer = new FullFormAnswer({
-            sections
+            sections,
+            signature  // Add the signature field here
         });
   
         await newFullFormAnswer.save();
-        
-        // Here, you can also add logic to generate the PDF.
-  
+          
         res.status(201).json({ message: "Form saved successfully" });
     } catch (error) {
-        res.status(500).json({ error: "Internal server error" });
+        console.error("Error while saving form:", error); // Log the error for more clarity
+        res.status(500).json({ error: error.message });
     }
-  });
+});
+
+// API endpoint to fetch form data
+
+router.get('/getFormData', async (req, res) => {
+  try {
+    const formData = await FullFormAnswer.find({}); 
+
+    res.json({ formData });
+  } catch (error) {
+    console.error('Error fetching form data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
   
-
-
 export default router;

@@ -13,11 +13,11 @@
     color: white;
     padding: 20px;
     text-align: center;
-    margin-top: 0px;
+    margin-top: -10px;
     font-family: 'Rubik', sans-serif;
   }
   
-  .form-wrapper {
+  .form {
     margin-top: auto;
     padding: 20px;
     text-align: center;
@@ -28,7 +28,8 @@
   }
   
   .submit-button {
-    margin-top: 10px;
+    margin-bottom: 90px;
+
   }
   
   .dropdown-details > summary {
@@ -78,3 +79,6 @@
     color: white;
   }
   
+  .submit-button{
+    margin-bottom: 200px;
+  }

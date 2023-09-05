@@ -1,6 +1,10 @@
 import {useContext} from 'react';
 import { useNavigate } from 'react-router';
+<<<<<<< HEAD
 import { PersonalInformation } from '../sections/personalInformation.jsx';
+=======
+import { PersonalInformation } from '../sections/PersonalInformation.jsx';
+>>>>>>> main
 import { PastApplications } from '../sections/PastApplications.jsx';
 import { LifeStyleSection } from '../sections/LifeStyleSection.jsx';
 import { Wellness } from '../sections/Wellness.jsx';
@@ -30,6 +34,7 @@ export const FormLayout = () => {
 
       <div className="parent">
         <div className="medical-questions-title"> {title} </div>
+<<<<<<< HEAD
         
         <div className="stepper-container"> 
         
@@ -44,17 +49,29 @@ export const FormLayout = () => {
             {activeSection == 2 && <LifeStyleSection index={0} />}
             {activeSection == 3 && <Wellness />}
             {activeSection == 4 && <MedicalSection />}
+=======
+
+          <div className="stepper-container"> 
+            <StepperBar steps={steps} />
+>>>>>>> main
           </div>
+            <div className="jsonForms">
+              <div className="section">
+                {activeSection == 0 &&<PersonalInformation />}
+                {activeSection == 1 &&<PastApplications />}
+                {activeSection == 2 && <LifeStyleSection index={0} />}
+                {activeSection == 3 && <Wellness />}
+                {activeSection == 4 && <MedicalSection />}
+              </div>
+            </div>
+          <button className="next-button" onClick={goToReview}>
+            Next Page
+          </button> 
+            <Sidebar />
+
         </div>
-        <button className="next-button" onClick={goToReview}>
-          Next Page
-        </button>
-        
-        <Sidebar />
-      </div>
     </div>
   );
-  
 };
 
 export default FormLayout;

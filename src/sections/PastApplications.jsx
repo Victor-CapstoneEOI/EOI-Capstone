@@ -66,7 +66,7 @@ export const PastApplications = () => {
 
   return (
     <div>
-      <h2>{section}</h2>
+      {/* <h2>{section}</h2> */}
       <h3>{subSection}</h3>
 
       {!showchildQuestion && questions.length > 0 && (

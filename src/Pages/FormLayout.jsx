@@ -14,6 +14,10 @@ export const FormLayout = () => {
   const {activeSection} = useContext(FormContext)
   const navigate = useNavigate();
 
+  const steps = ['Personal Information', 'Past Applications', 'Lifestyle', 'Wellness', 'Medical', 'Review']
+
+  let title = steps[activeSection] 
+
   const goToReview = () => {
     navigate("/review");
   };
@@ -25,11 +29,11 @@ export const FormLayout = () => {
       </h1>
 
       <div className="parent">
-        <div className="medical-questions-title"> EOI Form </div>
+        <div className="medical-questions-title"> {title} </div>
         
         <div className="stepper-container"> 
         
-          <StepperBar steps={['Personal Information', 'Past Applications', 'Lifestyle', 'Wellness', 'Medical', 'Review']} />
+          <StepperBar steps={steps} />
         </div>
      
         <div className="jsonForms">

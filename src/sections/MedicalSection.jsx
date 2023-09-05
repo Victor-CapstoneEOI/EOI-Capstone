@@ -163,10 +163,12 @@ const handleNavigation = (direction) => {
         })}
         liveValidate={true}
       />
+
+
       <button type="button" onClick={() => handleNavigation("previous")} className="previous">
         Previous
       </button>
-      <button type="button" onClick={() => handleNavigation("next")} disabled={!formData[displayQuestion.questionText] || formData[displayQuestion.questionText].answer === ""} className="next">
+      <button type="button" onClick={() => handleNavigation("next")} disabled={!formData.answer || formData.answer === ""} className="next">
         Next
       </button>
     </div>

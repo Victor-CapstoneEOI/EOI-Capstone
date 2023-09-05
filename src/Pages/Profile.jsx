@@ -26,7 +26,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="profile">
+    <div>
       <div className="profile-container">
         <div className="profile-header">
           <div className="profile-info">

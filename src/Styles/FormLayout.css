@@ -1,51 +1,46 @@
-.Complete{
-    color: #E55204;
-    font-family: 'Rubik', sans-serif;
-    margin-top: 20px;
-    margin-bottom: 80px;
-    margin-left: 20px;
+.Complete {
+  color: #E55204;
+  font-family: 'Rubik', sans-serif;
+  margin-top: 20px;
+  margin-bottom: 80px;
+  margin-left: 20px;
 }
 
-.Rest{
-color:black ;
-font-family: 'Rubik', sans-serif;
-margin-top: 20px;
+.Rest {
+  color: black;
+  font-family: 'Rubik', sans-serif;
+  margin-top: 20px;
 }
 
 .container {
-    width: 200px; 
-    height: 200px;
-    padding: 20px;
-    display: flex;
-    margin-left: 60px;
-    align-items: center;
-    margin-top: 60px;
-   
-  }
-  
+  width: 200px;
+  height: 200px;
+  padding: 20px;
+  display: flex;
+  margin-left: 60px;
+  align-items: center;
+  margin-top: 60px;
+}
 
 .parent {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    /* background-color: #F2F2F2; */
-    
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 120vh;
+}
 
+.medical-questions-title {
+  background-color: #64CCC9;
+  width: 100%;
+  font-family: 'Rubik', sans-serif;
+  font-size: 40px;
+  text-align: left;
+  padding: 10px 0px;
+  padding-left: 40px;  
+  margin-top: 180px;
+}
 
-  .medical-questions-title {
-    background-color: #64CCC9;
-    margin-top: -150px; 
-    padding: 5px 1370px;
-    margin-right: 1380px;
-    margin-left: 30px;
-    font-family: 'Rubik', sans-serif;
-    font-size: 30px;
-
-  }
-  
 .next-button {
   padding: 10px 20px;
   background-color: #007bff;
@@ -54,8 +49,60 @@ margin-top: 20px;
   border-radius: 4px;
   cursor: pointer;
   margin-top: 9px;
-} 
+  align-self: flex-end;
+}
 
 .next-button:hover {
   background-color: #0056b3;
-} 
+}
+
+.jsonForms {
+  display: flex;
+  flex-wrap: wrap;
+  width: 900px;
+  justify-content: flex-start;  
+  align-items: flex-start;  
+  margin-left: -520px;
+}
+
+.section {
+  flex: 1;
+  min-width: 200px;
+  margin-right: 20px;
+  margin-bottom: 40px;
+  min-height: 150px;
+  overflow-y: auto;
+}
+
+/* Media Query */
+@media (max-width: 900px) {
+  .Complete, .Rest {
+    text-align: center;
+    margin-left: 0;
+  }
+
+  .parent {
+    align-items: flex-start;
+    padding: 0 20px;
+  }
+
+  .medical-questions-title {
+    font-size: 30px;
+    padding-left: 20px;
+    margin-top: 100px;
+  }
+
+ 
+  /* .jsonForms {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .section {
+    min-width: 100%;
+    margin-right: 0;
+  } */
+
+ 
+}

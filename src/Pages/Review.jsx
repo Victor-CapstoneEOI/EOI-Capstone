@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import FormContext from '../Components/FormContext';
 import '../Styles/Review.css';
 
 export const Review = () => {
   const [signature, setSignature] = useState('');
   const navigate = useNavigate();
+  
+  // Use the FormContext
+  const { saveToDatabase } = useContext(FormContext);
 
   const customTitles = ["Personal Information", "Past Applications", "LifeStyle", "Wellness", "Medical", "Authorization and Consent"];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Save form data to database
+    await saveToDatabase();
+    
     navigate(`/confirmation?signature=${signature}`);
   };
 

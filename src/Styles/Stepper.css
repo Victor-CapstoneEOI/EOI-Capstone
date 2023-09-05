@@ -1,41 +1,35 @@
+.stepper-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start !important; /* Left-align the stepper */
+  justify-content: flex-start !important; /* Top-align the stepper */
+  margin-left: 0 !important; /* No left margin */
+  margin-top: 0 !important; /* No top margin */
+}
 
-  /* Stepper.css */
-  .progress-bar {
-    margin-top: 32px;
-  }
-  
-  
-  .stepper-container {
-    text-align: center; /* Center-align the buttons */
-    margin-top: 16px; /* Add margin to the button container */
-  }
-  
-  .button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 16px;
-  }
-  
-  /* Style the buttons */
-  .button-container button {
-    margin: 0 8px; /* Add space between buttons */
-    padding: 10px 20px; /* Adjust padding for consistent button size */
-    border-radius: 5px; /* Add rounded corners to buttons */
-    background-color: #007bff; /* Set button background color */
-    color: white; /* Set button text color */
-    font-weight: bold; /* Make button text bold */
-    border: none; /* Remove button border */
-    cursor: pointer; /* Add cursor pointer on hover */
-    transition: background-color 0.2s ease; /* Add transition effect */
-  }
-  
-  .button-container button:hover {
-    background-color: #0056b3; /* Change background color on hover */
-  }
-  
-  /* Style for the "All steps completed" message */
-  .text-center {
-    text-align: center;
-    margin-top: 16px; /* Add margin to center-align the message */
-  }
-  
+.progress-bar {
+  margin-top: 0 !important;  /* Reduced margin-top */
+  margin-bottom: 16px !important;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-top: 16px !important;  /* Reduced margin-top */
+}
+
+.button-container button {
+  margin: 0 8px !important;
+  padding: 10px 20px !important;
+  border-radius: 5px !important;
+  background-color: #007bff !important;
+  color: white !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.button-container button:hover {
+  background-color: #0056b3 !important;
+}

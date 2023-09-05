@@ -1,9 +1,21 @@
-import React, { useState, useEffect, useRef } from "react";
+
+// import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+
 import { JsonForms } from "@jsonforms/react";
 import { materialRenderers } from "@jsonforms/material-renderers";
-import axios from "axios";
+import { getSchemaForQuestion, getUiSchemaForQuestion } from '../schemas/schemaUtils';
+import FormContext from "../Components/FormContext";
+import { useSectionName } from '../Components/SectionNameContext';
 
-export const PersonalInformation = () => {
+
+export const PersonalInformation = ({setSectionName}) => {
+  console.log('Type of SetSectionName:' , typeof setSectionName);
+
+  const { updateFormData } = useContext(FormContext);
+  const { setSectionName: setSectionNameFromHook } = useSectionName();
+  console.log('Type of setSectionNameFromHook:', typeof setSectionNameFromHook)
+
   const [formData, setFormData] = useState({});
   const formDataRef = useRef(formData);
 
@@ -12,16 +24,25 @@ export const PersonalInformation = () => {
   const [isFieldEmpty, setIsFieldEmpty] = useState(true);
 
   useEffect(() => {
-    // Fetch questions only once
-    axios
-      .get("/api/parent-questions")
-      .then(response => response.data)
-      .then(data => {
-        const filteredQuestions = data.filter(question => question.section === 'Personal information');
-        setQuestions(filteredQuestions);
+    fetch("/api/parent-questions")
+      .then(response => {
+        if (!response.ok) throw new Error(response.statusText);
+        return response.json();
       })
-      .catch(error => console.error("Error fetching parent questions:", error));
+      .then(data => {
+        const filteredQuestions = data.filter(q => q.section === "Personal information");
+        if (filteredQuestions.length > 0){
+          setSectionNameFromHook(filteredQuestions[0].section);
+
+        }
+        
+        setQuestions(filteredQuestions);
+        setCurrentQuestionIndex(0); 
+        console.log(filteredQuestions)
+      })
+      .catch(error => console.error("Error fetching questions:", error));
   }, []);
+
 
   useEffect(() => {
     const savedData = sessionStorage.getItem("formData");
@@ -74,6 +95,7 @@ export const PersonalInformation = () => {
     const nextIndex = currentQuestionIndex + 1;
     if (nextIndex < questions.length) {
         sessionStorage.setItem(`formData-${currentQuestionIndex}`, JSON.stringify(formData));
+        updateFormData({ [currentQuestion.questionText]: formData }); // Store the form data in the context
         setCurrentQuestionIndex(nextIndex);
     }
   };
@@ -92,9 +114,15 @@ export const PersonalInformation = () => {
     return <div>Form Complete</div>;
   }
 
+  console.log('Current Question:', currentQuestion);
+  console.log('Schema:', getSchemaForQuestion(currentQuestion));
+  console.log('UI Schema:', getUiSchemaForQuestion(currentQuestion));
+  console.log('Form Data:', formData);
+ 
+
   return (
     <div onKeyDown={handleKeyPress} >
-      <h2>{currentQuestion.section}</h2>
+      {/* <h2>{currentQuestion.section}</h2> */}
       {currentQuestion.subSection1 && <h3>{currentQuestion.subSection1}</h3>}
       {currentQuestion.subSection2 && <h4>{currentQuestion.subSection2}</h4>}
 
@@ -117,175 +145,3 @@ export const PersonalInformation = () => {
     </div>
   );
 };
-
-const getSchemaForQuestion = (question) => {
-  const formControl = question.formControlType;
-  let schema = {
-    type: "object",
-    properties: {},
-    required: question.requiredFields || [],
-  };
-
-  const isDateQuestion = question.questionText.includes("date") || question.questionText.includes("Date");
-  const isOptional = question.questionText.toLowerCase().includes("(optional)");
-  const isAddressQuestion = question.questionText.includes('Address');
-
-  if (isAddressQuestion) {
-    schema.properties.address = {
-      type: "object",
-      properties: {
-        street: { type: "string", title: "Street" },
-        street2: { type: "string", title: "Street" },
-        city: { type: "string", title: "City" },
-        state: { type: "string", title: "State" },
-        zip: { type: "string", title: "ZIP" }
-      }
-    };
-    if (!isOptional) {
-      schema.required = ["address"];
-    }
-  } else if (isDateQuestion) {
-    schema.properties.answer = {
-      type: "string",
-      format: "date"
-    };
-    if (!isOptional) {
-      schema.required = ["answer"];
-    }
-  } else {
-    switch (formControl) {
-      case "Buttons":
-      case "Checkboxes":
-        schema.properties.answer = {
-          type: "string",
-          enum: question.optionValues.split(";").map((option) => option.trim()),
-        };
-        break;
-
-      case "Drop-down list":
-        schema.properties.answer = {
-          type: "string",
-          enum: question.optionValues.split(";").map((option) => option.trim()),
-        };
-        break;
-
-      case "Textbox":
-        schema.properties.answer = {
-          type: "string",
-        };
-        if (!isOptional) {
-          schema.required = ["answer"];
-        }
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  return schema;
-};
-
-
-const getUiSchemaForQuestion = (question) => {
-  const formControl = question.formControlType;
-  let uiSchema = {};
-
-  const isDateQuestion = question.questionText.includes("date") || question.questionText.includes("Date");
-  const isAddressQuestion = question.questionText.includes('Address');
-
-  if (isAddressQuestion) {
-    uiSchema = {
-      type: "Group",
-      label: question.questionText,
-      elements: [
-        {
-          type: "Control",
-          scope: "#/properties/address/properties/street"
-        },
-        {
-          type: "Control",
-          scope: "#/properties/address/properties/street2"
-        },
-        {
-          type: "Control",
-          scope: "#/properties/address/properties/city"
-        },
-        {
-          type: "Control",
-          scope: "#/properties/address/properties/state"
-        },
-        {
-          type: "Control",
-          scope: "#/properties/address/properties/zip"
-        }
-      ]
-    };
-  } else if (isDateQuestion) {
-    uiSchema = {
-      type: "Group",
-      label: question.questionText,
-      elements: [
-        {
-          type: "Control",
-          scope: "#/properties/answer",
-          options: {
-            widget: "date"
-          }
-        }
-      ]
-    };
-  } else {
-    switch (formControl) {
-      case "Buttons":
-      case "Checkboxes":
-        uiSchema = {
-          type: "Group",
-          label: question.questionText,
-          elements: [
-            {
-              type: "Control",
-              scope: "#/properties/answer",
-              options: {
-                format: "radio",
-              },
-            },
-          ],
-        };
-        break;
-
-      case "Drop-down list":
-        uiSchema = {
-          type: "Group",
-          label: question.questionText,
-          elements: [
-            {
-              type: "Control",
-              scope: "#/properties/answer",
-            },
-          ],
-        };
-        break;
-
-      case "Textbox":
-        uiSchema = {
-          type: "Group",
-          label: question.questionText,
-          elements: [
-            {
-              type: "Control",
-              scope: "#/properties/answer",
-            },
-          ],
-        };
-        break;
-
-      default:
-        break;
-    }
-  }
-  
-  return uiSchema;
-};
-
-export default PersonalInformation;

@@ -114,7 +114,7 @@ p {
 .Name {
   margin-left: 200px;
   padding: 40px 20px;
-  border-top: 90px solid aqua;
+  border-top: 90px solid #EF8732;
   margin-top: 3px;
   display: flex;
   justify-content: center;
@@ -128,7 +128,7 @@ p {
   background-color: rgba(255, 255, 255, 0.7);
   position: absolute;
   margin-top: 50%;
-  left: 50%;
+  left: 55%;
   transform: translate(-50%, -50%);
   z-index: 2;
   box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
@@ -138,7 +138,7 @@ p {
   align-items: center;
 }
 
-.button-container {
+.buttons {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -146,12 +146,13 @@ p {
 }
 
 .square-button {
+  appearance: none; /* Add this line */
   width: 150px;
   height: 150px;
   background-color: #8D4E7B;
   color: white;
   font-size: 20px;
-  margin: 30px; /* Increased margin */
+  margin: 30px; 
   border: none;
   cursor: pointer;
   display: flex;
@@ -162,8 +163,9 @@ p {
   flex-basis: calc(30% - 30px);
 }
 
+
 .square-button:hover {
-  background-color: #E897E5;
+  background-color: rgba(211, 211, 211, 0.7);;
 }
 
 .icon-container {

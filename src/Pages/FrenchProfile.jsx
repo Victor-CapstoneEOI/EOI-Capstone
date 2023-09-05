@@ -132,9 +132,8 @@ const FrenchProfile = () => {
     <div className='SProfile'>
       <SideProfile/>
       <div className='Name'>
-        <h1>John Doe</h1>
         <div className='TransparentBox'>
-          <div className='button-container'>
+          <div className='buttons'>
             <button className='square-button'>
               <div>
                 <FontAwesomeIcon icon={faInbox} />

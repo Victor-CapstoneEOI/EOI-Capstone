@@ -32,17 +32,25 @@ const sectionAnswerSchema = mongoose.Schema({
     answers: [parentAnswerSchema]
 });
 
-const fullFormAnswerSchema = mongoose.Schema({
+const formDataSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    age: Number,
+    address: String,
+  });
+  
+  const fullFormAnswerSchema = mongoose.Schema({
     sections: [sectionAnswerSchema],
-    signature: {  // Add this field for the signature
-        type: String,
-        required: true
+    signature: {
+      type: String,
+      required: true,
     },
+    formData: formDataSchema, 
     timestamp: {
-        type: Date,
-        default: Date.now
-    }
-});
+      type: Date,
+      default: Date.now,
+    },
+  });
 
 const formDataSchema = new mongoose.Schema({
     name: String,

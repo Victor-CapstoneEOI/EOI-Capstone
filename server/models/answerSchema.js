@@ -6,7 +6,7 @@ const childAnswerSchema = mongoose.Schema({
         ref: 'ChildQuestion'
     },
     answer: {
-        type: String,
+        type: mongoose.Schema.Types.Mixed,
         required: true
     }
 });
@@ -18,7 +18,7 @@ const parentAnswerSchema = mongoose.Schema({
         ref: 'ParentQuestion'
     },
     answer: {
-        type: String,
+        type: mongoose.Schema.Types.Mixed,
         required: true
     },
     childAnswers: [childAnswerSchema]
@@ -34,6 +34,10 @@ const sectionAnswerSchema = mongoose.Schema({
 
 const fullFormAnswerSchema = mongoose.Schema({
     sections: [sectionAnswerSchema],
+    signature: {  // Add this field for the signature
+        type: String,
+        required: true
+    },
     timestamp: {
         type: Date,
         default: Date.now

@@ -15,7 +15,7 @@ export const Wellness = () => {
 
   const [nestedIndex, setNestedIndex] = useState(0);
   const nestedQuestions = questions[4]?.childQuestions;
-  const { setActiveSection, activeSection } = useContext(FormContext);
+  const { setActiveSection, activeSection, formData, updateFormData } = useContext(FormContext);
   console.log(nestedQuestions);
 
   useEffect(() => {

@@ -22,7 +22,6 @@ export const LifeStyleSection = ({ index }) => {
   }, []);
 
   const previous = () => {
-    
     if (current == 0) {
       setActiveSection(activeSection - 1);
     } else setCurrent(current - 1);
@@ -85,18 +84,10 @@ export const LifeStyleSection = ({ index }) => {
           ))}
         </div>
       )}
-      <button onClick={previous} disabled={current === 0 && nestedIndex === 0} className="previous">
+      <button onClick={previous} className="previous">
         Previous
       </button>
-      <button
-        onClick={next}
-        disabled={
-          (current === questions.length - 1 &&
-            nestedIndex === nestedQuestions.length - 1) ||
-          isMainFieldEmpty
-        } 
-        className="next"
-      >
+      <button onClick={next} className="next">
         Next
       </button>
     </>

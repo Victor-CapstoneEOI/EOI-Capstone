@@ -369,8 +369,8 @@ export const Wellness = () => {
       )}
 
       <div>
-        <button onClick={handlePrevious}>Previous</button>
-        <button onClick={handleNext}>Next</button>
+        <button onClick={handlePrevious} className="previous">Previous</button>
+        <button onClick={handleNext} className="next">Next</button>
       </div>
     </div>
   );

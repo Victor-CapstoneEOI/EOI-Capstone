@@ -122,10 +122,10 @@ export const PastApplications = () => {
           />
         </div>
       )}
-      
-    <button onClick={handlePrevious}>Previous</button>
-    <button onClick={handleNext}>Next</button>
-    
+
+      {!isVisible &&<button onClick={handlePrevious} className="previous">Previous</button>}
+      {isVisible && userAnswer.answer?.trim() === "Yes" && <button onClick={handleNext} className="next">Next</button>}
+
     </div>
   );
 };

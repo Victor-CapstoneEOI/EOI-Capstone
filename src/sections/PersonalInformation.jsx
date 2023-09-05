@@ -102,10 +102,10 @@ export const PersonalInformation = () => {
 />
 
 
-      <button type="button" onClick={handlePrevious}>
+      <button type="button" onClick={handlePrevious} className="previous">
         Previous
       </button>
-      <button type="button" onClick={handleNext} disabled={isFieldEmpty}>
+      <button type="button" onClick={handleNext} disabled={isFieldEmpty} className="next">
         Next
       </button>
     </div>

@@ -30,6 +30,7 @@ export const FormLayout = () => {
 
       <div className="parent">
         <div className="medical-questions-title"> {title} </div>
+
           <div className="stepper-container"> 
             <StepperBar steps={steps} />
           </div>
@@ -46,6 +47,7 @@ export const FormLayout = () => {
             Next Page
           </button> 
             <Sidebar />
+
         </div>
     </div>
   );

@@ -41,6 +41,8 @@
   padding-left: 40px;  
   margin-top: -500px;
   
+}
+
 .next-button {
   padding: 5px 20px;
   background-color: #007bff;
@@ -51,7 +53,7 @@
   margin-top: 0px;
   margin-bottom: 10px;
   align-self: center;
-
+}
 
 .next-button:hover {
   background-color: #0056b3;

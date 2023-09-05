@@ -10,7 +10,7 @@ import '../Styles/FormLayout.css';
 import StepperBar from '../Components/Stepper.jsx';
 import Review from './Review.jsx';
 import FormContext from '../Components/FormContext.jsx';
-
+.
 export const FormLayout = () => {
   const {activeSection} = useContext(FormContext)
   const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { JsonForms } from "@jsonforms/react";
 import { materialRenderers } from "@jsonforms/material-renderers";
 import { getSchemaForQuestion, getUiSchemaForQuestion } from '../schemas/schemaUtils';
@@ -79,7 +79,7 @@ export const PersonalInformation = () => {
 
   return (
     <div onKeyDown={handleKeyPress}>
-      <h2>{currentQuestion.section}</h2>
+      {/* <h2>{currentQuestion.section}</h2> */}
       {currentQuestion.subSection1 && <h3>{currentQuestion.subSection1}</h3>}
       {currentQuestion.subSection2 && <h4>{currentQuestion.subSection2}</h4>}
 

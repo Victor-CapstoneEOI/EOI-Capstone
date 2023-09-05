@@ -1,7 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import apiRoutes from './routes/api.js'
 import cors from 'cors'
+import bodyParser from 'body-parser';
+import apiRoutes from './routes/api.js'
 
 const app = express();
 
@@ -12,6 +13,10 @@ mongoose.connect('mongodb+srv://lmercedes03:kWfRIlNOecaTp8rU@cluster0.wssqiab.mo
 })
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('Failed to connect to MongoDB:', err.message));
+
+// Parse incoming request bodies in a middleware before your handlers
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 // Set up routes
 app.get("/", (req, res) => {

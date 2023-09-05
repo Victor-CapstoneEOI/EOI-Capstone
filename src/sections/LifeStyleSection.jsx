@@ -114,7 +114,7 @@ export const LifeStyleSection = ({ index }) => {
 
   return (
     <>
-      <h2>{currentQuestion?.section}</h2>
+      {/* <h2>{currentQuestion?.section}</h2> */}
 
       <JsonForms
         schema={questionSchema}

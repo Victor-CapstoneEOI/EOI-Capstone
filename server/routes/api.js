@@ -45,6 +45,11 @@ router.get("/child-questions", async (req, res) => {
 });
 
 router.post("/save-full-form", async (req, res) => {
+    // Check if the request body or the sections property is missing
+    if (!req.body || !req.body.sections) {
+        return res.status(400).json({ error: "Missing or invalid request body" });
+    }
+
     const { sections } = req.body;
   
     try {
@@ -53,15 +58,12 @@ router.post("/save-full-form", async (req, res) => {
         });
   
         await newFullFormAnswer.save();
-        
-        // Here, you can also add logic to generate the PDF.
-  
+          
         res.status(201).json({ message: "Form saved successfully" });
     } catch (error) {
         res.status(500).json({ error: "Internal server error" });
     }
-  });
+});
+
   
-
-
 export default router;

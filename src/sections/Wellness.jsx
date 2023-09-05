@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { JsonForms } from "@jsonforms/react";
 import { materialRenderers } from "@jsonforms/material-renderers";
 
@@ -11,7 +11,8 @@ export const Wellness = () => {
   const [childSchema, setChildSchema] = useState(null);
   const [uiChildSchema, setUiChildSchema] = useState(null);
 
-  const [showAdditionalQuestions, setShowAdditionalQuestions] = useState(false)
+  const nestedQuestions = questions[4]?.childQuestions
+  console.log(nestedQuestions)
 
   useEffect(() => {
     fetch("/api/parent-questions")
@@ -329,7 +330,7 @@ export const Wellness = () => {
 
   return (
     <div>
-      <h2>{section}</h2>
+      {/* <h2>{section}</h2> */}
       <h3>{subSection}</h3>
 
       {!showChildQuestion && (

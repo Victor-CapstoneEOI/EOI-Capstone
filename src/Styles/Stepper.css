@@ -5,11 +5,13 @@
   justify-content: flex-start !important; /* Top-align the stepper */
   margin-left: 0 !important; /* No left margin */
   margin-top: 0 !important; /* No top margin */
+  color: #E35205 !important;
 }
 
 .progress-bar {
   margin-top: 0 !important;  /* Reduced margin-top */
   margin-bottom: 16px !important;
+  color: #E35205 !important;
 }
 
 .button-container {
@@ -19,11 +21,16 @@
   margin-top: 16px !important;  /* Reduced margin-top */
 }
 
-.button-container button {
+.progress-bar .MuiLinearProgress-bar {
+  background-color: orange !important;
+}
+
+
+/* .button-container button {
   margin: 0 8px !important;
   padding: 10px 20px !important;
   border-radius: 5px !important;
-  background-color: #007bff !important;
+  background-color: #E35205 !important;
   color: white !important;
   border: none !important;
   cursor: pointer !important;
@@ -31,5 +38,5 @@
 }
 
 .button-container button:hover {
-  background-color: #0056b3 !important;
-}
+  background-color: #E35205 !important;
+} */

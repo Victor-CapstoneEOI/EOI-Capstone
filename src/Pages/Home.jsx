@@ -29,8 +29,6 @@ const Home = () => {
                         <button onClick={() => handleLanguageChange('English')}>English</button>
                         <button onClick={() => handleLanguageChange('French')}>French</button>
                     </div>
-
-                    {/* <img src={Benefits} alt='Benefits' className="group-benefits" /> */}
                 </div>
             </div>
         </div>

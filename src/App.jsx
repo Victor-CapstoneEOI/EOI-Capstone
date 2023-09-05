@@ -5,13 +5,15 @@ import Profile from "./Pages/Profile.jsx";
 import FormLayout from './Pages/FormLayout.jsx';
 import Review from "./Pages/Review.jsx";
 import Confirmation from './Pages/Confirmation.jsx';
-// Make sure to import SectionNameProvider if it's from another file
+import "./Styles/App.css"
 import Header from './Components/Header';
 import Footer from "./Components/Footer";
 import { Wellness } from "./sections/Wellness.jsx";
 import { LifeStyleSection } from "./sections/LifeStyleSection.jsx";
 
 function App() {
+
+  
   return (
     <div className="App">
       <BrowserRouter>

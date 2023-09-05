@@ -1,17 +1,17 @@
 /* Sidebar.css */
 
+/* Existing CSS */
 .sidebar-container {
   position: fixed;
   top: 220px;
   right: 0;
   bottom: 80px;
   width: 250px;
-  background-color: transparent; 
+  background-color: transparent;
   padding: 20px;
-  box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.1); 
-  z-index: 9999; 
+  box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
 }
-
 
 .sidebar-item {
   display: flex;
@@ -57,7 +57,31 @@
   color: #64CCC9;
 }
 
-/* Move the first item a bit higher */
 .sidebar-item:first-child {
-  margin-top: 0;  /* Change as needed */
+  margin-top: 0;
+}
+
+/* Media Queries */
+
+/* For tablet screens */
+@media (max-width: 768px) {
+  .sidebar-container {
+    width: 200px;
+    top: 200px;
+  }
+  .save-icon svg, .help-icon svg {
+    font-size: 30px;
+  }
+}
+
+/* For mobile screens */
+@media (max-width: 480px) {
+  .sidebar-container {
+    width: 150px;
+    top: 180px;
+    padding: 10px;
+  }
+  .save-icon svg, .help-icon svg {
+    font-size: 20px;
+  }
 }

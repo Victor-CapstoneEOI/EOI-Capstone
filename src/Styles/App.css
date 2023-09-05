@@ -1,0 +1,18 @@
+
+  
+  /* Media Query for max-width 900px */
+  @media (max-width: 900px) {
+    .App {
+      padding: 15px;
+      /* Add any other styles you want to change */
+    }
+  }
+  
+  /* Media Query for max-width 600px */
+  @media (max-width: 600px) {
+    .App {
+      padding: 10px;
+      /* Add any other styles you want to change */
+    }
+  }
+  

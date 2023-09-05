@@ -1,12 +1,55 @@
 /* Header.css */
+
+/* Existing CSS */
 .header {
-    background-color: #ffffff; 
+    background-color: #ffffff;
     color: #000000;
-
-}
+  }
   
-.Logo{
-margin-top: 20px;
-
-}
+  .Logo {
+    margin-top: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+/* For mobile screens */
+@media (max-width: 768px) {
+    .menu-toggle {
+      display: flex;
+    }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #fff;
+    }
+    .nav-links.active {
+      display: flex;
+    }
+  }  
+  
+  /* For tablet screens */
+  @media (max-width: 768px) {
+    .header {
+      /* Add your tablet-specific styles here */
+    }
+    .Logo {
+      margin-top: 15px;
+    }
+  }
+  
+  /* For mobile screens */
+  @media (max-width: 480px) {
+    .header {
+      /* Add your mobile-specific styles here */
+    }
+    .Logo {
+      margin-top: 10px;
+    }
+  }
   

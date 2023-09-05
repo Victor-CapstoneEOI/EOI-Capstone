@@ -1,3 +1,4 @@
+/* Existing CSS */
 .Complete {
   color: #E55204;
   font-family: 'Rubik', sans-serif;
@@ -39,8 +40,8 @@
 }
 
 button.next, button.previous {
-  width: 100px;  /* specify the width */
-  height: 40px;  /* specify the height */
+  width: 100px;
+  height: 40px;
   background-color: #007bff;
   color: white;
   border: none;
@@ -50,10 +51,7 @@ button.next, button.previous {
   margin: 10px;
 }
 
-
-
-
-.next-button{
+.next-button {
   margin-bottom: 90px;
   padding: 10px 30px;
   background-color: #007bff;
@@ -89,10 +87,11 @@ button.next, button.previous {
   background-color: #f8f9fa;
   border-radius: 8px;
   box-shadow: 0px 4px 4px rgba(0,0,0,0.1);
-
 }
 
-/* Media Query */
+/* Media Queries */
+
+/* For large screens */
 @media (max-width: 900px) {
   .Complete, .Rest {
     text-align: center;
@@ -111,6 +110,38 @@ button.next, button.previous {
   .section {
     min-width: 100%;
     margin-right: 0;
+  }
+}
 
- }
-  } 
+/* For tablet screens */
+@media (max-width: 768px) {
+  .medical-questions-title {
+    font-size: 1.5rem;
+    padding: 15px;
+  }
+
+  button.next, button.previous, .next-button {
+    font-size: 0.9rem;
+  }
+}
+
+/* For mobile screens */
+@media (max-width: 100x) {
+  .Complete, .Rest {
+    font-size: 1rem;
+  }
+
+  .medical-questions-title {
+    font-size: 1.2rem;
+    padding: 10px;
+  }
+
+  .jsonForms {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .section {
+    padding: 10px;
+  }
+}

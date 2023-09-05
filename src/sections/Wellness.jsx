@@ -80,7 +80,7 @@ export const Wellness = () => {
 
   //Previous
   const handlePrevious = () => {
-    if (currentParent == 0) setActiveSection(activeSection);
+    if (currentParent == 0) setActiveSection(activeSection - 1);
     if (currentParent == 0 && showChildQuestion) setShowChildQuestion(false);
     if (currentParent == 2 && showChildQuestion) {
       setShowChildQuestion(false);

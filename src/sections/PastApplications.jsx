@@ -70,18 +70,15 @@ export const PastApplications = () => {
     }
     setShowChildQuestion(false);
 
-    if (showchildQuestion && userAnswer.Details?.trim()) {
-      setCurrentParent(0);
-    }
+  
   };
 
   return (
     <div>
-      {!questions && <div>Loading ...</div>}
-
+     <h3>{subSection}</h3>
       {!showchildQuestion && questions.length > 0 && (
         <div>
-          <h3>{subSection}</h3>
+          
           <JsonForms
             schema={questionSchema}
             uischema={uiSchema}

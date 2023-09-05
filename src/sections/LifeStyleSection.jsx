@@ -60,7 +60,6 @@ export const LifeStyleSection = ({ index }) => {
 
       {data.answer === "Yes" && nestedQuestions.length > 0 && (
         <div>
-          <h4>Nested Questions</h4>
           {nestedQuestions.map((nestedQuestion, nestedIndex) => (
             <div key={nestedIndex}>
               <p>{nestedQuestion.labelText}</p>

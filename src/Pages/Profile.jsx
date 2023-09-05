@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from 'react';
+import SideProfile from '../Components/SideProfile'; // Make sure this path is correct
 import { useNavigate } from "react-router-dom";
-import ProfilePic from "../img/ProfilePic.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInbox,
@@ -8,17 +8,11 @@ import {
   faUsers,
   faCalendarDays,
   faLandmark,
-  faComment,
+  faComment
 } from "@fortawesome/free-solid-svg-icons";
-import "../Styles/Profile.css";
+import '../Styles/Profile.css'; // Make sure this path is correct
 
 const Profile = () => {
-  const [user] = useState({
-    firstName: "John",
-    lastName: "Doe",
-    email: "johndoe@example.com",
-  });
-
   const navigate = useNavigate();
 
   const goToFormLayout = () => {
@@ -26,66 +20,47 @@ const Profile = () => {
   };
 
   return (
-    <div>
-      <div className="profile-container">
-        <div className="profile-header">
-          <div className="profile-info">
-            <img
-              src={ProfilePic || ProfilePic}
-              alt={`${user.firstName} ${user.lastName}`}
-              className="profile-picture"
-            />
-          </div>
-        </div>
-        <div className="profile-content">
-          <div className="name-info">
-            <h1>{`${user.firstName} ${user.lastName}`}</h1>
-            <p>{user.email}</p>
-            <p>Software Developer</p>
-          </div>
-          <div className="buttons-container">
-            <div className="button-row">
-              <div className="icon-with-description">
-                <button>
-                  <FontAwesomeIcon icon={faInbox} />
-                </button>
-                <span>Inbox</span>
+    <div className='SProfile'>
+      <SideProfile />
+      <div className='Name'>
+        <div className='TransparentBox'>
+          <div className='buttons'>
+            <button className='square-button'>
+              <div>
+                <FontAwesomeIcon className='fa-icon' icon={faInbox} />
+                <div className='description'>Inbox</div>
               </div>
-              <div className="icon-with-description">
-                <button>
-                  <FontAwesomeIcon icon={faAddressBook} />
-                </button>
-                <span>Contact</span>
+            </button>
+            <button className='square-button'>
+              <div>
+                <FontAwesomeIcon className='fa-icon' icon={faAddressBook} />
+                <div className='description'>Contacts</div>
               </div>
-            </div>
-            <div className="button-row">
-              <div className="icon-with-description">
-                <button>
-                  <FontAwesomeIcon icon={faComment} />
-                </button>
-                <span>Messenger</span>
+            </button>
+            <button className='square-button'>
+              <div>
+                <FontAwesomeIcon className='fa-icon' icon={faComment} />
+                <div className='description'>Messenger</div>
               </div>
-              <div className="icon-with-description">
-                <button>
-                  <FontAwesomeIcon icon={faCalendarDays} />
-                </button>
-                <span>Time Off</span>
+            </button>
+            <button className='square-button'>
+              <div>
+                <FontAwesomeIcon className='fa-icon' icon={faCalendarDays} />
+                <div className='description'>Time Off</div>
               </div>
-            </div>
-            <div className="button-row">
-              <div className="icon-with-description">
-                <button>
-                  <FontAwesomeIcon icon={faLandmark} />
-                </button>
-                <span>Accounts</span>
+            </button>
+            <button className='square-button'>
+              <div>
+                <FontAwesomeIcon className='fa-icon' icon={faLandmark} />
+                <div className='description'>Accounts</div>
               </div>
-              <div className="icon-with-description">
-                <button onClick={goToFormLayout}>
-                  <FontAwesomeIcon icon={faUsers} />
-                </button>
-                <span>Group Benefits</span>
+            </button>
+            <button onClick={goToFormLayout} className='square-button'>
+              <div>
+                <FontAwesomeIcon className='fa-icon' icon={faUsers} />
+                <div className='description'>Group Benefits</div>
               </div>
-            </div>
+            </button>
           </div>
         </div>
       </div>

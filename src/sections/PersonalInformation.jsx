@@ -78,9 +78,8 @@ export const PersonalInformation = () => {
   // console.log(currentQuestion)
   return (
     <div onKeyDown={handleKeyPress}>
-      <h2>{currentQuestion.section}</h2>
       {currentQuestion.subSection1 && <h3>{currentQuestion.subSection1}</h3>}
-      {currentQuestion.subSection2 && <h4>{currentQuestion.subSection2}</h4>}
+      {/* {currentQuestion.subSection2 && <h4>{currentQuestion.subSection2}</h4>} */}
     
       <JsonForms
         key={currentQuestionIndex}
@@ -98,7 +97,7 @@ export const PersonalInformation = () => {
             }
         })}
         liveValidate={true}
-    />
+      />
       <button type="button" onClick={handlePrevious}>
         Previous
       </button>

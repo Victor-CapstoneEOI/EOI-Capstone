@@ -78,7 +78,7 @@ export const Review = () => {
         </details>
       ))}
 
-      <div className='form-wrapper'>
+      <div className='form'>
         <form onSubmit={handleSubmit}>
           <button type="submit" className='submit-button'>Submit</button>
         </form>

@@ -92,13 +92,15 @@ export const PersonalInformation = () => {
         onChange={({ data }) => updateFormData({ [currentQuestion.questionText]: data })}
         liveValidate={true}
       />
-
+      
+      <div className = "previous-next">
       <button type="button" onClick={handlePrevious}>
         Previous
       </button>
       <button type="button" onClick={handleNext} disabled={isFieldEmpty}>
         Next
       </button>
+      </div>
     </div>
   );
 };

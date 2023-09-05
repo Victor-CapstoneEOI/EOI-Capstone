@@ -4,7 +4,7 @@ import { materialRenderers } from "@jsonforms/material-renderers";
 
 export const Wellness = () => {
   const [questions, setQuestions] = useState([]);
-  const [current, setCurrent] = useState(0);
+  const [currentParent, setCurrentParent] = useState(0);
   const [userAnswer, setUserAnswer] = useState({});
 
   const [showChildQuestion, setShowChildQuestion] = useState(false);
@@ -29,73 +29,71 @@ export const Wellness = () => {
   let questionSchema = {};
   let uiSchema = {};
 
-  let section = questions[current]?.section;
-  let subSection = questions[current]?.subSection1;
-  let question = questions[current]?.questionText;
-  let formType = questions[current]?.formControlType;
+  let section = questions[currentParent]?.section;
+  let subSection = questions[currentParent]?.subSection1;
+  let question = questions[currentParent]?.questionText;
+  let formType = questions[currentParent]?.formControlType;
   let optionValues;
 
   if (formType == "Drop-down List" || formType == "Buttons") {
-    optionValues = questions[current]?.optionValues.split(";");
+    optionValues = questions[currentParent]?.optionValues.split(";");
     console.log(optionValues);
   }
 
   // Handling next and previous button for form logic
 
-  const getNextQuestion = (currentIndex, questions, userAnswer) => {
-    const currentQuestion = questions[currentIndex];
+  const getNextQuestion = (parentIndex, questions, userAnswer) => {
+    const currentQuestion = questions[parentIndex];
 
     if ((userAnswer.answer?.trim() === "Feet/Inches") || (userAnswer.answer?.trim() === "Centimetres") 
     || (userAnswer.answer?.trim() === "Pounds") || (userAnswer.answer?.trim() === "Kilograms") && currentQuestion.childQuestions) {
 
-      console.log(currentQuestion);
       childQuestionsSchemas(currentQuestion);
       setShowChildQuestion(true);
     } 
 
     if (userAnswer.answer?.trim() === "Yes" && currentQuestion.childQuestions) {
 
-      console.log(currentQuestion);
       childQuestionsSchemas(currentQuestion);
       setShowChildQuestion(true);
     } 
 
 
-    let nextIndex = currentIndex + 1;
-    while (nextIndex === 1 || nextIndex === 3) {
-      nextIndex++;
+    let nextParentIndex = parentIndex + 1;
+    while (nextParentIndex === 1 || nextParentIndex === 3) {
+      nextParentIndex++;
     }
 
     // Ensure the next index is within bounds
-    if (nextIndex < questions.length) {
-      return nextIndex;
+    if (nextParentIndex < questions.length) {
+      return nextParentIndex;
     }
 
-    return currentIndex;
+    return parentIndex;
   };
 
   const handleNext = () => {
-    const newIndex = getNextQuestion(current, questions, userAnswer);
-    if (newIndex < questions.length) {
-      setCurrent(newIndex);
+    const newParentIndex = getNextQuestion(currentParent, questions, userAnswer);
+    if (newParentIndex < questions.length) {
+      setCurrentParent(newParentIndex);
     }
   };
 
   //Previous
   const handlePrevious = () => {
-    let newIndex = current - 1;
+    let newParentIndex = currentParent - 1;
 
     // Find the previous valid question index
-    while (newIndex >= 0) {
-      if (newIndex === 1 || newIndex === 3) {
-        newIndex--;
+    while (newParentIndex >= 0) {
+      if (newParentIndex === 1 || newParentIndex === 3) {
+        newParentIndex--;
       } else {
         break;
       }
     }
 
-    if (newIndex >= 0) {
-      setCurrent(newIndex);
+    if (newParentIndex >= 0) {
+      setCurrentParent(newParentIndex);
     }
     setShowChildQuestion(false);
   };

@@ -8,6 +8,8 @@ import Review from "./Pages/Review.jsx";
 import Confirmation from './Pages/Confirmation.jsx';
 import Header from './Components/Header';
 import Footer from "./Components/Footer";
+import { Wellness } from "./sections/Wellness.jsx";
+import { PastApplications } from "./sections/PastApplications.jsx";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         </Routes>
         </FormProvider>
       </BrowserRouter>      
+      {/* <Wellness/> */}
+      {/* <PastApplications /> */}
       <Footer />
     </div>
   );

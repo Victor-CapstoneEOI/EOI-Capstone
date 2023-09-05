@@ -13,7 +13,7 @@ export const LifeStyleSection = ({ index }) => {
   const [questions, setQuestions] = useState([]);
   const [current, setCurrent] = useState(index);
   const [nestedIndex, setNestedIndex] = useState(0);
-
+  
   const [isMainFieldEmpty, setIsMainFieldEmpty] = useState(true);
 
   useEffect(() => {

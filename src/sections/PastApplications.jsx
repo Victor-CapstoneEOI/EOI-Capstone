@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { JsonForms } from "@jsonforms/react";
 import { materialRenderers } from "@jsonforms/material-renderers";
+import FormContext from "../Components/FormContext";
 
 export const PastApplications = () => {
   const [questions, setQuestions] = useState([]);
   const [userAnswer, setUserAnswer] = useState({});
-  const [current, setCurrent] = useState(0);
+  const [currentParent, setCurrentParent] = useState(0);
   const [showchildQuestion, setShowChildQuestion] = useState(false);
 
-  const [isVisible, setIsVisible] = useState(true);
+  const nestedQuestion = questions[currentParent]?.childQuestions
+  const {activeSection, setActiveSection} = useContext(FormContext)
+
 
   useEffect(() => {
     fetch("/api/parent-questions")
@@ -21,10 +24,9 @@ export const PastApplications = () => {
       .catch((error) => console.error("Error fetching questions:", error));
   }, []);
 
-  let section = questions[current]?.section;
-  let subSection = questions[current]?.subSection1;
-  let question = questions[current]?.questionText;
-  let optionValues = questions[current]?.optionValues.split(";");
+  let subSection = questions[currentParent]?.subSection1;
+  let question = questions[currentParent]?.questionText;
+  let optionValues = questions[currentParent]?.optionValues.split(";");
 
   let questionSchema = {
     type: "object",
@@ -52,16 +54,24 @@ export const PastApplications = () => {
   };
 
   const handleNext = () => {
-    if (current === 0 ){
+    if (currentParent === 0  && userAnswer.answer?.trim() === "Yes") {
       setShowChildQuestion(true);
-      setIsVisible(false);
+
     }
+
+    if (userAnswer.answer?.trim() === "No"){
+      setActiveSection(activeSection + 1)
+    }
+
+    if (showchildQuestion) setActiveSection(activeSection + 1)
 
   };
 
   const handlePrevious = () => {
+    if(currentParent === 0){
+      setActiveSection(activeSection - 1)
+    }
     setShowChildQuestion(false)
-    setIsVisible(true)
   }
 
   return (
@@ -95,7 +105,7 @@ export const PastApplications = () => {
             }}
             uischema={{
               type: "Control",
-              label: questions[current].childQuestions[0]?.labelText,
+              label: questions[currentParent].childQuestions[0]?.labelText,
               scope: "#/properties/answer",
               options: {
                 format: "textarea",
@@ -108,8 +118,10 @@ export const PastApplications = () => {
           />
         </div>
       )}
-      {!isVisible &&<button onClick={handlePrevious}>Previous</button>}
-      {isVisible && userAnswer.answer?.trim() === "Yes" && <button onClick={handleNext}>Next</button>}
+      
+    <button onClick={handlePrevious}>Previous</button>
+    <button onClick={handleNext}>Next</button>
+    
     </div>
   );
 };

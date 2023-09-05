@@ -30,26 +30,9 @@ export const FormLayout = () => {
 
       <div className="parent">
         <div className="medical-questions-title"> {title} </div>
-<<<<<<< HEAD
-        
-        <div className="stepper-container"> 
-        
-          <StepperBar steps={steps} />
-        </div>
-     
-        <div className="jsonForms">
-
-          <div className="section">
-            {activeSection == 0 &&<PersonalInformation />}
-            {activeSection == 1 &&<PastApplications />}
-            {activeSection == 2 && <LifeStyleSection index={0} />}
-            {activeSection == 3 && <Wellness />}
-            {activeSection == 4 && <MedicalSection />}
-=======
 
           <div className="stepper-container"> 
             <StepperBar steps={steps} />
->>>>>>> main
           </div>
             <div className="jsonForms">
               <div className="section">

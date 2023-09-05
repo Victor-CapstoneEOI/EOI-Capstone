@@ -14,6 +14,7 @@ const headerStyles = {
 
 const Header = () => {
   return (
+    <div className='NavBar'>
     <AppBar position="static" sx={headerStyles}>
       <Toolbar>
         <div className='Logo'>
@@ -35,6 +36,7 @@ const Header = () => {
         </Button>
       </Toolbar>
     </AppBar>
+    </div>
   );
 };
 

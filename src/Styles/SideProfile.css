@@ -1,0 +1,47 @@
+.Side-profile {
+  width: 160px;
+  height: 75vh;
+  margin-top: 90px;
+  background-color: rgba(211, 211, 211, 0.7);
+  color: black;
+  font-weight: bold;
+  font-size: larger;
+  position: fixed;
+  top: 0;
+  margin-left: 10px;
+}
+
+.Side-profile ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.Side-profile li {
+  padding: 15px 0; /* Vertical padding of 15px, no horizontal padding */
+  text-align: center;
+  margin: 0px 0px; /* Margin of 10px on the top and bottom, none on the sides */
+  margin-top: 20px;
+  font-size: 15px;
+  margin-right: 20px;
+}
+
+.Side-profile li:hover {
+  background-color: #555;
+}
+
+.picture {
+  width: 100px;  /* Adjust the width as needed */
+  height: auto;  /* To maintain aspect ratio */
+  margin-left: 15px;
+  margin-top: 20px;
+}
+
+.name {
+  margin-left: 20px;
+}
+
+p{
+  font-size: medium;
+  margin-left: 16px;
+}

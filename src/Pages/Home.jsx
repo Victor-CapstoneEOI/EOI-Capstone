@@ -12,7 +12,7 @@ const Home = () => {
     const handleLanguageChange = (language) => {
         setSelectedLanguage(language);
         console.log(`Selected language: ${language}`);
-        if (language == 'French'){
+        if (language === 'French'){
             navigate('/profil');
         } else{
             navigate('/profile'); 
@@ -29,8 +29,6 @@ const Home = () => {
                         <button onClick={() => handleLanguageChange('English')}>English</button>
                         <button onClick={() => handleLanguageChange('French')}>French</button>
                     </div>
-
-                    {/* <img src={Benefits} alt='Benefits' className="group-benefits" /> */}
                 </div>
             </div>
         </div>

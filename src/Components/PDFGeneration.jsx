@@ -1,8 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import axios from 'axios';
 
 const PDFGeneration = ({ signature, formData }) => {
   const [pdfBytes, setPdfBytes] = useState(null);
+  const [formData, setFormData] = useState({});
+
+
+  useEffect(() => {
+    const fetchDataFromBackend = async () => {
+      try {
+        const response = await axios.get('/api/getFormData'); 
+        const formDataFromBackend = response.data;
+        setFormData(formDataFromBackend);
+      } catch (error) {
+        console.error('Error fetching form data:', error);
+      }
+    };
+
+    fetchDataFromBackend();
+  }, []);
 
   useEffect(() => {
     const createPDF = async () => {

@@ -1,10 +1,6 @@
 import {useContext} from 'react';
 import { useNavigate } from 'react-router';
-<<<<<<< HEAD
 import { PersonalInformation } from '../sections/personalInformation.jsx';
-=======
-import { PersonalInformation } from '../sections/PersonalInformation.jsx';
->>>>>>> main
 import { PastApplications } from '../sections/PastApplications.jsx';
 import { LifeStyleSection } from '../sections/LifeStyleSection.jsx';
 import { Wellness } from '../sections/Wellness.jsx';

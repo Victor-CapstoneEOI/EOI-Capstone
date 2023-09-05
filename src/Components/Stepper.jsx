@@ -5,9 +5,7 @@ import '../Styles/Stepper.css';
 import FormContext from './FormContext';
 
 const StepperBar = ({ steps }) => {
-  
   const { activeSection } = useContext(FormContext)
-
 
 
   return (

@@ -14,7 +14,6 @@ const StepperBar = ({ steps }) => {
         variant="determinate"
         value={(activeSection / (steps.length - 1)) * 100}
         className="progress-bar"
-        style={{backgroundColor: 'orange'}}
       />
       <Stepper activeStep={activeSection} alternativeLabel>
         {steps.map((label) => (

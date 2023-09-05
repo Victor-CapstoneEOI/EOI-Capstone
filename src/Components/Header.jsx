@@ -28,9 +28,6 @@ const Header = () => {
         <Button color="inherit" component={Link} to="/profile">
           Profile
         </Button>
-        <Button color="inherit" component={Link} to="/profil">
-          French Profile
-        </Button>
         <Button color="inherit" component={Link} to="/formlayout">
           Group Benefits
         </Button>

@@ -151,7 +151,7 @@ export const LifeStyleSection = ({ index }) => {
         </div>
       )}
 
-      <button onClick={previous} disabled={current === 0 && nestedIndex === 0}>
+      <button onClick={previous} disabled={current === 0 && nestedIndex === 0} className="previous">
         Previous
       </button>
       <button
@@ -160,7 +160,8 @@ export const LifeStyleSection = ({ index }) => {
           (current === questions.length - 1 &&
             nestedIndex === nestedQuestions.length - 1) ||
           isMainFieldEmpty
-        }
+        } 
+        className="next"
       >
         Next
       </button>

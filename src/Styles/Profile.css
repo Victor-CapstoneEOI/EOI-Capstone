@@ -1,82 +1,65 @@
-
-.profile-container {
-  max-width: 600px;
-  margin: 110px auto;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
-
-.profile-info {
+.SProfile {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  background-color: #f4f4f4;
 }
 
-.profile-picture {
-  max-width: 100px;
-  border-radius: 50%;
-  margin-top: 15px;
-}
-
-.name-info {
-  margin-top: 10px;
-}
-
-h1 {
-  font-size: 24px;
-  margin-bottom: 5px;
-}
-
-p {
-  color: #333;
-  margin: 0;
-}
-
-.profile-content {
-  padding: 10px;
-  background-color: #f0f0f0;
-  border-radius: 5px;
-  box-shadow: 0 10px 8px rgba(0, 0, 0, 0.1);
-}
-
-.buttons-container {
+.Name {
+  flex: 1;
+  padding: 2rem;
+  background: linear-gradient(to bottom, #EF8732, #fff);
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
-.button-row {
+.TransparentBox {
+  width: 800px;
+  height: 400px;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  margin-left: 45px;
 }
 
-.buttons-container button {
-  width: 100px;
-  height: 40px;
-  background-color: #E55204;
-  color: #fff;
-  border: none;
-  border-radius: 45%;
-  cursor: pointer;
+.buttons {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.square-button {
+  flex-basis: calc(33.33% - 20px);
+  height: 150px;
+  background-color: #8D4E7B;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
   margin: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: none;
 }
 
-.buttons-container button:hover {
-  background-color: #e5a904;
+.square-button:hover {
+  background-color: #9e6088;
 }
 
-.icon-with-description {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.fa-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
 }
 
-.icon-with-description span {
-  font-size: 12px;
-  color: #333;
-  margin-top: -10px;
-  font-weight: bold;
+.description {
+  font-size: 1.2rem;
+  font-weight: 500;
 }

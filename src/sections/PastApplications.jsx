@@ -108,8 +108,8 @@ export const PastApplications = () => {
           />
         </div>
       )}
-      {!isVisible &&<button onClick={handlePrevious}>Previous</button>}
-      {isVisible && userAnswer.answer?.trim() === "Yes" && <button onClick={handleNext}>Next</button>}
+      {!isVisible &&<button onClick={handlePrevious} className="previous">Previous</button>}
+      {isVisible && userAnswer.answer?.trim() === "Yes" && <button onClick={handleNext} className="next">Next</button>}
     </div>
   );
 };

@@ -6,18 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import '../Styles/Home.css'
 
 const Home = () => {
-    const [selectedLanguage, setSelectedLanguage] = useState('English');
     const navigate = useNavigate();
 
-    const handleLanguageChange = (language) => {
-        setSelectedLanguage(language);
-        console.log(`Selected language: ${language}`);
-        if (language === 'French'){
-            navigate('/profil');
-        } else{
-            navigate('/profile'); 
-        }
-    };
+    const gotoFrenchProfile = () => {
+        navigate('/profile');
+    }
+
+  
 
     return (
         <div>
@@ -26,8 +21,7 @@ const Home = () => {
                 <div className="center-content">
                     <img src={LogoPic} alt="Victor_Logo" className="logo" />
                     <div className="button">
-                        <button onClick={() => handleLanguageChange('English')}>English</button>
-                        <button onClick={() => handleLanguageChange('French')}>French</button>
+                        <button onClick={gotoFrenchProfile}>Start Here</button>
                     </div>
                 </div>
             </div>

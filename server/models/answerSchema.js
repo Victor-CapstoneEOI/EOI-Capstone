@@ -32,24 +32,32 @@ const sectionAnswerSchema = mongoose.Schema({
     answers: [parentAnswerSchema]
 });
 
-const fullFormAnswerSchema = mongoose.Schema({
-    sections: [sectionAnswerSchema],
-    signature: {  // Add this field for the signature
-        type: String,
-        required: true
-    },
-    timestamp: {
-        type: Date,
-        default: Date.now
-    }
-});
-
 const formDataSchema = new mongoose.Schema({
     name: String,
     email: String,
-    // Add more fields as needed,
-    formAnswers: [fullFormAnswerSchema] // Embed the form data schema as a subdocument
-});
+    age: Number,
+    address: String,
+  });
+  
+  const fullFormAnswerSchema = mongoose.Schema({
+    sections: [sectionAnswerSchema],
+    signature: {
+      type: String,
+      required: true,
+    },
+    formData: formDataSchema, 
+    timestamp: {
+      type: Date,
+      default: Date.now,
+    },
+  });
+
+// const formDataSchema = new mongoose.Schema({
+//     name: String,
+//     email: String,
+//     // Add more fields as needed,
+//     formAnswers: [fullFormAnswerSchema] // Embed the form data schema as a subdocument
+// });
 const FullFormAnswer = mongoose.model('FullFormAnswer', fullFormAnswerSchema);
 
 export default FullFormAnswer;

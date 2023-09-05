@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { JsonForms } from "@jsonforms/react";
 import { materialRenderers } from "@jsonforms/material-renderers";
 import FormContext from "../Components/FormContext";
+import { WellnessPrevious } from "./WellnessPrevious";
 
 
 export const Wellness = () => {
@@ -29,20 +30,6 @@ export const Wellness = () => {
       .catch((error) => console.error("Error fetching questions:", error));
   }, []);
 
-  // Setting up all dynamic values for schema and uiSchemas
-  let questionSchema = {};
-  let uiSchema = {};
-
-  let subSection = questions[currentParent]?.subSection1;
-  let question = questions[currentParent]?.questionText;
-  let formType = questions[currentParent]?.formControlType;
-  let optionValues;
-
-  if (formType == "Drop-down List" || formType == "Buttons") {
-    optionValues = questions[currentParent]?.optionValues.split(";");
-    console.log(optionValues);
-  }
-
   const getNextChildQuestion = (childIndex, childQuestion) => {
     const currentQuestion = childQuestion[childIndex];
 
@@ -51,7 +38,6 @@ export const Wellness = () => {
   }
 
  
-
   const getNextQuestion = (parentIndex, questions, userAnswer) => {
   const currentQuestion = questions[parentIndex];
 
@@ -78,7 +64,6 @@ export const Wellness = () => {
     if (userAnswer.answer?.trim() === "No" && parentIndex == 4){
       setActiveSection(activeSection + 1)
     }
-
 
 
     return parentIndex;
@@ -109,6 +94,22 @@ export const Wellness = () => {
     }
     
   };
+
+  // Setting up all dynamic values for schema and uiSchemas
+  let questionSchema = {};
+  let uiSchema = {};
+
+  let subSection = questions[currentParent]?.subSection1;
+  let question = questions[currentParent]?.questionText;
+  let formType = questions[currentParent]?.formControlType;
+  let optionValues;
+
+  if (formType == "Drop-down List" || formType == "Buttons") {
+    optionValues = questions[currentParent]?.optionValues.split(";");
+    console.log(optionValues);
+  }
+
+ 
 
   // Assign schemas to render questions with Json forms
   switch (formType) {

@@ -1,52 +1,31 @@
-import React, { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Stepper, Step, StepLabel, Button, LinearProgress } from '@mui/material';
 import PropTypes from 'prop-types';
 import '../Styles/Stepper.css';
+import FormContext from './FormContext';
 
 const StepperBar = ({ steps }) => {
-  const [activeStep, setActiveStep] = useState(0);
+  
+  const { activeSection } = useContext(FormContext)
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
 
   return (
     <div>
       <LinearProgress
         variant="determinate"
-        value={(activeStep / (steps.length - 1)) * 100}
+        value={(activeSection / (steps.length - 1)) * 100}
         className="progress-bar"
       />
-      <Stepper activeStep={activeStep} alternativeLabel>
+      <Stepper activeStep={activeSection} alternativeLabel>
         {steps.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>
         ))}
       </Stepper>
-      <div className="button-container">
-        <Button
-          disabled={activeStep === 0}
-          onClick={handleBack}
-        >
-          Back
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleNext}
-        >
-          {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-        </Button>
-      </div>
+
+    
     </div>
   );
 };

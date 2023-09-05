@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { JsonForms } from "@jsonforms/react";
 import { materialRenderers } from "@jsonforms/material-renderers";
+import FormContext from "../Components/FormContext";
+
 
 export const Wellness = () => {
   const [questions, setQuestions] = useState([]);
@@ -11,7 +13,9 @@ export const Wellness = () => {
   const [childSchema, setChildSchema] = useState(null);
   const [uiChildSchema, setUiChildSchema] = useState(null);
 
+  const [nestedIndex, setNestedIndex] = useState(0)
   const nestedQuestions = questions[4]?.childQuestions
+  const {setActiveSection, activeSection} = useContext(FormContext)
   console.log(nestedQuestions)
 
   useEffect(() => {
@@ -29,7 +33,6 @@ export const Wellness = () => {
   let questionSchema = {};
   let uiSchema = {};
 
-  let section = questions[currentParent]?.section;
   let subSection = questions[currentParent]?.subSection1;
   let question = questions[currentParent]?.questionText;
   let formType = questions[currentParent]?.formControlType;
@@ -40,17 +43,24 @@ export const Wellness = () => {
     console.log(optionValues);
   }
 
-  // Handling next and previous button for form logic
+ 
 
   const getNextQuestion = (parentIndex, questions, userAnswer) => {
-    const currentQuestion = questions[parentIndex];
+  const currentQuestion = questions[parentIndex];
 
-    if ((userAnswer.answer?.trim() === "Feet/Inches") || (userAnswer.answer?.trim() === "Centimetres") 
-    || (userAnswer.answer?.trim() === "Pounds") || (userAnswer.answer?.trim() === "Kilograms") && currentQuestion.childQuestions) {
+    if (userAnswer.answer?.trim() === "Feet/Inches" || userAnswer.answer?.trim() === "Centimetres" 
+    ||userAnswer.answer?.trim() === "Pounds"|| userAnswer.answer?.trim() === "Kilograms"){
+      childQuestionsSchemas(currentQuestion)
+      setShowChildQuestion(true)
+    }
 
-      childQuestionsSchemas(currentQuestion);
-      setShowChildQuestion(true);
-    } 
+
+    if (showChildQuestion){
+      parentIndex +=2
+      setShowChildQuestion(false)
+      console.log(parentIndex)
+    }
+
 
     if (userAnswer.answer?.trim() === "Yes" && currentQuestion.childQuestions) {
 
@@ -58,19 +68,15 @@ export const Wellness = () => {
       setShowChildQuestion(true);
     } 
 
-
-    let nextParentIndex = parentIndex + 1;
-    while (nextParentIndex === 1 || nextParentIndex === 3) {
-      nextParentIndex++;
+    if (userAnswer.answer?.trim() === "No" && parentIndex == 4){
+      setActiveSection(activeSection + 1)
     }
 
-    // Ensure the next index is within bounds
-    if (nextParentIndex < questions.length) {
-      return nextParentIndex;
-    }
+
 
     return parentIndex;
   };
+  
 
   const handleNext = () => {
     const newParentIndex = getNextQuestion(currentParent, questions, userAnswer);
@@ -82,7 +88,6 @@ export const Wellness = () => {
   //Previous
   const handlePrevious = () => {
     let newParentIndex = currentParent - 1;
-
     // Find the previous valid question index
     while (newParentIndex >= 0) {
       if (newParentIndex === 1 || newParentIndex === 3) {
@@ -278,7 +283,7 @@ export const Wellness = () => {
       let childSchema = {
         type: "object",
         properties: {
-          answer: {
+          pounds: {
             type: "number",
           },
         },
@@ -289,7 +294,7 @@ export const Wellness = () => {
         elements: [
           {
             type: "Control",
-            scope: "#/properties/answer",
+            scope: "#/properties/pounds",
           },
         ],
       };
@@ -303,7 +308,7 @@ export const Wellness = () => {
       let childSchema = {
         type: "object",
         properties: {
-          answer: {
+          kilograms: {
             type: "number",
           },
         },
@@ -314,7 +319,7 @@ export const Wellness = () => {
         elements: [
           {
             type: "Control",
-            scope: "#/properties/answer",
+            scope: "#/properties/kilograms",
           },
         ],
       };

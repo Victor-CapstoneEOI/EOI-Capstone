@@ -9,9 +9,8 @@ export const PastApplications = () => {
   const [currentParent, setCurrentParent] = useState(0);
   const [showchildQuestion, setShowChildQuestion] = useState(false);
 
-  const nestedQuestion = questions[currentParent]?.childQuestions
-  const {activeSection, setActiveSection} = useContext(FormContext)
-
+  const nestedQuestion = questions[currentParent]?.childQuestions;
+  const { activeSection, setActiveSection } = useContext(FormContext);
 
   useEffect(() => {
     fetch("/api/parent-questions")
@@ -54,37 +53,35 @@ export const PastApplications = () => {
   };
 
   const handleNext = () => {
-    if (currentParent === 0  && userAnswer.answer?.trim() === "Yes") {
+    if (currentParent === 0 && userAnswer.answer?.trim() === "Yes") {
       setShowChildQuestion(true);
-
     }
 
-    if (userAnswer.answer?.trim() === "No"){
-      setActiveSection(activeSection + 1)
+    if (userAnswer.answer?.trim() === "No") {
+      setActiveSection(activeSection + 1);
     }
 
-    if (showchildQuestion) setActiveSection(activeSection + 1)
-
+    if (showchildQuestion) setActiveSection(activeSection + 1);
   };
 
   const handlePrevious = () => {
-    if(currentParent === 0){
-      setActiveSection(activeSection - 1)
+    if (currentParent === 0) {
+      setActiveSection(activeSection - 1);
     }
-    setShowChildQuestion(false)
+    setShowChildQuestion(false);
 
-    if (showchildQuestion && userAnswer.Details?.trim()){
-      setCurrentParent(0)
+    if (showchildQuestion && userAnswer.Details?.trim()) {
+      setCurrentParent(0);
     }
-  }
+  };
 
   return (
     <div>
-      {/* <h2>{section}</h2> */}
-      <h3>{subSection}</h3>
+      {!questions && <div>Loading ...</div>}
 
       {!showchildQuestion && questions.length > 0 && (
         <div>
+          <h3>{subSection}</h3>
           <JsonForms
             schema={questionSchema}
             uischema={uiSchema}
@@ -122,10 +119,9 @@ export const PastApplications = () => {
           />
         </div>
       )}
-      
-    <button onClick={handlePrevious}>Previous</button>
-    <button onClick={handleNext}>Next</button>
-    
+
+      <button onClick={handlePrevious}>Previous</button>
+      <button onClick={handleNext}>Next</button>
     </div>
   );
 };

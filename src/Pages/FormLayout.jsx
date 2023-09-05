@@ -45,7 +45,7 @@ export const FormLayout = () => {
             {activeSection == 2 && <LifeStyleSection index={0} />}
             {activeSection == 3 && <Wellness />}
             {activeSection == 4 && <MedicalSection />}
-          </div>
+          </div> 
         </div>
         <button className="next-button" onClick={goToReview}>
           Next Page

@@ -50,7 +50,6 @@ button.next, button.previous {
   margin: 10px;
 }
 
-
 .next-button{
   margin-bottom: 90px;
   padding: 10px 30px;
@@ -62,6 +61,7 @@ button.next, button.previous {
   font-size: 1rem;
   transition: background-color 0.3s ease;
 }
+
 
 .next-button:hover, button.next:hover, button.previous:hover {
   background-color: lightgray;
@@ -110,6 +110,7 @@ button.next, button.previous {
     min-width: 100%;
     margin-right: 0;
   }
+
 }
 
 h2{
@@ -123,3 +124,4 @@ h3{
 h4{
   font-family: 'Rubik', sans-serif;
 }
+

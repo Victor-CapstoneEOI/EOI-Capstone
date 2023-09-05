@@ -1,5 +1,5 @@
 .Side-profile {
-  width: 140px;
+  width: 160px;
   height: 75vh;
   margin-top: 90px;
   background-color: rgba(211, 211, 211, 0.7);
@@ -33,7 +33,7 @@
 .picture {
   width: 100px;  /* Adjust the width as needed */
   height: auto;  /* To maintain aspect ratio */
-  margin-left: 10px;
+  margin-left: 15px;
   margin-top: 20px;
 }
 

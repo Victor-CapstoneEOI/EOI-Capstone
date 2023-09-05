@@ -71,3 +71,34 @@ h1.welcome {
 
 
 
+@media (max-width: 480px) {
+    .home {
+        justify-content: flex-start;
+        padding-top: 20px;
+    }
+
+    
+        .logo {
+           
+           width: 180px;
+           height: 480px;
+        }
+
+    h1.welcome {
+        font-size: 30px; 
+        text-align: center; 
+        margin-top: 250px; 
+        position: relative;
+        z-index: 2;
+    }
+
+    .button {
+        position: relative; 
+        margin-top: 100px; 
+        text-align: center;
+    }
+
+    .button button {
+        margin: 0 10px; 
+    }
+}

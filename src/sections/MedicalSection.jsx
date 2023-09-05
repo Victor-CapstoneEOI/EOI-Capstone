@@ -1,6 +1,7 @@
-import { useRef, useState, useEffect, useContext } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { JsonForms } from "@jsonforms/react";
 import { materialRenderers, materialCells } from "@jsonforms/material-renderers";
+import FormContext from "../Components/FormContext";
 import { getSchemaForQuestion, 
   getUiSchemaForQuestion, 
   getCombinedSchemaForChildQuestions, 
@@ -8,13 +9,11 @@ import { getSchemaForQuestion,
 import FormContext from "../Components/FormContext";
 
 export const MedicalSection = () => {
-  const [formData, setFormData] = useState({});
+  const { formData, updateFormData, activeSection, setActiveSection } = useContext(FormContext); // Use context values
   const formDataRef = useRef(formData);
 
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [shouldCheckChildStatus, setShouldCheckChildStatus] = useState(false);
-  const [isFieldEmpty, setIsFieldEmpty] = useState(true);
   const [navigationHistory, setNavigationHistory] = useState([]);
 
   const [childQuestions, setChildQuestions] = useState([]);
@@ -38,84 +37,95 @@ export const MedicalSection = () => {
   }, []);
 
   useEffect(() => {
-    if (shouldCheckChildStatus) {
-        determineChildQuestionStatus();
-        setShouldCheckChildStatus(false);  // Reset after checking
-    }
-}, [formData, currentQuestionIndex, questions, shouldCheckChildStatus]);
-
-
-  useEffect(() => {
     formDataRef.current = formData; // Keep the ref updated with the latest value
   }, [formData]);
 
-  const determineChildQuestionStatus = () => {
+  const doesQuestionHaveChild = () => {
     const currentQuestion = questions[currentQuestionIndex];
-    if (!currentQuestion) return;
+    if (!currentQuestion) return false;
 
-    let shouldShowChildQuestions = false;
-    const answer = formData.answer;
+    console.log("currentQuestionIndex:", currentQuestionIndex);
+    console.log("Length of questions:", questions.length); 
+    console.log("Form data:", formData);
 
-    if (currentQuestionIndex === 0 && !isNaN(parseInt(answer, 10)) && parseInt(answer, 10) > 0) {
-        shouldShowChildQuestions = true;
-    } else if ([1, 2].includes(currentQuestionIndex)) {
-        if (answer !== 'Unknown' && answer !== 'None of the above') {
-            shouldShowChildQuestions = true;
-        }
-    } else if (currentQuestion.subFormTrigger && currentQuestion.subFormTrigger.includes(`Selecting '${answer}'`)) {
-      shouldShowChildQuestions = true;
+    const currentQuestionText = currentQuestion.questionText;
+    const answerValue = formData[currentQuestionText]?.answer?.answer;
 
-    } if (currentQuestionIndex === 16 && answer !== 'None of the above') { // indices are 0-based, so 16 represents the 17th question
-      shouldShowChildQuestions = true;
+
+    if (currentQuestionIndex === 0 && !isNaN(parseInt(answerValue, 10)) && parseInt(answerValue, 10) > 0) {
+      return true;
+  }
+  
+
+    if ([1, 2].includes(currentQuestionIndex) && answerValue !== 'Unknown' && answerValue !== 'None of the above') {
+        return true;
+    } 
+
+    if (currentQuestion.subFormTrigger && currentQuestion.subFormTrigger.includes(`Selecting '${answerValue}'`)) {
+        return true;
+    } 
+
+    if (currentQuestionIndex === 16 && answerValue !== 'None of the above') {
+        return true;
     }
-    if (shouldShowChildQuestions) {
-      setCurrentParentQuestion(currentQuestion);  // Store the current parent question
-      setChildQuestions(currentQuestion.childQuestions);
-      setIsChildQuestion(true);
-    } else {
-      setCurrentParentQuestion(null);
-      setIsChildQuestion(false);
-      setChildQuestions([]);
-    }
+
+    console.log("Answer:",answerValue)
+    console.log("Child Questions:", currentQuestion.childQuestions);
+    console.log("Is Child Question?", isChildQuestion ? "Yes" : "No");
+    return false;
 };
 
-  const handleNavigation = (direction) => {
-    if (direction === "next") {
-        if (isFieldEmpty) {
-            alert("Please fill in the required fields before proceeding.");
-            return;
-        }
+const handleNavigation = (direction) => {
+  const currentQuestionText = (isChildQuestion ? currentParentQuestion : questions[currentQuestionIndex]).questionText;
+  const isCurrentFieldEmpty = !formData[currentQuestionText] || formData[currentQuestionText].answer === "";
 
-        // Push current state to the navigation history stack
-        setNavigationHistory(prevHistory => [...prevHistory, {
+  if (direction === "next") {
+      if (isCurrentFieldEmpty) {
+          alert("Please fill in the required fields before proceeding.");
+          return;
+      }
+      if (isChildQuestion) {
+          setIsChildQuestion(false);
+          setCurrentQuestionIndex(current => current + 1);
+      } else {
+          if (doesQuestionHaveChild()) {
+              setIsChildQuestion(true);
+              setCurrentParentQuestion(questions[currentQuestionIndex]);
+              setChildQuestions(questions[currentQuestionIndex].childQuestions);
+          } else {
+              setIsChildQuestion(false);
+              setCurrentQuestionIndex(current => current + 1);
+          }
+      }
+
+      if (currentQuestionIndex >= questions.length - 1 && !isChildQuestion) {
+          setActiveSection(activeSection + 1);
+      }
+      setNavigationHistory(prevHistory => [...prevHistory, {
           index: currentQuestionIndex,
           isChild: isChildQuestion
       }]);
+  }
 
-      if (isChildQuestion) {
-        setIsChildQuestion(false); // When on child questions, go back to the parent question's main content
-      } else {
-        determineChildQuestionStatus(); // Determine child status for current parent question
-        if (!isChildQuestion) {
-          setCurrentQuestionIndex(prev => prev + 1); // Increment to the next parent question only if we're not showing child questions
-        }
+    if (direction === "previous") {
+      if (navigationHistory.length > 0) {
+          const lastState = navigationHistory.pop();
+          setCurrentQuestionIndex(lastState.index);
+          setIsChildQuestion(lastState.isChild);
+          setNavigationHistory([...navigationHistory]);
       }
-      } else if (direction === "previous") {
-        if (navigationHistory.length > 0) {
-            // Pop the last state from the navigation history stack
-            const lastState = navigationHistory.pop();
-            setCurrentQuestionIndex(lastState.index);
-            setIsChildQuestion(lastState.isChild);
-            setNavigationHistory([...navigationHistory]);  // This line updates the state with the modified history
-        }
-    }
-  };
-
+  }
+};
+  
   const handleKeyPress = event => {
     if (event.key === "Enter") handleNavigation("next");
   };
 
   let currentSchema, currentUISchema;
+
+  if (questions.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   if (isChildQuestion) {
     currentSchema = getCombinedSchemaForChildQuestions(childQuestions);
@@ -145,14 +155,20 @@ export const MedicalSection = () => {
       <JsonForms
         schema={currentSchema}
         uischema={currentUISchema}
-        data={formData}
+        data={formData[displayQuestion.questionText]?.answer || {}}
         renderers={[...materialRenderers, ...materialCells]}
-        onChange={({ data }) => {
-          setFormData(data);
-          setIsFieldEmpty(!data.answer || data.answer === "");
-        }}
+        onChange={({ data }) => updateFormData({ 
+            [displayQuestion.questionText]: {
+                answer: data,
+                metadata: {
+                    section: displayQuestion.section,
+                    id: displayQuestion._id // Assuming each question has an 'id' field
+                }
+            }
+        })}
         liveValidate={true}
       />
+
 
       <button type="button" onClick={() => handleNavigation("previous")} className="previous">
         Previous

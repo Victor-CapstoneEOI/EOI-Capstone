@@ -41,7 +41,7 @@
 button.next, button.previous {
   width: 100px;  /* specify the width */
   height: 40px;  /* specify the height */
-  background-color: #007bff;
+  background-color: #8D4E7B;
   color: white;
   border: none;
   border-radius: 20px;
@@ -50,13 +50,10 @@ button.next, button.previous {
   margin: 10px;
 }
 
-
-
-
 .next-button{
   margin-bottom: 90px;
   padding: 10px 30px;
-  background-color: #007bff;
+  background-color: #8D4E7B;
   color: white;
   border: none;
   border-radius: 20px;
@@ -66,7 +63,7 @@ button.next, button.previous {
 }
 
 .next-button:hover, button.next:hover, button.previous:hover {
-  background-color: #0056b3;
+  background-color: lightgray;
 }
 
 .jsonForms {
@@ -111,6 +108,7 @@ button.next, button.previous {
   .section {
     min-width: 100%;
     margin-right: 0;
+  }
+}
 
- }
-  } 
+

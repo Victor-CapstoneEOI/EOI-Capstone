@@ -1,104 +1,107 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { JsonForms } from "@jsonforms/react";
 import { materialRenderers } from "@jsonforms/material-renderers";
+import FormContext from "../Components/FormContext";
+import { WellnessPrevious } from "./WellnessPrevious";
 
 export const Wellness = () => {
   const [questions, setQuestions] = useState([]);
-  const [current, setCurrent] = useState(0);
+  const [currentParent, setCurrentParent] = useState(0);
   const [userAnswer, setUserAnswer] = useState({});
 
   const [showChildQuestion, setShowChildQuestion] = useState(false);
   const [childSchema, setChildSchema] = useState(null);
   const [uiChildSchema, setUiChildSchema] = useState(null);
 
-  const nestedQuestions = questions[4]?.childQuestions
-  console.log(nestedQuestions)
+  const [nestedIndex, setNestedIndex] = useState(0);
+  const nestedQuestions = questions[4]?.childQuestions;
+  const { setActiveSection, activeSection, formData, updateFormData } = useContext(FormContext);
+  console.log(nestedQuestions);
 
   useEffect(() => {
     fetch("/api/parent-questions")
       .then((response) => response.json())
       .then((data) => {
         setQuestions(data.slice(21, 26));
-
-        
       })
       .catch((error) => console.error("Error fetching questions:", error));
   }, []);
 
-  // Setting up all dynamic values for schema and uiSchemas
-  let questionSchema = {};
-  let uiSchema = {};
+  const getNextChildQuestion = (childIndex, childQuestion) => {
+    const currentQuestion = childQuestion[childIndex];
+  };
 
-  let section = questions[current]?.section;
-  let subSection = questions[current]?.subSection1;
-  let question = questions[current]?.questionText;
-  let formType = questions[current]?.formControlType;
-  let optionValues;
+  const getNextQuestion = (parentIndex, questions, userAnswer) => {
+    const currentQuestion = questions[parentIndex];
 
-  if (formType == "Drop-down List" || formType == "Buttons") {
-    optionValues = questions[current]?.optionValues.split(";");
-    console.log(optionValues);
-  }
-
-  // Handling next and previous button for form logic
-
-  const getNextQuestion = (currentIndex, questions, userAnswer) => {
-    const currentQuestion = questions[currentIndex];
-
-    if ((userAnswer.answer?.trim() === "Feet/Inches") || (userAnswer.answer?.trim() === "Centimetres") 
-    || (userAnswer.answer?.trim() === "Pounds") || (userAnswer.answer?.trim() === "Kilograms") && currentQuestion.childQuestions) {
-
-      console.log(currentQuestion);
+    if (
+      userAnswer.answer?.trim() === "Feet/Inches" ||
+      userAnswer.answer?.trim() === "Centimetres" ||
+      userAnswer.answer?.trim() === "Pounds" ||
+      userAnswer.answer?.trim() === "Kilograms"
+    ) {
       childQuestionsSchemas(currentQuestion);
       setShowChildQuestion(true);
-    } 
+    }
+
+    if (showChildQuestion) {
+      parentIndex += 2;
+      setShowChildQuestion(false);
+      console.log(parentIndex);
+    }
 
     if (userAnswer.answer?.trim() === "Yes" && currentQuestion.childQuestions) {
-
-      console.log(currentQuestion);
       childQuestionsSchemas(currentQuestion);
       setShowChildQuestion(true);
-    } 
-
-
-    let nextIndex = currentIndex + 1;
-    while (nextIndex === 1 || nextIndex === 3) {
-      nextIndex++;
     }
 
-    // Ensure the next index is within bounds
-    if (nextIndex < questions.length) {
-      return nextIndex;
+    if (userAnswer.answer?.trim() === "No" && parentIndex == 4) {
+      setActiveSection(activeSection + 1);
     }
 
-    return currentIndex;
+    return parentIndex;
   };
 
   const handleNext = () => {
-    const newIndex = getNextQuestion(current, questions, userAnswer);
-    if (newIndex < questions.length) {
-      setCurrent(newIndex);
+    const newParentIndex = getNextQuestion(
+      currentParent,
+      questions,
+      userAnswer
+    );
+    const newChildIndex = getNextChildQuestion(nestedIndex, nestedQuestions);
+    if (newParentIndex < questions.length) {
+      setCurrentParent(newParentIndex);
+    }
+
+    if (newChildIndex > 4) {
+      setActiveSection(activeSection + 1);
     }
   };
 
   //Previous
   const handlePrevious = () => {
-    let newIndex = current - 1;
-
-    // Find the previous valid question index
-    while (newIndex >= 0) {
-      if (newIndex === 1 || newIndex === 3) {
-        newIndex--;
-      } else {
-        break;
-      }
+    if (currentParent == 0) setActiveSection(activeSection - 1);
+    if (currentParent == 0 && showChildQuestion) setShowChildQuestion(false);
+    if (currentParent == 2 && showChildQuestion) {
+      setShowChildQuestion(false);
+      // Create function to generate parent schema and call it here on parent question with index = 0
+      //Repeat functionality for parent question #4
     }
-
-    if (newIndex >= 0) {
-      setCurrent(newIndex);
-    }
-    setShowChildQuestion(false);
   };
+
+  // Setting up all dynamic values for schema and uiSchemas
+  let questionSchema = {};
+  let uiSchema = {};
+
+  let subSection = questions[currentParent]?.subSection1;
+  let question = questions[currentParent]?.questionText;
+  let formType = questions[currentParent]?.formControlType;
+  let optionValues;
+
+  if (formType == "Drop-down List" || formType == "Buttons") {
+    optionValues = questions[currentParent]?.optionValues.split(";");
+    console.log(optionValues);
+  }
 
   // Assign schemas to render questions with Json forms
   switch (formType) {
@@ -179,12 +182,9 @@ export const Wellness = () => {
   }
 
   //Setting up values for child question schemas
-  console.log(userAnswer.answer);
 
   const childQuestionsSchemas = (question) => {
-
     if (userAnswer.answer?.trim() === "Yes") {
-    
       let childSchema = {
         type: "object",
         properties: {
@@ -213,17 +213,16 @@ export const Wellness = () => {
     }
 
     if (userAnswer.answer?.trim() === "Feet/Inches") {
-    
       let childSchema = {
         type: "object",
         properties: {
           Feet: {
-            type: 'string',
+            type: "string",
             title: question.childQuestions[0]?.labelText,
             enum: question.childQuestions[0]?.optionValues.split(";"),
           },
           Inches: {
-            type: 'string',
+            type: "string",
             title: question.childQuestions[1]?.labelText,
             enum: question.childQuestions[1]?.optionValues.split(";"),
           },
@@ -233,15 +232,14 @@ export const Wellness = () => {
         type: "HorizontalLayout",
         elements: [
           {
-            type: 'Control',
+            type: "Control",
             label: question.childQuestions[0]?.labelText,
-            scope: '#/properties/Feet',
-            
+            scope: "#/properties/Feet",
           },
           {
-            type: 'Control',
+            type: "Control",
             label: question.childQuestions[1]?.labelText,
-            scope: '#/properties/Inches',
+            scope: "#/properties/Inches",
           },
         ],
       };
@@ -251,7 +249,6 @@ export const Wellness = () => {
     }
 
     if (userAnswer.answer?.trim() === "Centimetres") {
-    
       let childSchema = {
         type: "object",
         properties: {
@@ -276,11 +273,10 @@ export const Wellness = () => {
     }
 
     if (userAnswer.answer?.trim() === "Pounds") {
-    
       let childSchema = {
         type: "object",
         properties: {
-          answer: {
+          pounds: {
             type: "number",
           },
         },
@@ -291,7 +287,7 @@ export const Wellness = () => {
         elements: [
           {
             type: "Control",
-            scope: "#/properties/answer",
+            scope: "#/properties/pounds",
           },
         ],
       };
@@ -301,11 +297,10 @@ export const Wellness = () => {
     }
 
     if (userAnswer.answer?.trim() === "Kilograms") {
-    
       let childSchema = {
         type: "object",
         properties: {
-          answer: {
+          kilograms: {
             type: "number",
           },
         },
@@ -316,7 +311,7 @@ export const Wellness = () => {
         elements: [
           {
             type: "Control",
-            scope: "#/properties/answer",
+            scope: "#/properties/kilograms",
           },
         ],
       };
@@ -326,15 +321,14 @@ export const Wellness = () => {
     }
   };
 
-  console.log(userAnswer)
+  console.log(userAnswer);
 
   return (
     <div>
-      <h2>{section}</h2>
-      <h3>{subSection}</h3>
-
+      
       {!showChildQuestion && (
         <div>
+          <h3>{subSection}</h3>
           <JsonForms
             schema={questionSchema}
             uischema={uiSchema}
@@ -358,8 +352,8 @@ export const Wellness = () => {
       )}
 
       <div>
-        <button onClick={handlePrevious}>Previous</button>
-        <button onClick={handleNext}>Next</button>
+        <button onClick={handlePrevious} className="previous">Previous</button>
+        <button onClick={handleNext} className="next">Next</button>
       </div>
     </div>
   );

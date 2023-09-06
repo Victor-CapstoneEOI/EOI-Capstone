@@ -24,8 +24,8 @@ body {
 h1.welcome {
     font-size: 50px;
     color: #E55204;
-    margin-top: 10px; /* Adjust this value to lower the heading */
-    margin-bottom: 110px;
+    margin-top: 50px; /* Adjust this value to lower the heading */
+    margin-bottom: 360px;
     position: absolute;
     z-index: 2;
 }
@@ -44,7 +44,7 @@ h1.welcome {
 
 .button {
     position: absolute;
-    bottom: 200px;
+    bottom: 300px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -71,3 +71,34 @@ h1.welcome {
 
 
 
+@media (max-width: 480px) {
+    .home {
+        justify-content: flex-start;
+        padding-top: 20px;
+    }
+
+    
+        .logo {
+           
+           width: 180px;
+           height: 480px;
+        }
+
+    h1.welcome {
+        font-size: 30px; 
+        text-align: center; 
+        margin-top: 250px; 
+        position: relative;
+        z-index: 2;
+    }
+
+    .button {
+        position: relative; 
+        margin-top: 100px; 
+        text-align: center;
+    }
+
+    .button button {
+        margin: 0 10px; 
+    }
+}

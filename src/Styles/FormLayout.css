@@ -1,25 +1,20 @@
 .Complete {
   color: #E55204;
   font-family: 'Rubik', sans-serif;
+  font-size: 1.5rem;
   margin-top: 20px;
-  margin-bottom: 80px;
+  margin-bottom: 40px;
   margin-left: 20px;
+  text-transform: uppercase;
+  position: sticky;
 }
 
 .Rest {
-  color: black;
+  color: #333;
   font-family: 'Rubik', sans-serif;
-  margin-top: 20px;
-}
-
-.container {
-  width: 200px;
-  height: 200px;
-  padding: 20px;
-  display: flex;
-  margin-left: 60px;
-  align-items: center;
-  margin-top: 60px;
+  margin-top: 0;
+  font-size: 1.2rem;
+  position: sticky;
 }
 
 .parent {
@@ -27,50 +22,71 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 120vh;
+  padding: 2rem;
+  background-color: #f8f9fa;
 }
 
 .medical-questions-title {
   background-color: #64CCC9;
   width: 100%;
   font-family: 'Rubik', sans-serif;
-  font-size: 40px;
+  font-size: 2rem;
   text-align: left;
-  padding: 10px 0;
-  padding-left: 40px;  
-  margin-top: 230px;
+  padding: 20px;
+  color: #fff;
+  border-radius: 8px;
+  margin-top: -50px;
 }
 
-.next-button {
-  padding: 10px 20px;
-  background-color: #007bff;
+button.next, button.previous {
+  width: 100px;  /* specify the width */
+  height: 40px;  /* specify the height */
+  background-color: #8D4E7B;
   color: white;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 9px;
+  border-radius: 20px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  margin: 10px;
 }
 
-.next-button:hover {
-  background-color: #0056b3;
+.next-button{
+  margin-bottom: 90px;
+  padding: 10px 30px;
+  background-color: #8D4E7B;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.next-button:hover, button.next:hover, button.previous:hover {
+  background-color: lightgray;
 }
 
 .jsonForms {
   display: flex;
   flex-wrap: wrap;
-  width: 900px;
-  justify-content: flex-start;  
-  align-items: flex-start;  
-  margin-left: -520px;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 20px 0;
+  width: 50%;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
 }
 
 .section {
   flex: 1;
-  min-width: 200px;
-  margin-right: 20px;
-  margin-bottom: 20px;
-  min-height: 200px;
-  overflow-y: auto;
+  min-width: 100px;
+  margin: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px rgba(0,0,0,0.1);
+
 }
 
 /* Media Query */
@@ -81,29 +97,41 @@
   }
 
   .parent {
-    align-items: flex-start;
-    padding: 0 20px;
+    padding: 1rem;
   }
 
-  .medical-questions-title {
-    font-size: 30px;
-    padding-left: 20px;
-    margin-top: 100px;
-  }
-
- 
-  /* .jsonForms {
+  .jsonForms {
     flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
+    align-items: stretch;
   }
 
   .section {
     min-width: 100%;
     margin-right: 0;
-  } */
-
-  .next-button {
-    align-self: flex-end;
   }
+
+}
+
+h2{
+  font-family: 'Rubik', sans-serif;
+}
+
+h3{
+  font-family: 'Rubik', sans-serif;
+}
+
+h4{
+  font-family: 'Rubik', sans-serif;
+}
+
+button.previous-button, button.next-section-button{
+  margin-bottom: 1em;
+  padding: 10px 30px;
+  background-color: #8D4E7B;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }

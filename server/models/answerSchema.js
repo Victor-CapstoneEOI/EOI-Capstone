@@ -57,6 +57,12 @@ const formDataSchema = new mongoose.Schema({
     },
   });
 
+// const formDataSchema = new mongoose.Schema({
+//     name: String,
+//     email: String,
+//     // Add more fields as needed,
+//     formAnswers: [fullFormAnswerSchema] // Embed the form data schema as a subdocument
+// });
 const FullFormAnswer = mongoose.model('FullFormAnswer', fullFormAnswerSchema);
 
 export default FullFormAnswer;

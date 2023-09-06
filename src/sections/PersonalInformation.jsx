@@ -95,6 +95,7 @@ export const PersonalInformation = () => {
             answer: data,
             metadata: {
                 section: currentQuestion.section, // Assuming 'section' is part of the question data
+                questionText:currentQuestion.questionText,
                 id: currentQuestion._id // Assuming each question has an 'id' field
             }
         }

@@ -1,85 +1,203 @@
 import React, { useEffect, useState } from 'react';
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { PDFDocument, rgb, StandardFonts, degrees } from 'pdf-lib';
 import axios from 'axios';
+import logoImage from '../img/cornervictor.png';
+
+// Function to fetch the logo image
+const fetchLogoImageBytes = async () => {
+  try {
+    // Convert the imported image to a Uint8Array
+    const imageArrayBuffer = new Uint8Array(await (await fetch(logoImage)).arrayBuffer());
+    return imageArrayBuffer;
+  } catch (error) {
+    console.error('Error fetching logo image:', error);
+    return null; // Return null to indicate failure
+  }
+};
 
 const PDFGeneration = ({ signature }) => {
-//   const [pdfBytes, setPdfBytes] = useState(null);
-//   const [formData, setFormData] = useState([]);
+  const [pdfBytes, setPdfBytes] = useState(null);
+  const [formData, setFormData] = useState([]);
+  const [questionTextData, setQuestionTextData] = useState([]);
 
-//   useEffect(() => {
-//     const fetchDataFromBackend = async () => {
-//       try {
-//         const response = await axios.get('/api/getFormData');
-//         const formDataFromBackend = response.data.formData; // Access formData from the response
-//         setFormData(formDataFromBackend);
-//         console.log(formDataFromBackend)
-//       } catch (error) {
-//         console.error('Error fetching form data:', error);
-//       }
-//     };
+  useEffect(() => {
+    const fetchDataFromBackend = async () => {
+      try {
+        const response = await axios.get('/api/getFormData');
+        const formDataFromBackend = response.data.formData;
+        setFormData(formDataFromBackend);
 
-//     fetchDataFromBackend();
-//   }, []);
-//   useEffect(() => {
-//     const createPDF = async () => {
-//       const pdfDoc = await PDFDocument.create();
-//       const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-//       const page = pdfDoc.addPage();
-//       const { width, height } = page.getSize();
-//       const fontSize = 12; // Adjust the font size as needed
-  
-//       // Define the starting y-position for content
-//       let yPosition = height - 2 * fontSize;
-  
-//       // Loop through the fetched data and add content to the PDF
-//       formData.forEach((item) => {
-//         const itemName = item?.name || "N/A";
-//         const itemValue = item.value || "N/A"; 
-//         console.log(`Name: ${item?.name}, Value: ${item.?value}`);
+        const extractedQuestionTextData = extractQuestionTextData(formDataFromBackend);
+        setQuestionTextData(extractedQuestionTextData);
 
-//         const itemText = `${itemName}: ${itemValue}`;
-  
-//         // Add content to the PDF
-//         page.drawText(itemText, {
-//           x: 50,
-//           y: yPosition,
-//           size: fontSize,
-//           color: rgb(0, 0, 0),
-//         });
-  
-//         // Move the y-position down for the next item
-//         yPosition -= 2 * fontSize; // You can adjust the spacing as needed
-//       });
-  
-//       const generatedPdfBytes = await pdfDoc.save();
-//       setPdfBytes(generatedPdfBytes);
-//     };
-  
-//     createPDF();
-//   }, [signature, formData]);
-  
-//   const handleDownload = () => {
-//     if (pdfBytes) {
-//       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-//       const url = URL.createObjectURL(blob);
-//       const link = document.createElement('a');
-//       link.href = url;
-//       link.download = 'example.pdf';
-//       link.click();
-//     }
-//   };
+        console.log(formDataFromBackend);
+      } catch (error) {
+        console.error('Error fetching form data:', error);
+      }
+    };
 
-//   return (
-//     <div className="Download">
-//       <p>If the form hasn't been downloaded automatically</p>
-//       <p>
-//         to your computer, you can use this
-//         <span className="bolder-link" onClick={handleDownload}> link</span> to initiate
-//       </p>
-//       <p>the download.</p>
-//     </div>
-//   );
+    fetchDataFromBackend();
+  }, []);
+
+  useEffect(() => {
+    const createPDF = async () => {
+      if (formData.length === 0) {
+        console.warn('formData is empty');
+        return;
+      }
+
+      const pdfDoc = await PDFDocument.create();
+      const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+      const fontSize = 12;
+
+      try {
+        await Promise.all(
+          formData.map(async (data) => {
+            data.sections.forEach(async (section) => {
+              const page = pdfDoc.addPage();
+              const { width, height } = page.getSize();
+              let yOffset = height - fontSize;
+
+              // Add the header with the logo
+              const logoImageBytes = await fetchLogoImageBytes();
+
+              if (!logoImageBytes) {
+                console.warn('Logo image fetch failed. Using fallback content.');
+                return;
+              }
+
+              console.log('Logo image fetched successfully'); // Add this line
+
+              const logoImage = await pdfDoc.embedPng(logoImageBytes);
+
+              const logoWidth = 100;
+              const logoHeight = (logoWidth / logoImage.width) * logoImage.height;
+              const logoX = 50;
+              const logoY = height - logoHeight - 20;
+
+              // Use PDFImage for the logo
+              const pdfLogoImage = page.drawImage(logoImage, {
+                x: logoX,
+                y: logoY,
+                width: logoWidth,
+                height: logoHeight,
+                rotate: degrees(0),
+              });
+
+              // Draw section title
+              page.drawText(`Section: ${section.section}`, {
+                x: 50,
+                y: yOffset,
+                size: fontSize + 2,
+                color: rgb(0, 0, 0),
+              });
+
+              console.log(`Section: ${section.section} added`); // Add this line
+
+              section.answers.forEach((item) => {
+                const questionId = item.questionId;
+                const questionText = item.questionText || 'Question Text Not Found';
+                const answer = item.answer?.answer || 'N/A';
+
+                yOffset -= 2 * fontSize;
+
+                page.drawText(`Question: ${questionText}`, {
+                  x: 50,
+                  y: yOffset,
+                  size: fontSize,
+                  color: rgb(0, 0, 0),
+                });
+
+                page.drawText(`Answer: ${answer}`, {
+                  x: 50,
+                  y: yOffset - fontSize,
+                  size: fontSize,
+                  color: rgb(0, 0, 0),
+                });
+
+                yOffset -= 2 * fontSize;
+              });
+
+              // Add a section to display the form data
+              yOffset -= 2 * fontSize;
+
+              formData.forEach((data) => {
+                data.sections.forEach((section) => {
+                  section.answers.forEach((item) => {
+                    const questionText = item.questionText || 'Question Text Not Found';
+                    const answer = item.answer?.answer || 'N/A';
+
+                    page.drawText(`Question: ${questionText}`, {
+                      x: 50,
+                      y: yOffset,
+                      size: fontSize,
+                      color: rgb(0, 0, 0),
+                    });
+
+                    page.drawText(`Answer: ${answer}`, {
+                      x: 50,
+                      y: yOffset - fontSize,
+                      size: fontSize,
+                      color: rgb(0, 0, 0),
+                    });
+
+                    yOffset -= 2 * fontSize;
+                  });
+                });
+              });
+            });
+          })
+        );
+
+        const generatedPdfBytes = await pdfDoc.save();
+        setPdfBytes(generatedPdfBytes);
+
+        console.log('PDF generated successfully'); // Add this line
+      } catch (error) {
+        console.error('Error generating PDF:', error);
+      }
+    };
+    createPDF();
+  }, [signature, formData]);
+
+  const handleDownload = () => {
+    if (pdfBytes) {
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'example.pdf';
+      link.click();
+    }
+  };
+
+  const extractQuestionTextData = (formData) => {
+    const extractedData = [];
+
+    formData.forEach((data) => {
+      data.sections.forEach((section) => {
+        section.answers.forEach((item) => {
+          const questionId = item.questionId;
+          const questionText = item?.questionText || 'Question Text Not Found';
+
+          extractedData.push({ questionId, questionText });
+        });
+      });
+    });
+
+    return extractedData;
+  };
+
+  return (
+    <div className="Download">
+      <p>If the form hasn't been downloaded automatically</p>
+      <p>
+        to your computer, you can use this
+        <span className="bolder-link" onClick={handleDownload}> link</span> to initiate
+      </p>
+      <p>the download.</p>
+    </div>
+  );
 };
 
 export default PDFGeneration;
- 

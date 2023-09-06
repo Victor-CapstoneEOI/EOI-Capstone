@@ -27,7 +27,7 @@ const Header = () => {
           Profile
         </Button>
         <Button color="inherit" component={Link} to="/formlayout">
-          Group Benefits
+          EOI
         </Button>
       </Toolbar>
     </div>

@@ -1,0 +1,32 @@
+/* Mobile styles */
+@media (max-width: 844px) {
+    .header {
+      font-size: 18px;
+    }
+  
+    .footer {
+      font-size: 12px;
+    }
+  }
+  
+  /* Tablet styles */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .header {
+      font-size: 22px;
+    }
+  
+    .footer {
+      font-size: 14px;
+    }
+  }
+  
+  /* Desktop styles */
+  @media (min-width: 1025px) {
+    .header {
+      font-size: 24px;
+    }
+  
+    .footer {
+      font-size: 16px;
+    }
+  }

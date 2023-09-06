@@ -5,7 +5,7 @@ import Profile from "./Pages/Profile.jsx";
 import FormLayout from './Pages/FormLayout.jsx';
 import Review from "./Pages/Review.jsx";
 import Confirmation from './Pages/Confirmation.jsx';
-// Make sure to import SectionNameProvider if it's from another file
+import "./Styles/App.css"
 import Header from './Components/Header';
 import Footer from "./Components/Footer";
 import { Wellness } from "./sections/Wellness.jsx";
@@ -15,7 +15,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header />
+        <Header className="header"/>
         <FormProvider>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -27,7 +27,7 @@ function App() {
         </FormProvider>
       </BrowserRouter>
       {/* <img src={Benefits} alt='Benefits' className="group-benefits" /> */}
-      <Footer />
+      <Footer className="footer"/>
     </div>
   );
 }

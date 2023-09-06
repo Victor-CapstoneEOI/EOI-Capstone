@@ -36,13 +36,19 @@
   padding: 20px;
   color: #fff;
   border-radius: 8px;
-  margin-top: -30px;
+  margin-top: -50px;
 }
 
 button.next, button.previous {
+<<<<<<< HEAD
   width: 100px;
   height: 40px;
   background-color: #007bff;
+=======
+  width: 100px;  /* specify the width */
+  height: 40px;  /* specify the height */
+  background-color: #8D4E7B;
+>>>>>>> f79d1ad91c53ac416b4ab0f1c9599418c14d905a
   color: white;
   border: none;
   border-radius: 20px;
@@ -51,10 +57,14 @@ button.next, button.previous {
   margin: 10px;
 }
 
+<<<<<<< HEAD
 .next-button {
+=======
+.next-button{
+>>>>>>> f79d1ad91c53ac416b4ab0f1c9599418c14d905a
   margin-bottom: 90px;
   padding: 10px 30px;
-  background-color: #007bff;
+  background-color: #8D4E7B;
   color: white;
   border: none;
   border-radius: 20px;
@@ -64,7 +74,7 @@ button.next, button.previous {
 }
 
 .next-button:hover, button.next:hover, button.previous:hover {
-  background-color: #0056b3;
+  background-color: lightgray;
 }
 
 .jsonForms {
@@ -111,6 +121,7 @@ button.next, button.previous {
     min-width: 100%;
     margin-right: 0;
   }
+<<<<<<< HEAD
 }
 
 /* For tablet screens */
@@ -145,3 +156,31 @@ button.next, button.previous {
     padding: 10px;
   }
 }
+=======
+
+}
+
+h2{
+  font-family: 'Rubik', sans-serif;
+}
+
+h3{
+  font-family: 'Rubik', sans-serif;
+}
+
+h4{
+  font-family: 'Rubik', sans-serif;
+}
+
+button.previous-button, button.next-section-button{
+  margin-bottom: 1em;
+  padding: 10px 30px;
+  background-color: #8D4E7B;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+>>>>>>> f79d1ad91c53ac416b4ab0f1c9599418c14d905a

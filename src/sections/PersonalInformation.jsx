@@ -4,7 +4,6 @@ import { materialRenderers } from "@jsonforms/material-renderers";
 import { getSchemaForQuestion, getUiSchemaForQuestion } from '../schemas/schemaUtils';
 import FormContext from "../Components/FormContext";
 
-
 export const PersonalInformation = () => {
   const { formData, updateFormData, activeSection, setActiveSection } = useContext(FormContext);
   
@@ -59,7 +58,7 @@ export const PersonalInformation = () => {
     if (nextIndex < questions.length) {
         setCurrentQuestionIndex(nextIndex);
     } else {
-        // Assuming you would like to increment the activeSection to move to the next form
+        // Increment the activeSection to move to the next form
         setActiveSection(activeSection + 1);
     }
   };
@@ -71,37 +70,33 @@ export const PersonalInformation = () => {
     }
   };
 
-
   const currentQuestion = questions[currentQuestionIndex];
 
   if (!currentQuestion) {
     return <div>Form Complete</div>;
   }
-  // console.log(currentQuestion)
+
   return (
     <div onKeyDown={handleKeyPress}>
       {currentQuestion.subSection1 && <h3>{currentQuestion.subSection1}</h3>}
       {/* {currentQuestion.subSection2 && <h4>{currentQuestion.subSection2}</h4>} */}
-    
       <JsonForms
-    key={currentQuestionIndex}
-    schema={getSchemaForQuestion(currentQuestion)}
-    uischema={getUiSchemaForQuestion(currentQuestion)}
-    data={formData[currentQuestion.questionText]?.answer || {}}
-    renderers={materialRenderers}
-    onChange={({ data }) => updateFormData({ 
-        [currentQuestion.questionText]: {
-            answer: data,
-            metadata: {
-                section: currentQuestion.section, // Assuming 'section' is part of the question data
-                id: currentQuestion._id // Assuming each question has an 'id' field
-            }
-        }
-    })}
-    liveValidate={true}
-/>
-
-
+          key={currentQuestionIndex}
+          schema={getSchemaForQuestion(currentQuestion)}
+          uischema={getUiSchemaForQuestion(currentQuestion)}
+          data={formData[currentQuestion.questionText]?.answer || {}}
+          renderers={materialRenderers}
+          onChange={({ data }) => updateFormData({ 
+              [currentQuestion.questionText]: {
+                  answer: data,
+                  metadata: {
+                      section: currentQuestion.section, 
+                      id: currentQuestion._id 
+                  }
+              }
+          })}
+          liveValidate={true}
+      />
       <button type="button" onClick={handlePrevious} className="previous">
         Previous
       </button>

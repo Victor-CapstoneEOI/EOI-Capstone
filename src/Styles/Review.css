@@ -120,6 +120,7 @@
   .pallet {
     margin-top: 20px;
   }
+<<<<<<< HEAD
 
   .Title {
     font-size: 28px;
@@ -146,3 +147,21 @@
     padding: 4px 8px;
   }
 }
+=======
+  
+  .submit-button{
+    margin-bottom: 90px;
+    padding: 10px 30px;
+    background-color: #8D4E7B;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .submit-button:hover{
+    background-color: lightgray;
+  }
+>>>>>>> f79d1ad91c53ac416b4ab0f1c9599418c14d905a

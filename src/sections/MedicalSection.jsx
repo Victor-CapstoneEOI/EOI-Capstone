@@ -41,78 +41,65 @@ export const MedicalSection = () => {
     const currentQuestion = questions[currentQuestionIndex];
     if (!currentQuestion) return false;
 
-    console.log("currentQuestionIndex:", currentQuestionIndex);
-    console.log("Length of questions:", questions.length); 
-    console.log("Form data:", formData);
-
     const currentQuestionText = currentQuestion.questionText;
     const answerValue = formData[currentQuestionText]?.answer?.answer;
 
-
     if (currentQuestionIndex === 0 && !isNaN(parseInt(answerValue, 10)) && parseInt(answerValue, 10) > 0) {
       return true;
-  }
-  
-
+    }
     if ([1, 2].includes(currentQuestionIndex) && answerValue !== 'Unknown' && answerValue !== 'None of the above') {
         return true;
     } 
-
     if (currentQuestion.subFormTrigger && currentQuestion.subFormTrigger.includes(`Selecting '${answerValue}'`)) {
         return true;
     } 
-
     if (currentQuestionIndex === 16 && answerValue !== 'None of the above') {
         return true;
     }
-
-    console.log("Answer:",answerValue)
-    console.log("Child Questions:", currentQuestion.childQuestions);
-    console.log("Is Child Question?", isChildQuestion ? "Yes" : "No");
     return false;
 };
 
-const handleNavigation = (direction) => {
-  const currentQuestionText = (isChildQuestion ? currentParentQuestion : questions[currentQuestionIndex]).questionText;
-  const isCurrentFieldEmpty = !formData[currentQuestionText] || formData[currentQuestionText].answer === "";
+  const handleNavigation = (direction) => {
+    const currentQuestionText = (isChildQuestion ? currentParentQuestion : questions[currentQuestionIndex]).questionText;
+    const isCurrentFieldEmpty = !formData[currentQuestionText] || formData[currentQuestionText].answer === "";
 
-  if (direction === "next") {
-      if (isCurrentFieldEmpty) {
-          alert("Please fill in the required fields before proceeding.");
-          return;
-      }
-      if (isChildQuestion) {
-          setIsChildQuestion(false);
-          setCurrentQuestionIndex(current => current + 1);
-      } else {
-          if (doesQuestionHaveChild()) {
-              setIsChildQuestion(true);
-              setCurrentParentQuestion(questions[currentQuestionIndex]);
-              setChildQuestions(questions[currentQuestionIndex].childQuestions);
-          } else {
-              setIsChildQuestion(false);
-              setCurrentQuestionIndex(current => current + 1);
-          }
-      }
+    if (direction === "next") {
+        if (isCurrentFieldEmpty) {
+            alert("Please fill in the required fields before proceeding.");
+            return;
+        }
+        if (isChildQuestion) {
+            setIsChildQuestion(false);
+            setCurrentQuestionIndex(current => current + 1);
+        } else {
+            if (doesQuestionHaveChild()) {
+                setIsChildQuestion(true);
+                setCurrentParentQuestion(questions[currentQuestionIndex]);
+                setChildQuestions(questions[currentQuestionIndex].childQuestions);
+            } else {
+                setIsChildQuestion(false);
+                setCurrentQuestionIndex(current => current + 1);
+            }
+        }
 
-      if (currentQuestionIndex >= questions.length - 1 && !isChildQuestion) {
-          setActiveSection(activeSection + 1);
-      }
-      setNavigationHistory(prevHistory => [...prevHistory, {
-          index: currentQuestionIndex,
-          isChild: isChildQuestion
-      }]);
-  }
+        if (currentQuestionIndex >= questions.length - 1 && !isChildQuestion) {
+            setActiveSection(activeSection + 1);
+        }
+        setNavigationHistory(prevHistory => [...prevHistory, {
+            index: currentQuestionIndex,
+            isChild: isChildQuestion
+        }]);
+    }
 
-    if (direction === "previous") {
-      if (navigationHistory.length > 0) {
-          const lastState = navigationHistory.pop();
-          setCurrentQuestionIndex(lastState.index);
-          setIsChildQuestion(lastState.isChild);
-          setNavigationHistory([...navigationHistory]);
-      }
-  }
-};
+      if (direction === "previous") {
+        if (navigationHistory.length > 0) {
+            const lastState = navigationHistory.pop();
+            setCurrentQuestionIndex(lastState.index);
+            setIsChildQuestion(lastState.isChild);
+            setNavigationHistory([...navigationHistory]);
+        }
+    }
+  };
   
   const handleKeyPress = event => {
     if (event.key === "Enter") handleNavigation("next");
@@ -157,20 +144,18 @@ const handleNavigation = (direction) => {
                 answer: data,
                 metadata: {
                     section: displayQuestion.section,
-                    id: displayQuestion._id // Assuming each question has an 'id' field
+                    id: displayQuestion._id 
                 }
             }
         })}
         liveValidate={true}
       />
-
-
-      <button type="button" onClick={() => handleNavigation("previous")} className="previous">
-        Previous
-      </button>
-      <button type="button" onClick={() => handleNavigation("next")} disabled={!formData.answer || formData.answer === ""} className="next">
-        Next
-      </button>
+        <button type="button" onClick={() => handleNavigation("previous")} className="previous">
+          Previous
+        </button>
+        <button type="button" onClick={() => handleNavigation("next")} disabled={!formData[displayQuestion.questionText] || formData[displayQuestion.questionText].answer === ""} className="next">
+          Next
+        </button>
     </div>
   );
 };

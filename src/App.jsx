@@ -8,6 +8,8 @@ import Confirmation from './Pages/Confirmation.jsx';
 // Make sure to import SectionNameProvider if it's from another file
 import Header from './Components/Header';
 import Footer from "./Components/Footer";
+import { Wellness } from "./sections/Wellness.jsx";
+import { LifeStyleSection } from "./sections/LifeStyleSection.jsx";
 
 function App() {
   return (

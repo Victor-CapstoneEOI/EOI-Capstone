@@ -94,16 +94,19 @@ const PDFGeneration = ({ signature }) => {
               const questionText = item.questionText || 'Question Text Not Found';
               const answer = item.answer?.answer || 'N/A';
 
-              // Add question and answer
-              page.drawText( {questionText}, {
+              // Add question
+              page.drawText(questionText, {
                 x: margin + logoWidth + 10, // Adjust x-coordinate for question
                 y: yOffset,
                 size: fontSize,
                 color: rgb(0, 0, 0), // Black color
               });
 
-              page.drawText( {answer}, {
-                x: margin + logoWidth + 200, // Adjust the x-coordinate for answer placement
+              yOffset -= fontSize + 2;
+
+              // Add answer
+              page.drawText(answer, {
+                x: margin + logoWidth + 10, // Adjust the x-coordinate for answer placement
                 y: yOffset,
                 size: fontSize,
                 color: rgb(0, 0, 0), // Black color

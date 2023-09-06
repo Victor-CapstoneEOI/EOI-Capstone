@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PDFDocument, rgb, StandardFonts, degrees } from 'pdf-lib';
+import { PDFDocument, rgb, StandardFonts, degrees, PageSizes } from 'pdf-lib';
 import axios from 'axios';
 import logoImage from '../img/cornervictor.png';
 
@@ -31,50 +31,62 @@ const PDFGeneration = ({ signature }) => {
       const pdfDoc = await PDFDocument.create();
       const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
       const fontSize = 12;
-      const pageWidth = 612; // Letter-sized paper (8.5 x 11 inches)
-      const pageHeight = 792;
+      const pageWidth = PageSizes.A4[0]; // Width of A4 page
+      const pageHeight = PageSizes.A4[1]; // Height of A4 page
       const margin = 50; // Adjust margins as needed
       const logoMarginBottom = 20; // Margin between logo and data
       const lineHeight = fontSize * 1.5;
 
       try {
-        const page = pdfDoc.addPage([pageWidth, pageHeight]);
+        let page = pdfDoc.addPage([pageWidth, pageHeight]);
         const { width, height } = page.getSize();
         let yOffset = height - margin;
-
-        // Fetch and embed the logo image
-        const logoImageBytes = await fetchLogoImageBytes();
-        if (!logoImageBytes) {
-          console.warn('Logo image fetch failed. Using fallback content.');
-        } else {
-          const logoImage = await pdfDoc.embedPng(logoImageBytes);
-          const logoWidth = 100;
-          const logoHeight = (logoWidth / logoImage.width) * logoImage.height;
-          const logoX = margin;
-          const logoY = height - logoHeight - margin;
-          page.drawImage(logoImage, {
-            x: logoX,
-            y: logoY,
-            width: logoWidth,
-            height: logoHeight,
-            rotate: degrees(0),
-          });
-
-          // Adjust yOffset to add space below the logo
-          yOffset = logoY - logoMarginBottom;
-        }
+        let sectionTopMargin = 20; // Margin from the top of the section
 
         for (const data of formData) {
           for (const section of data.sections) {
-            // Add section title
+            // Fetch and embed the logo image for each section
+            const logoImageBytes = await fetchLogoImageBytes();
+            if (!logoImageBytes) {
+              console.warn('Logo image fetch failed. Using fallback content.');
+            } else {
+              const logoImage = await pdfDoc.embedPng(logoImageBytes);
+              const logoWidth = 100;
+              const logoHeight = (logoWidth / logoImage.width) * logoImage.height;
+              const logoX = margin;
+              const logoY = yOffset - logoHeight - logoMarginBottom;
+
+              // Draw a horizontal line below the logo with space
+              const spaceAfterLogo = 10; // Adjust as needed
+              page.drawLine({
+                start: { x: logoX, y: logoY + logoHeight + spaceAfterLogo },
+                end: { x: width - margin, y: logoY + logoHeight + spaceAfterLogo },
+                thickness: 1,
+                color: rgb(0 / 255, 0 / 255, 0 / 255), // Black color
+              });
+
+              page.drawImage(logoImage, {
+                x: logoX,
+                y: logoY,
+                width: logoWidth,
+                height: logoHeight,
+                rotate: degrees(0),
+              });
+
+              // Adjust yOffset to add space below the logo
+              yOffset = logoY;
+            }
+
+            // Highlight the section title with custom color
+            const sectionColor = rgb(229 / 255, 82 / 255, 4 / 255); // #E55204 in RGB format
             page.drawText(`Section: ${section.section}`, {
               x: margin,
-              y: yOffset,
+              y: yOffset - sectionTopMargin,
               size: fontSize + 2,
-              color: rgb(0, 0, 0),
+              color: sectionColor,
             });
 
-            yOffset -= fontSize + 2;
+            yOffset -= fontSize + 2 + sectionTopMargin;
 
             for (const item of section.answers) {
               const questionText = item.questionText || 'Question Text Not Found';
@@ -85,17 +97,24 @@ const PDFGeneration = ({ signature }) => {
                 x: margin,
                 y: yOffset,
                 size: fontSize,
-                color: rgb(0, 0, 0),
+                color: rgb(0 / 255, 0 / 255, 0 / 255), // Black color
               });
 
               page.drawText(`Answer: ${answer}`, {
-                x: margin + 400, // Adjust the x-coordinate for answer placement
+                x: margin + 200, // Adjust the x-coordinate for answer placement
                 y: yOffset,
                 size: fontSize,
-                color: rgb(0, 0, 0),
+                color: rgb(0 / 255, 0 / 255, 0 / 255), // Black color
               });
 
               yOffset -= lineHeight;
+
+              // Check if the content fits on the current page
+              if (yOffset <= margin) {
+                page = pdfDoc.addPage([pageWidth, pageHeight]);
+                const newPageHeight = page.getSize().height;
+                yOffset = newPageHeight - margin;
+              }
             }
           }
         }

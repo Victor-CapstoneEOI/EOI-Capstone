@@ -5,16 +5,16 @@ import logoImage from '../img/cornervictor.png';
 
 const PDFGeneration = ({ signature }) => {
   const [pdfBytes, setPdfBytes] = useState(null);
-  const [formData, setFormData] = useState([]);
+  const [formData, setFormData] = useState(null);
 
   useEffect(() => {
     const fetchDataFromBackend = async () => {
       try {
-        const response = await axios.get('/api/getFormData');
-        const formDataFromBackend = response.data.formData;
-        setFormData(formDataFromBackend);
+        const response = await axios.get('/api/getLastFormData');
+        const lastFormData = response.data.formData;
+        setFormData(lastFormData);
       } catch (error) {
-        console.error('Error fetching form data:', error);
+        console.error('Error fetching last form data:', error);
       }
     };
 
@@ -23,7 +23,7 @@ const PDFGeneration = ({ signature }) => {
 
   useEffect(() => {
     const createPDF = async () => {
-      if (formData.length === 0) {
+      if (!formData) {
         console.warn('formData is empty');
         return;
       }
@@ -31,20 +31,19 @@ const PDFGeneration = ({ signature }) => {
       const pdfDoc = await PDFDocument.create();
       const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
       const fontSize = 12;
-      const pageWidth = PageSizes.A4[0]; // Width of A4 page
-      const pageHeight = PageSizes.A4[1]; // Height of A4 page
-      const margin = 0; // Remove left margin
-      const logoWidth = 60; // Adjust logo width
-      const logoHeight = 30; // Adjust logo height
-      const logoMarginTop = 20; // Margin from the top of the page
+      const pageWidth = PageSizes.A4[0];
+      const pageHeight = PageSizes.A4[1];
+      const margin = 0;
+      const logoWidth = 60;
+      const logoHeight = 30;
+      const logoMarginTop = 20;
 
       try {
         let page = pdfDoc.addPage([pageWidth, pageHeight]);
         const { width, height } = page.getSize();
         let yOffset = height - margin;
-        let sectionTopMargin = 20; // Margin from the top of each section
+        let sectionTopMargin = 20;
 
-        // Fetch and embed the logo image for the entire document
         const logoImageBytes = await fetchLogoImageBytes();
         if (!logoImageBytes) {
           console.warn('Logo image fetch failed. Using fallback content.');
@@ -53,7 +52,6 @@ const PDFGeneration = ({ signature }) => {
           const logoX = margin;
           const logoY = height - logoHeight - logoMarginTop;
 
-          // Add the logo to the top-left corner
           page.drawImage(logoImage, {
             x: logoX,
             y: logoY,
@@ -62,58 +60,52 @@ const PDFGeneration = ({ signature }) => {
             rotate: degrees(0),
           });
 
-          // Add space below the logo
           yOffset = logoY - 20;
 
-          // Add horizontal line after the space
           page.drawLine({
             start: { x: margin, y: yOffset },
             end: { x: width - margin, y: yOffset },
             thickness: 1,
-            color: rgb(0, 0, 0), // Black color
+            color: rgb(0, 0, 0),
           });
 
-          // Add space below the horizontal line
           yOffset -= 20;
         }
 
-        for (const data of formData) {
-          for (const section of data.sections) {
-            // Highlight the section title with custom color (orange)
-            const sectionColor = rgb(229 / 255, 82 / 255, 4 / 255); // #E55204 in RGB format
-            page.drawText(`Section: ${section.section}`, {
-              x: margin + logoWidth + 10, // Adjust x-coordinate for section title
-              y: yOffset - sectionTopMargin,
-              size: fontSize + 2,
-              color: sectionColor,
+        // You can access the sections directly from formData
+        const { sections } = formData;
+
+        for (const section of sections) {
+          page.drawText(`Section: ${section.section}`, {
+            x: margin + logoWidth + 10,
+            y: yOffset - sectionTopMargin,
+            size: fontSize + 2,
+            color: rgb(229 / 255, 82 / 255, 4 / 255),
+          });
+
+          yOffset -= fontSize + 2 + sectionTopMargin;
+
+          for (const item of section.answers) {
+            const questionText = item.questionText || 'Question Text Not Found';
+            const answer = item.answer?.answer || 'N/A';
+
+            page.drawText(`Question: ${questionText}`, {
+              x: margin + logoWidth + 10,
+              y: yOffset,
+              size: fontSize,
+              color: rgb(0, 0, 0),
             });
 
-            yOffset -= fontSize + 2 + sectionTopMargin;
+            yOffset -= fontSize + 2;
 
-            for (const item of section.answers) {
-              const questionText = item.questionText || 'Question Text Not Found';
-              const answer = item.answer?.answer || 'N/A';
+            page.drawText(`Answer: ${answer}`, {
+              x: margin + logoWidth + 10,
+              y: yOffset,
+              size: fontSize,
+              color: rgb(0, 0, 0),
+            });
 
-              // Add question
-              page.drawText(questionText, {
-                x: margin + logoWidth + 10, // Adjust x-coordinate for question
-                y: yOffset,
-                size: fontSize,
-                color: rgb(0, 0, 0), // Black color
-              });
-
-              yOffset -= fontSize + 2;
-
-              // Add answer
-              page.drawText(answer, {
-                x: margin + logoWidth + 10, // Adjust the x-coordinate for answer placement
-                y: yOffset,
-                size: fontSize,
-                color: rgb(0, 0, 0), // Black color
-              });
-
-              yOffset -= fontSize + 2;
-            }
+            yOffset -= fontSize + 2;
           }
         }
 

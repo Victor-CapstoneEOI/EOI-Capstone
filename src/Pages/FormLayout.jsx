@@ -50,11 +50,11 @@ export const FormLayout = () => {
           </div>
             <div className="jsonForms">
               <div className="section">
-                {/* {activeSection == 0 &&<PersonalInformation />}
-                {activeSection == 1 &&<PastApplications />} */}
+                {activeSection == 0 &&<PersonalInformation />}
+                {activeSection == 1 &&<PastApplications />}
                 {activeSection == 2 && <LifeStyleSection index={0} />}
                 {activeSection == 3 && <Wellness />}
-                {/* {activeSection == 4 && <MedicalSection />} */}
+                {activeSection == 4 && <MedicalSection />}
               </div>
             </div>
             <button className="previous-button" onClick={goToPreviousSection} disabled={activeSection === 0}>

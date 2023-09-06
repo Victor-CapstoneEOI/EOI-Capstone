@@ -35,7 +35,7 @@
   padding: 20px;
   color: #fff;
   border-radius: 8px;
-  margin-top: -30px;
+  margin-top: -50px;
 }
 
 button.next, button.previous {
@@ -61,7 +61,6 @@ button.next, button.previous {
   font-size: 1rem;
   transition: background-color 0.3s ease;
 }
-
 
 .next-button:hover, button.next:hover, button.previous:hover {
   background-color: lightgray;

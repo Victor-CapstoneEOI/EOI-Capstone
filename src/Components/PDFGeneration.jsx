@@ -7,20 +7,29 @@ const PDFGeneration = ({ signature }) => {
   const [pdfBytes, setPdfBytes] = useState(null);
   const [formData, setFormData] = useState([]);
 
+  
   useEffect(() => {
     const fetchDataFromBackend = async () => {
       try {
-        const response = await axios.get('/api/getFormData');
+        const response = await axios.get('/api/getLastFormData');
         const formDataFromBackend = response.data.formData;
-        setFormData(formDataFromBackend);
+  
+        if (!formDataFromBackend.sections || formDataFromBackend.sections.length === 0) {
+          console.warn('Sections array in API response is empty or missing.');
+          return;
+        }
+  
+        setFormData([formDataFromBackend]); // Wrap the single entry in an array
+        console.log(formDataFromBackend);
       } catch (error) {
         console.error('Error fetching form data:', error);
       }
     };
-
+  
     fetchDataFromBackend();
   }, []);
-
+  
+  
   useEffect(() => {
     const createPDF = async () => {
       if (formData.length === 0) {
@@ -31,21 +40,19 @@ const PDFGeneration = ({ signature }) => {
       const pdfDoc = await PDFDocument.create();
       const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
       const fontSize = 12;
-      const pageWidth = PageSizes.A4[0]; 
-      const pageHeight = PageSizes.A4[1]; 
-      const margin = 0; 
-      const logoWidth = 60; 
-      const logoHeight = 30; 
-      const logoMarginTop = 20; 
-      const maxContentHeight = pageHeight - margin - logoHeight - logoMarginTop - 40; 
+      const pageWidth = PageSizes.A4[0];
+      const pageHeight = PageSizes.A4[1];
+      const margin = 0;
+      const logoWidth = 60;
+      const logoHeight = 30;
+      const logoMarginTop = 20;
+      const maxContentHeight = pageHeight - margin - logoHeight - logoMarginTop - 40;
 
       try {
         let page = pdfDoc.addPage([pageWidth, pageHeight]);
         const { width, height } = page.getSize();
         let yOffset = height - margin;
-        let sectionTopMargin = 20; 
 
-        
         const logoImageBytes = await fetchLogoImageBytes();
         if (!logoImageBytes) {
           console.warn('Logo image fetch failed. Using fallback content.');
@@ -54,7 +61,6 @@ const PDFGeneration = ({ signature }) => {
           const logoX = margin;
           const logoY = height - logoHeight - logoMarginTop;
 
-          
           page.drawImage(logoImage, {
             x: logoX,
             y: logoY,
@@ -65,64 +71,70 @@ const PDFGeneration = ({ signature }) => {
 
           yOffset = logoY - 20;
 
-          
           page.drawLine({
             start: { x: margin, y: yOffset },
             end: { x: width - margin, y: yOffset },
             thickness: 1,
-            color: rgb(0, 0, 0), 
+            color: rgb(0, 0, 0),
           });
 
-          
           yOffset -= 20;
         }
 
         for (const data of formData) {
           for (const section of data.sections) {
-            
-            const sectionColor = rgb(229 / 255, 82 / 255, 4 / 255); 
-            page.drawText(`Section: ${section.section}`, {
-              x: margin + logoWidth + 10, 
-              y: yOffset - sectionTopMargin,
+            const sectionColor = rgb(229 / 255, 82 / 255, 4 / 255);
+            const sectionTitle = `Section: ${section.section}`;
+            const sectionTitleHeight = fontSize + 2;
+            const sectionSpace = sectionTitleHeight + 10;
+
+            if (yOffset - sectionTitleHeight < 0) {
+              page = pdfDoc.addPage([pageWidth, pageHeight]);
+              yOffset = height - margin;
+            }
+
+            page.drawText(sectionTitle, {
+              x: margin + logoWidth + 10,
+              y: yOffset - sectionSpace,
               size: fontSize + 2,
               color: sectionColor,
             });
 
-            yOffset -= fontSize + 2 + sectionTopMargin;
+            yOffset -= sectionSpace;
 
             for (const item of section.answers) {
               const questionText = item.questionText || 'Question Text Not Found';
               const answer = item.answer?.answer || 'N/A';
 
-              const remainingSpace = yOffset - fontSize - 2;
-              if (remainingSpace < 0) {
-                
+              const questionTextHeight = fontSize;
+              const answerHeight = 14;
+
+              if (yOffset - questionTextHeight - answerHeight < 0) {
                 page = pdfDoc.addPage([pageWidth, pageHeight]);
                 yOffset = height - margin;
               }
 
-              
               page.drawText(questionText, {
-                x: margin + logoWidth + 10, 
-                y: yOffset,
+                x: margin + logoWidth + 10,
+                y: yOffset - questionTextHeight,
                 size: fontSize,
-                color: rgb(0, 0, 0), 
-                maxWidth: pageWidth - margin - logoWidth - 20, 
-                lineHeight: 14, 
+                color: rgb(0, 0, 0),
+                maxWidth: pageWidth - margin - logoWidth - 20,
+                lineHeight: 14,
               });
 
-       
-              const answerX = margin + logoWidth + 200; 
+              const answerX = margin + logoWidth + 200;
+
               page.drawText(answer, {
                 x: answerX,
-                y: yOffset,
+                y: yOffset - answerHeight,
                 size: fontSize,
-                color: rgb(0, 0, 0), 
+                color: rgb(0, 0, 0),
                 maxWidth: pageWidth - answerX - margin,
-                lineHeight: 14, // Adjust line height as needed
+                lineHeight: 14,
               });
 
-              yOffset -= fontSize + 14; // Use line height to separate question and answer
+              yOffset -= questionTextHeight + answerHeight;
             }
           }
         }

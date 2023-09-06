@@ -68,11 +68,10 @@ router.post("/save-full-form", async (req, res) => {
 });
 
 // API endpoint to fetch form data
+
 router.get('/getFormData', async (req, res) => {
   try {
     const formData = await FullFormAnswer.find({}); 
-
-
     res.json({ formData });
   } catch (error) {
     console.error('Error fetching form data:', error);
@@ -94,6 +93,5 @@ router.get('/getLastFormData', async (req, res) => {
       res.status(500).json({ message: 'Internal server error' });
     }
   });
-  
-  
+
 export default router;

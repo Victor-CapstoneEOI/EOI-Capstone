@@ -6,7 +6,7 @@
     background-color: lightgray;
     width: auto;
     height: 300px;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,7 +25,7 @@
     flex: 1;
     background-color: #F0ECE3;
     width: auto;
-    height: 300px;
+    height: 350px;
     display: flex;
     justify-content: center;
     align-items: flex-start; 
@@ -37,7 +37,7 @@
     font-weight: 24px;
     font-size: 25px;
     margin-left: 110px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     font-family: 'Rubik', sans-serif; 
   }
 

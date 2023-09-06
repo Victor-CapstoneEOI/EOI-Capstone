@@ -23,12 +23,10 @@ export const Confirmation = () => {
       </div>
       <div className="half-bottom">
         <div className='Download'>
-          <p>If the form hasn't been downloaded automatically</p>
-          <p>to your computer, you can use this <a href="#" className='bolder-link' onClick={() => {/* Your PDF download logic here */}}>link</a> to initiate</p>
-          <p>the download.</p>
+        <PDFGeneration signature={signature} formData={formData} />
         </div>
       </div>
-      <PDFGeneration signature={signature} formData={formData} />
+      
     </div>
   );
 };

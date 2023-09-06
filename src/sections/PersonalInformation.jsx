@@ -6,7 +6,7 @@ import FormContext from "../Components/FormContext";
 
 export const PersonalInformation = () => {
   const { formData, updateFormData, activeSection, setActiveSection } = useContext(FormContext);
-
+  
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isFieldEmpty, setIsFieldEmpty] = useState(true);
@@ -56,10 +56,9 @@ export const PersonalInformation = () => {
     }
     const nextIndex = currentQuestionIndex + 1;
     if (nextIndex < questions.length) {
-        updateFormData({ [currentQuestion.questionText]: formData[currentQuestion.questionText] });
         setCurrentQuestionIndex(nextIndex);
     } else {
-        // Assuming you would like to increment the activeSection to move to the next form
+        // Increment the activeSection to move to the next form
         setActiveSection(activeSection + 1);
     }
   };
@@ -79,20 +78,25 @@ export const PersonalInformation = () => {
 
   return (
     <div onKeyDown={handleKeyPress}>
-      {/* <h2>{currentQuestion.section}</h2> */}
       {currentQuestion.subSection1 && <h3>{currentQuestion.subSection1}</h3>}
-      {currentQuestion.subSection2 && <h4>{currentQuestion.subSection2}</h4>}
-
+      {/* {currentQuestion.subSection2 && <h4>{currentQuestion.subSection2}</h4>} */}
       <JsonForms
-        key={currentQuestionIndex}
-        schema={getSchemaForQuestion(currentQuestion)}
-        uischema={getUiSchemaForQuestion(currentQuestion)}
-        data={formData[currentQuestion.questionText] || {}}
-        renderers={materialRenderers}
-        onChange={({ data }) => updateFormData({ [currentQuestion.questionText]: data })}
-        liveValidate={true}
+          key={currentQuestionIndex}
+          schema={getSchemaForQuestion(currentQuestion)}
+          uischema={getUiSchemaForQuestion(currentQuestion)}
+          data={formData[currentQuestion.questionText]?.answer || {}}
+          renderers={materialRenderers}
+          onChange={({ data }) => updateFormData({ 
+              [currentQuestion.questionText]: {
+                  answer: data,
+                  metadata: {
+                      section: currentQuestion.section, 
+                      id: currentQuestion._id 
+                  }
+              }
+          })}
+          liveValidate={true}
       />
-
       <button type="button" onClick={handlePrevious} className="previous">
         Previous
       </button>

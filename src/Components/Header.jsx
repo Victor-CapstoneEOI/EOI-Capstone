@@ -12,6 +12,7 @@ const Header = () => {
       position: 'sticky',
       top: 0,
       zIndex: 1100,
+      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'  // Added boxShadow here
     }}>
       <Toolbar>
         <div className='Logo'>

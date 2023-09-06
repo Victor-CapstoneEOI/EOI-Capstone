@@ -144,7 +144,8 @@ export const MedicalSection = () => {
                 answer: data,
                 metadata: {
                     section: displayQuestion.section,
-                    id: displayQuestion._id 
+                    id: displayQuestion._id,
+                    questionText: displayQuestion.displayQuestion
                 }
             }
         })}

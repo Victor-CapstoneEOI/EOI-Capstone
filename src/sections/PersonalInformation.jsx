@@ -6,7 +6,7 @@ import FormContext from "../Components/FormContext";
 
 export const PersonalInformation = () => {
   const { formData, updateFormData, activeSection, setActiveSection } = useContext(FormContext);
-  
+
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isFieldEmpty, setIsFieldEmpty] = useState(true);
@@ -56,6 +56,7 @@ export const PersonalInformation = () => {
     }
     const nextIndex = currentQuestionIndex + 1;
     if (nextIndex < questions.length) {
+        updateFormData({ [currentQuestion.questionText]: formData[currentQuestion.questionText] });
         setCurrentQuestionIndex(nextIndex);
     } else {
         // Increment the activeSection to move to the next form
@@ -76,9 +77,15 @@ export const PersonalInformation = () => {
     return <div>Form Complete</div>;
   }
 
+  if (questions.length === 0) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div onKeyDown={handleKeyPress}>
+      {/* <h2>{currentQuestion.section}</h2> */}
       {currentQuestion.subSection1 && <h3>{currentQuestion.subSection1}</h3>}
+
       {/* {currentQuestion.subSection2 && <h4>{currentQuestion.subSection2}</h4>} */}
       <JsonForms
 
@@ -99,6 +106,7 @@ export const PersonalInformation = () => {
           })}
           liveValidate={true}
       />
+
       <button type="button" onClick={handlePrevious} className="previous">
 
         Previous

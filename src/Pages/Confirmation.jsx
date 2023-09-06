@@ -13,12 +13,21 @@ export const Confirmation = () => {
   const signature = searchParams.get('signature');
 
   return (
-    <div className='confirmation-wrapper'>
-      <div className='confirmation-message'>
-        <h2>Thank You!</h2>
-        <p>Your form has been submitted successfully.</p>
-      </div>
+    <div>
+      <div className="half-top">
+        <div className='ThankYou'>
+        <p className='Registration'>Your Form is Complete</p>
 
+          <p className='Joining'>Thank you for completing your Evidence of Insurability.</p>
+        </div>
+      </div>
+      <div className="half-bottom">
+        <div className='Download'>
+          <p>If the form hasn't been downloaded automatically</p>
+          <p>to your computer, you can use this <a href="#" className='bolder-link' onClick={() => {/* Your PDF download logic here */}}>link</a> to initiate</p>
+          <p>the download.</p>
+        </div>
+      </div>
       <PDFGeneration signature={signature} formData={formData} />
     </div>
   );

@@ -18,25 +18,46 @@
     color: #E35205;
     font-weight: 24px;
     font-size: 24px;
+    font-family: 'Rubik', sans-serif;
   }
   
   .half-bottom {
     flex: 1;
     background-color: #F0ECE3;
     width: auto;
-    height: 400px;
+    height: 300px;
     display: flex;
     justify-content: center;
-    align-items: center;
-
+    align-items: flex-start; 
+    padding-top: 40px; 
   }
   
-  .Download p{
+  .Download p {
     color: black;
     font-weight: 24px;
-    font-size: 24px;
+    font-size: 25px;
+    margin-left: 110px;
+    margin-bottom: 20px;
+    font-family: 'Rubik', sans-serif; 
   }
 
+  
   .bolder-link {
-  font-weight: 900; /* making it more bolder */
-}
+    font-weight: 900; 
+    text-decoration: none; 
+    color: black; 
+    font-family: 'Rubik', sans-serif;
+  }
+  
+
+  p.Registration {
+    font-size: 48px; 
+    font-family: 'Rubik', sans-serif;
+    margin-left: 150px;
+  }
+
+  p.Joining{
+    font-size: 25px;
+    margin-left: 115px;
+    font-family: 'Rubik', sans-serif;
+  }

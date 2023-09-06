@@ -77,6 +77,10 @@ export const PersonalInformation = () => {
     return <div>Form Complete</div>;
   }
 
+  if (questions.length === 0) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div onKeyDown={handleKeyPress}>
       {/* <h2>{currentQuestion.section}</h2> */}

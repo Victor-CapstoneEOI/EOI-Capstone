@@ -49,8 +49,8 @@ export const LifeStyleSection = ({ index }) => {
     } else if (current < questions.length - 1) {
       setCurrent(current + 1);
       setNestedIndex(0);  // reset nested index when going to a new parent question
-    } else {
-      setActiveSection(activeSection + 1);
+    // } else {
+    //   setActiveSection(activeSection + 1);
     }
   };
 

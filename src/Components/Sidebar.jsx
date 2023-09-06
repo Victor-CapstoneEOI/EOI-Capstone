@@ -10,6 +10,10 @@ const Sidebar = () => {
     setShowSidebar(!showSidebar);
   };
 
+  const handleGetHelpClick = () => {
+    window.location.href = "mailto:help@example.com?subject=Need Help&body=Please describe your issue here.";
+  };
+
   return (
     <div>
       <button onClick={toggleSidebar}>
@@ -35,12 +39,12 @@ const Sidebar = () => {
               <ListItemIcon className="help-icon">
                 <Help />
               </ListItemIcon>
-              <ListItemText primary="Need help? Click here if you need assistance." className="sidebar-text" />
+              <ListItemText primary="Need help? Click here if you need assistance" className="sidebar-text" />
             </ListItem>
           </section>
           
           <div className="sidebar-button-container">
-            <button className="sidebar-button">GET HELP</button>
+            <button className="sidebar-button" onClick={handleGetHelpClick}>GET HELP</button>
           </div>
         </div>
       )}

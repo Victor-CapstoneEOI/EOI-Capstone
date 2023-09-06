@@ -9,7 +9,7 @@ export const PastApplications = () => {
   const [currentParent, setCurrentParent] = useState(0);
   const [showchildQuestion, setShowChildQuestion] = useState(false);
 
-  const nestedQuestion = questions[currentParent]?.childQuestions;
+
   const { activeSection, setActiveSection } = useContext(FormContext);
 
   useEffect(() => {
@@ -65,13 +65,15 @@ export const PastApplications = () => {
   };
 
   const handlePrevious = () => {
-    if (currentParent === 0) {
-      setActiveSection(activeSection - 1);
-    }
-    setShowChildQuestion(false);
+    if (showchildQuestion){
+      setShowChildQuestion(false)
+    }else setActiveSection(activeSection -1)
 
-  
   };
+
+  if (questions.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>

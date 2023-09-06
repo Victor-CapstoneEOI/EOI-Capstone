@@ -27,9 +27,7 @@ export const Wellness = () => {
       .catch((error) => console.error("Error fetching questions:", error));
   }, []);
 
-  const getNextChildQuestion = (childIndex, childQuestion) => {
-    const currentQuestion = childQuestion[childIndex];
-  };
+ 
 
   const getNextQuestion = (parentIndex, questions, userAnswer) => {
     const currentQuestion = questions[parentIndex];
@@ -68,25 +66,18 @@ export const Wellness = () => {
       questions,
       userAnswer
     );
-    const newChildIndex = getNextChildQuestion(nestedIndex, nestedQuestions);
+  
     if (newParentIndex < questions.length) {
       setCurrentParent(newParentIndex);
     }
 
-    if (newChildIndex > 4) {
-      setActiveSection(activeSection + 1);
-    }
   };
 
   //Previous
   const handlePrevious = () => {
+    if (showChildQuestion) setShowChildQuestion(false)
     if (currentParent == 0) setActiveSection(activeSection - 1);
-    if (currentParent == 0 && showChildQuestion) setShowChildQuestion(false);
-    if (currentParent == 2 && showChildQuestion) {
-      setShowChildQuestion(false);
-      // Create function to generate parent schema and call it here on parent question with index = 0
-      //Repeat functionality for parent question #4
-    }
+    
   };
 
   // Setting up all dynamic values for schema and uiSchemas
@@ -322,6 +313,9 @@ export const Wellness = () => {
   };
 
   console.log(userAnswer);
+  if (questions.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>

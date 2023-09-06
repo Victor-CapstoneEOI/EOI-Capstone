@@ -65,12 +65,10 @@ export const PastApplications = () => {
   };
 
   const handlePrevious = () => {
-    if (currentParent === 0) {
-      setActiveSection(activeSection - 1);
-    }
-    setShowChildQuestion(false);
+    if (showchildQuestion){
+      setShowChildQuestion(false)
+    }else setActiveSection(activeSection -1)
 
-  
   };
 
   return (

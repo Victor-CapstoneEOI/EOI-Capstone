@@ -80,8 +80,8 @@ export const Wellness = () => {
 
   //Previous
   const handlePrevious = () => {
-    if (currentParent == 0) setActiveSection(activeSection - 1);
     if (currentParent == 0 && showChildQuestion) setShowChildQuestion(false);
+    if (currentParent == 0) setActiveSection(activeSection - 1);
     if (currentParent == 2 && showChildQuestion) {
       setShowChildQuestion(false);
       // Create function to generate parent schema and call it here on parent question with index = 0

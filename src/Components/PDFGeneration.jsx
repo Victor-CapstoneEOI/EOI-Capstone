@@ -3,22 +3,9 @@ import { PDFDocument, rgb, StandardFonts, degrees } from 'pdf-lib';
 import axios from 'axios';
 import logoImage from '../img/cornervictor.png';
 
-// Function to fetch the logo image
-const fetchLogoImageBytes = async () => {
-  try {
-    // Convert the imported image to a Uint8Array
-    const imageArrayBuffer = new Uint8Array(await (await fetch(logoImage)).arrayBuffer());
-    return imageArrayBuffer;
-  } catch (error) {
-    console.error('Error fetching logo image:', error);
-    return null; // Return null to indicate failure
-  }
-};
-
 const PDFGeneration = ({ signature }) => {
   const [pdfBytes, setPdfBytes] = useState(null);
   const [formData, setFormData] = useState([]);
-  const [questionTextData, setQuestionTextData] = useState([]);
 
   useEffect(() => {
     const fetchDataFromBackend = async () => {
@@ -26,11 +13,6 @@ const PDFGeneration = ({ signature }) => {
         const response = await axios.get('/api/getFormData');
         const formDataFromBackend = response.data.formData;
         setFormData(formDataFromBackend);
-
-        const extractedQuestionTextData = extractQuestionTextData(formDataFromBackend);
-        setQuestionTextData(extractedQuestionTextData);
-
-        console.log(formDataFromBackend);
       } catch (error) {
         console.error('Error fetching form data:', error);
       }
@@ -49,116 +31,101 @@ const PDFGeneration = ({ signature }) => {
       const pdfDoc = await PDFDocument.create();
       const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
       const fontSize = 12;
+      const pageWidth = 612; // Letter-sized paper (8.5 x 11 inches)
+      const pageHeight = 792;
+      const margin = 50; // Adjust margins as needed
+      const logoMarginBottom = 20; // Margin between logo and data
+      const lineHeight = fontSize * 1.5;
 
       try {
-        await Promise.all(
-          formData.map(async (data) => {
-            data.sections.forEach(async (section) => {
-              const page = pdfDoc.addPage();
-              const { width, height } = page.getSize();
-              let yOffset = height - fontSize;
+        const page = pdfDoc.addPage([pageWidth, pageHeight]);
+        const { width, height } = page.getSize();
+        let yOffset = height - margin;
 
-              // Add the header with the logo
-              const logoImageBytes = await fetchLogoImageBytes();
+        // Fetch and embed the logo image
+        const logoImageBytes = await fetchLogoImageBytes();
+        if (!logoImageBytes) {
+          console.warn('Logo image fetch failed. Using fallback content.');
+        } else {
+          const logoImage = await pdfDoc.embedPng(logoImageBytes);
+          const logoWidth = 100;
+          const logoHeight = (logoWidth / logoImage.width) * logoImage.height;
+          const logoX = margin;
+          const logoY = height - logoHeight - margin;
+          page.drawImage(logoImage, {
+            x: logoX,
+            y: logoY,
+            width: logoWidth,
+            height: logoHeight,
+            rotate: degrees(0),
+          });
 
-              if (!logoImageBytes) {
-                console.warn('Logo image fetch failed. Using fallback content.');
-                return;
-              }
+          // Adjust yOffset to add space below the logo
+          yOffset = logoY - logoMarginBottom;
+        }
 
-              console.log('Logo image fetched successfully'); // Add this line
+        for (const data of formData) {
+          for (const section of data.sections) {
+            // Add section title
+            page.drawText(`Section: ${section.section}`, {
+              x: margin,
+              y: yOffset,
+              size: fontSize + 2,
+              color: rgb(0, 0, 0),
+            });
 
-              const logoImage = await pdfDoc.embedPng(logoImageBytes);
+            yOffset -= fontSize + 2;
 
-              const logoWidth = 100;
-              const logoHeight = (logoWidth / logoImage.width) * logoImage.height;
-              const logoX = 50;
-              const logoY = height - logoHeight - 20;
+            for (const item of section.answers) {
+              const questionText = item.questionText || 'Question Text Not Found';
+              const answer = item.answer?.answer || 'N/A';
 
-              // Use PDFImage for the logo
-              const pdfLogoImage = page.drawImage(logoImage, {
-                x: logoX,
-                y: logoY,
-                width: logoWidth,
-                height: logoHeight,
-                rotate: degrees(0),
-              });
-
-              // Draw section title
-              page.drawText(`Section: ${section.section}`, {
-                x: 50,
+              // Add question and answer
+              page.drawText(`Question: ${questionText}`, {
+                x: margin,
                 y: yOffset,
-                size: fontSize + 2,
+                size: fontSize,
                 color: rgb(0, 0, 0),
               });
 
-              console.log(`Section: ${section.section} added`); // Add this line
-
-              section.answers.forEach((item) => {
-                const questionId = item.questionId;
-                const questionText = item.questionText || 'Question Text Not Found';
-                const answer = item.answer?.answer || 'N/A';
-
-                yOffset -= 2 * fontSize;
-
-                page.drawText(`Question: ${questionText}`, {
-                  x: 50,
-                  y: yOffset,
-                  size: fontSize,
-                  color: rgb(0, 0, 0),
-                });
-
-                page.drawText(`Answer: ${answer}`, {
-                  x: 50,
-                  y: yOffset - fontSize,
-                  size: fontSize,
-                  color: rgb(0, 0, 0),
-                });
-
-                yOffset -= 2 * fontSize;
+              page.drawText(`Answer: ${answer}`, {
+                x: margin + 400, // Adjust the x-coordinate for answer placement
+                y: yOffset,
+                size: fontSize,
+                color: rgb(0, 0, 0),
               });
 
-              // Add a section to display the form data
-              yOffset -= 2 * fontSize;
-
-              formData.forEach((data) => {
-                data.sections.forEach((section) => {
-                  section.answers.forEach((item) => {
-                    const questionText = item.questionText || 'Question Text Not Found';
-                    const answer = item.answer?.answer || 'N/A';
-
-                    page.drawText(`Question: ${questionText}`, {
-                      x: 50,
-                      y: yOffset,
-                      size: fontSize,
-                      color: rgb(0, 0, 0),
-                    });
-
-                    page.drawText(`Answer: ${answer}`, {
-                      x: 50,
-                      y: yOffset - fontSize,
-                      size: fontSize,
-                      color: rgb(0, 0, 0),
-                    });
-
-                    yOffset -= 2 * fontSize;
-                  });
-                });
-              });
-            });
-          })
-        );
+              yOffset -= lineHeight;
+            }
+          }
+        }
 
         const generatedPdfBytes = await pdfDoc.save();
         setPdfBytes(generatedPdfBytes);
 
-        console.log('PDF generated successfully'); // Add this line
+        console.log('PDF generated successfully');
       } catch (error) {
         console.error('Error generating PDF:', error);
       }
     };
+
     createPDF();
-  }, [signature, formData]);
+  }, [formData]);
+
+  const fetchLogoImageBytes = async () => {
+    try {
+      const response = await fetch(logoImage);
+      if (!response.ok) {
+        console.warn('Failed to fetch logo image:', response.status);
+        return null;
+      }
+      const imageArrayBuffer = new Uint8Array(await response.arrayBuffer());
+      return imageArrayBuffer;
+    } catch (error) {
+      console.error('Error fetching logo image:', error);
+      return null;
+    }
+  };
 
   const handleDownload = () => {
     if (pdfBytes) {
@@ -171,31 +138,19 @@ const PDFGeneration = ({ signature }) => {
     }
   };
 
-  const extractQuestionTextData = (formData) => {
-    const extractedData = [];
-
-    formData.forEach((data) => {
-      data.sections.forEach((section) => {
-        section.answers.forEach((item) => {
-          const questionId = item.questionId;
-          const questionText = item?.questionText || 'Question Text Not Found';
-
-          extractedData.push({ questionId, questionText });
-        });
-      });
-    });
-
-    return extractedData;
-  };
-
   return (
     <div className="Download">
-      <p>If the form hasn't been downloaded automatically</p>
-      <p>
-        to your computer, you can use this
-        <span className="bolder-link" onClick={handleDownload}> link</span> to initiate
-      </p>
-      <p>the download.</p>
+      {pdfBytes ? (
+        <>
+          <p>If the form hasn't been downloaded automatically</p>
+          <p>
+            you can use this <span className="bolder-link" onClick={handleDownload}>link</span> to initiate
+          </p>
+          <p>the download.</p>
+        </>
+      ) : (
+        <p>Generating PDF...</p>
+      )}
     </div>
   );
 };

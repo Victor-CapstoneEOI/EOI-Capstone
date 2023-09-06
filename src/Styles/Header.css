@@ -1,12 +1,55 @@
-/* Header.css */
 .header {
-    background-color: #ffffff; 
+    background-color: #ffffff;
     color: #000000;
-
-}
+    background-color: #ffffff;
+    color: #000000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   
-.Logo{
-margin-top: 20px;
-
-}
+  .Logo {
+    margin-top: 20px;
+  }
   
+/* For desktop and tablet screens */
+.menu-toggle {
+  display: none;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+}
+
+.nav-links li {
+  margin: 0 15px;
+}
+
+/* For tablet screens */
+@media (max-width: 768px) {
+  .Logo {
+    margin-top: 15px;
+  }
+  .menu-toggle {
+    display: flex;
+  }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+  }
+  .nav-links.active {
+    display: flex;
+  }
+}
+
+/* For mobile screens */
+@media (max-width: 480px) {
+  .Logo {
+    margin-top: 10px;
+  }
+}

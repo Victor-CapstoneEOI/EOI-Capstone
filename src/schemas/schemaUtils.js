@@ -80,12 +80,25 @@ const isOptional = questionText.toLowerCase().includes("(optional)");
             schema.required = ["address"];
           }
           break;
+      
+      case "Email":
+        schema.properties.answer = {
+            type: "string",
+            format: "email"
+        };
+        break;
+        
+      case "Telephone":
+        schema.properties.answer = {
+            type: "string",
+            format: "telephone"
+        };
+        break
 
       default:
         break;
     }
   }
-
   return schema;
 };
 
@@ -148,7 +161,6 @@ export const getUiSchemaForQuestion = (question, isChild = false) => {
           ]
         };
         break;
-      
         
       case "Multi-line Textbox":
         uiSchema = {
@@ -194,7 +206,37 @@ export const getUiSchemaForQuestion = (question, isChild = false) => {
           ]
         };
         break;
-
+      
+      case "Email":
+        uiSchema = {
+            type: "Group",
+            label: displayLabel,
+            elements: [
+                { 
+                    type: "Control", 
+                    scope: "#/properties/answer",
+                }
+            ]
+        };
+        break;
+      
+      case "Telephone":
+          uiSchema = {
+              type: "Group",
+              label: displayLabel,
+              elements: [
+                  { 
+                      type: "Control", 
+                      scope: "#/properties/answer",
+                      options: {
+                          inputType: "tel", 
+                          description: "Format: (123) 456-7890"
+                      }
+                  }
+              ]
+          };
+          break;
+        
       default:
         break;
     }

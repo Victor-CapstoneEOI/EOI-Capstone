@@ -60,33 +60,44 @@ export const LifeStyleSection = ({ index }) => {
 
       {data.answer === "Yes" && nestedQuestions.length > 0 && (
         <div>
-          {nestedQuestions.map((nestedQuestion, nestedIndex) => (
-            <div key={nestedIndex}>
-              <p>{nestedQuestion.labelText}</p>
 
-              <JsonForms
-                schema={
-                  generateQuestionSchemaAndUISchema(
-                    nestedQuestions[nestedIndex]
-                  ).questionSchema
-                }
-                uischema={
-                  generateQuestionSchemaAndUISchema(
-                    nestedQuestions[nestedIndex]
-                  ).uiSchema
-                }
-                data={nestedQuestion}
-                renderers={materialRenderers}
-                onChange={({ errors, data }) => nestedQuestion(data)}
-              />
-            </div>
-          ))}
+          <h4>{currentQuestion.subSection1}</h4>
+
+          <h4>{nestedQuestions[nestedIndex].subSection1}</h4>
+
+          <p>{nestedQuestions[nestedIndex].labelText}</p>
+          
+          <JsonForms
+            schema={
+              generateQuestionSchemaAndUISchema(nestedQuestions[nestedIndex])
+                .questionSchema
+            }
+            uischema={
+              generateQuestionSchemaAndUISchema(nestedQuestions[nestedIndex])
+                .uiSchema
+            }
+            data={nestedQuestionData}
+            renderers={[...materialRenderers, ...materialCells]}
+            onChange={({ errors, data }) => {
+              setNestedQuestionData(data);
+              setIsMainFieldEmpty(!data.answer);
+            }}
+          />
         </div>
       )}
-      <button onClick={previous} className="previous">
+
+      <button onClick={previous} disabled={current === 0 && nestedIndex === 0} className="previous">
         Previous
       </button>
-      <button onClick={next} className="next">
+      <button
+        onClick={next}
+        disabled={
+          (current === questions.length - 1 &&
+            nestedIndex === nestedQuestions.length - 1) ||
+          isMainFieldEmpty
+        } 
+        className="next"
+      >
         Next
       </button>
     </>

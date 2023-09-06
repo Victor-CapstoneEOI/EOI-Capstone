@@ -35,7 +35,7 @@ const Sidebar = () => {
               <ListItemIcon className="help-icon">
                 <Help />
               </ListItemIcon>
-              <ListItemText primary="I need help. Et quidem exercitus Quid" className="sidebar-text" />
+              <ListItemText primary="Need help? Click here if you need assistance." className="sidebar-text" />
             </ListItem>
           </section>
           

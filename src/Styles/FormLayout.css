@@ -121,7 +121,6 @@ button.next, button.previous {
     min-width: 100%;
     margin-right: 0;
   }
-<<<<<<< HEAD
 }
 
 /* For tablet screens */
@@ -156,7 +155,6 @@ button.next, button.previous {
     padding: 10px;
   }
 }
-=======
 
 }
 
@@ -183,4 +181,3 @@ button.previous-button, button.next-section-button{
   font-size: 1rem;
   transition: background-color 0.3s ease;
 }
->>>>>>> f79d1ad91c53ac416b4ab0f1c9599418c14d905a

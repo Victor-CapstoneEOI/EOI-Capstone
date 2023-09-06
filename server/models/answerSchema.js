@@ -17,6 +17,11 @@ const parentAnswerSchema = mongoose.Schema({
         required: true,
         ref: 'ParentQuestion'
     },
+    questionText: {
+        type: mongoose.Schema.Types.Mixed,
+        required: true,
+        // ref: 'ParentQuestion'
+    },
     answer: {
         type: mongoose.Schema.Types.Mixed,
         required: true

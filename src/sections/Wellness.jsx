@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useRef,useEffect, useContext } from "react";
 import { JsonForms } from "@jsonforms/react";
 import { materialRenderers } from "@jsonforms/material-renderers";
 import FormContext from "../Components/FormContext";
@@ -15,19 +15,26 @@ export const Wellness = () => {
 
   const [nestedIndex, setNestedIndex] = useState(0);
   const nestedQuestions = questions[4]?.childQuestions;
-  const { setActiveSection, activeSection, formData, updateFormData } = useContext(FormContext);
+  const { formData,setActiveSection, activeSection, updateFormData } = useContext(FormContext);
   console.log(nestedQuestions);
-
-  useEffect(() => {
-    fetch("/api/parent-questions")
-      .then((response) => response.json())
-      .then((data) => {
-        setQuestions(data.slice(21, 26));
-      })
-      .catch((error) => console.error("Error fetching questions:", error));
-  }, []);
-
  
+
+
+    useEffect(() => {
+      
+        fetch("/api/parent-questions")
+          .then(response => {
+            if (!response.ok) throw new Error(response.statusText);
+            return response.json();
+          })
+          .then(data => {
+            const WellnessQuestions = data.filter(q => q.section.startsWith("Wellness"));
+            setQuestions(WellnessQuestions);
+          })
+          .catch(error => console.error("Error fetching questions:", error));
+      
+    }, []);
+  
 
   const getNextQuestion = (parentIndex, questions, userAnswer) => {
     const currentQuestion = questions[parentIndex];
@@ -87,13 +94,13 @@ export const Wellness = () => {
   let subSection = questions[currentParent]?.subSection1;
   let question = questions[currentParent]?.questionText;
   let formType = questions[currentParent]?.formControlType;
-  let optionValues;
+  let option;
 
-  if (formType == "Drop-down List" || formType == "Buttons") {
-    optionValues = questions[currentParent]?.optionValues.split(";");
-    console.log(optionValues);
+  if (formType == "Drop-down List" || formType == "Buttons" || formType == "Checkboxes") {
+    option = questions[currentParent]?.optionValues.split(";");
+    
   }
-
+  console.log("option" ,option);
   // Assign schemas to render questions with Json forms
   switch (formType) {
     case "Drop-down List":
@@ -102,7 +109,7 @@ export const Wellness = () => {
         properties: {
           answer: {
             type: "string",
-            enum: optionValues,
+            enum: option,
           },
         },
       };
@@ -148,7 +155,7 @@ export const Wellness = () => {
         properties: {
           answer: {
             type: "string",
-            enum: optionValues,
+            enum: option,
           },
         },
       };
@@ -181,7 +188,7 @@ export const Wellness = () => {
         properties: {
           answer: {
             type: "string",
-            enum: question.childQuestions[0]?.optionValues.split(";"),
+            enum: question.childQuestions[0]?.option.split(";"),
           },
         },
       };
@@ -210,12 +217,12 @@ export const Wellness = () => {
           Feet: {
             type: "string",
             title: question.childQuestions[0]?.labelText,
-            enum: question.childQuestions[0]?.optionValues.split(";"),
+            enum: question.childQuestions[0]?.option.split.split(";"),
           },
           Inches: {
             type: "string",
             title: question.childQuestions[1]?.labelText,
-            enum: question.childQuestions[1]?.optionValues.split(";"),
+            enum: question.childQuestions[1]?.option.split(";"),
           },
         },
       };
@@ -312,11 +319,13 @@ export const Wellness = () => {
     }
   };
 
-  console.log(userAnswer);
+  console.log("Answer",userAnswer);
   if (questions.length === 0) {
     return <div>Loading...</div>;
   }
-
+  console.log("Formdata", formData)
+  console.log("Question", question)
+  console.log("Question", question.questionText)
   return (
     <div>
       
@@ -326,9 +335,21 @@ export const Wellness = () => {
           <JsonForms
             schema={questionSchema}
             uischema={uiSchema}
-            data={userAnswer}
+            data={formData[question]?.answer || {}}
             renderers={materialRenderers}
-            onChange={({ errors, data }) => setUserAnswer(data)}
+            onChange={({ errors, data }) => {
+              setUserAnswer(data)
+            updateFormData({ 
+              [question]: {
+                answer: data,
+                metadata: {
+                    section: "Wellness",
+                    id: question._id,
+                    questionText:question
+                }
+              }
+            });
+          }}
           />
         </div>
       )}
@@ -338,13 +359,24 @@ export const Wellness = () => {
           <JsonForms
             schema={childSchema}
             uischema={uiChildSchema}
-            data={userAnswer}
+            data={formData[question.childQuestions?.labelText]}
             renderers={materialRenderers}
-            onChange={({ errors, data }) => setUserAnswer(data)}
+            onChange={({ errors, data }) => {setUserAnswer(data)
+              updateFormData({ 
+                [question.childQuestions?.labelText]: {
+                  answer: data,
+                  metadata: {
+                      section: "Wellness",
+                      id: question.childQuestions._id,
+                      // labelText:question.childQuestions.labelText
+                  }
+                }
+              });
+            }}
           />
         </div>
       )}
-
+    
       <div>
         <button onClick={handlePrevious} className="previous">Previous</button>
         <button onClick={handleNext} className="next">Next</button>
@@ -352,3 +384,4 @@ export const Wellness = () => {
     </div>
   );
 };
+  

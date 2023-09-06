@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInbox,
   faAddressBook,
-  faUsers,
+  faRectangleList,
   faCalendarDays,
-  faLandmark,
+  faIdCardClip,
   faComment
 } from "@fortawesome/free-solid-svg-icons";
 import '../Styles/Profile.css'; // Make sure this path is correct
@@ -46,19 +46,19 @@ const Profile = () => {
             <button className='square-button'>
               <div>
                 <FontAwesomeIcon className='fa-icon' icon={faCalendarDays} />
-                <div className='description'>Time Off</div>
+                <div className='description'>Calendar</div>
               </div>
             </button>
             <button className='square-button'>
               <div>
-                <FontAwesomeIcon className='fa-icon' icon={faLandmark} />
-                <div className='description'>Accounts</div>
+                <FontAwesomeIcon className='fa-icon' icon={faIdCardClip} />
+                <div className='description'>Medical Card</div>
               </div>
             </button>
             <button onClick={goToFormLayout} className='square-button'>
               <div>
-                <FontAwesomeIcon className='fa-icon' icon={faUsers} />
-                <div className='description'>Group Benefits</div>
+                <FontAwesomeIcon className='fa-icon' icon={faRectangleList} />
+                <div className='description'>Evidence of Insurability Form</div>
               </div>
             </button>
           </div>

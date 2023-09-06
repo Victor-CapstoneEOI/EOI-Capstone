@@ -1,4 +1,4 @@
-.header {
+/* .header {
     background-color: #ffffff;
     color: #000000;
     background-color: #ffffff;
@@ -6,7 +6,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
+    position: sticky;
+  } */
   
   .Logo {
     margin-top: 20px;
@@ -53,3 +54,4 @@
     margin-top: 10px;
   }
 }
+

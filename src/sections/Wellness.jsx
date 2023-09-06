@@ -368,7 +368,7 @@ export const Wellness = () => {
                   metadata: {
                       section: "Wellness",
                       id: question.childQuestions._id,
-                      // labelText:question.childQuestions.labelText
+                      labelText:question.childQuestions.labelText
                   }
                 }
               });

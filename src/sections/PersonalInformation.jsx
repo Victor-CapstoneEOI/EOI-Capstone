@@ -91,7 +91,8 @@ export const PersonalInformation = () => {
                   answer: data,
                   metadata: {
                       section: currentQuestion.section, 
-                      id: currentQuestion._id 
+                      id: currentQuestion._id,
+                      questionText: currentQuestion.questionText 
                   }
               }
           })}

@@ -41,6 +41,7 @@ export const FormProvider = ({ children }) => {
     
             const answer = {
                 questionId: metadata.id,  // Change to questionId
+                questionText: metadata.questionText,
                 answer: questionData.answer,
                 childAnswers: []   // Add default childAnswers array
             };

@@ -12,6 +12,12 @@
   z-index: 9999; 
 }
 
+@media (max-width: 768px) {
+  .sidebar-container {
+    display: none;
+  }
+}
+
 
 .sidebar-item {
   display: flex;

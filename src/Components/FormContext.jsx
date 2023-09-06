@@ -26,7 +26,7 @@ export const FormProvider = ({ children }) => {
             const metadata = questionData.metadata;
     
             if (!metadata) {
-                console.warn("No metadata for question:", questionText); 
+                console.warn("No metadata for question:", questionText);
                 continue;
             }
     
@@ -37,21 +37,32 @@ export const FormProvider = ({ children }) => {
                     answers: []
                 };
                 transformed.sections.push(section);
-            }            
+            }
     
             const answer = {
-                questionId: metadata.id,  // Change to questionId
-                questionText:metadata.questionText,
-                answer: questionData.answer,
-                childAnswers: []   // Add default childAnswers array
+                questionId: metadata.id,
+                questionText: metadata.questionText,
+                answer: questionData.answer.answer, // accessing the actual parent answer
+                childAnswers: []
             };
-            section.answers.push(answer);  // Change questions to answers
+    
+            // Extract child questions and their respective answers
+            for (let key in questionData.answer) {
+                if (key.startsWith('question_')) {
+                    const childQuestionKey = key;  // This will hold keys like 'question_0'
+                    const childAnswer = questionData.answer[key];
+    
+                    answer.childAnswers.push({
+                        questionKey: childQuestionKey,
+                        answer: childAnswer
+                    });
+                }
+            }
+            section.answers.push(answer);
         }
         return transformed;
     }
     
-    
-
     const updateFormData = useCallback((sectionData) => {
         setFormData(prevData => ({
             ...prevData,

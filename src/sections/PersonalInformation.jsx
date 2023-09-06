@@ -84,6 +84,7 @@ export const PersonalInformation = () => {
 
       {/* {currentQuestion.subSection2 && <h4>{currentQuestion.subSection2}</h4>} */}
       <JsonForms
+
           key={currentQuestionIndex}
           schema={getSchemaForQuestion(currentQuestion)}
           uischema={getUiSchemaForQuestion(currentQuestion)}
@@ -94,6 +95,7 @@ export const PersonalInformation = () => {
                   answer: data,
                   metadata: {
                       section: currentQuestion.section, 
+                      questionText:currentQuestion.questionText,
                       id: currentQuestion._id 
                   }
               }
@@ -102,6 +104,7 @@ export const PersonalInformation = () => {
       />
 
       <button type="button" onClick={handlePrevious} className="previous">
+
         Previous
       </button>
       <button type="button" onClick={handleNext} disabled={isFieldEmpty} className="next">

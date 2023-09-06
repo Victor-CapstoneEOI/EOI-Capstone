@@ -169,7 +169,6 @@ const handleNavigation = (direction) => {
         liveValidate={true}
       />
 
-
       <button type="button" onClick={() => handleNavigation("previous")} className="previous">
         Previous
       </button>

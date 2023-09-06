@@ -62,7 +62,6 @@ button.next, button.previous {
   transition: background-color 0.3s ease;
 }
 
-
 .next-button:hover, button.next:hover, button.previous:hover {
   background-color: lightgray;
 }

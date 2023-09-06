@@ -116,9 +116,9 @@ export const PastApplications = () => {
           />
         </div>
       )}
-
       <button onClick={handlePrevious} className="previous">Previous</button>
       <button onClick={handleNext} className="next">Next</button>
+
     </div>
   );
 };

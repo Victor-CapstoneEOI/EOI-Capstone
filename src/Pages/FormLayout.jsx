@@ -5,10 +5,12 @@ import { PastApplications } from '../sections/PastApplications.jsx';
 import { LifeStyleSection } from '../sections/LifeStyleSection.jsx';
 import { Wellness } from '../sections/Wellness.jsx';
 import { MedicalSection } from '../sections/MedicalSection.jsx';
+import { Review } from './Review.jsx';
 import Sidebar from '../Components/Sidebar.jsx';
 import '../Styles/FormLayout.css';
 import StepperBar from '../Components/Stepper.jsx';
 import FormContext from '../Components/FormContext.jsx';
+import { Reviews } from '@mui/icons-material';
 
 export const FormLayout = () => {
   const {activeSection, setActiveSection} = useContext(FormContext);
@@ -55,6 +57,7 @@ export const FormLayout = () => {
                 {activeSection == 2 && <LifeStyleSection index={0} />}
                 {activeSection == 3 && <Wellness />}
                 {activeSection == 4 && <MedicalSection />}
+                {activeSection == 5 && <Review />}
               </div>
             </div>
             <button className="previous-button" onClick={goToPreviousSection} disabled={activeSection === 0}>

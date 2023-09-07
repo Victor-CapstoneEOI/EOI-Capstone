@@ -106,11 +106,7 @@ export const MedicalSection = () => {
   };
 
   let currentSchema, currentUISchema;
-
-  if (questions.length === 0) {
-    return <div>Loading...</div>;
-  }
-
+  
   if (isChildQuestion) {
     currentSchema = getCombinedSchemaForChildQuestions(childQuestions);
     currentUISchema = getCombinedUiSchemaForChildQuestions(childQuestions);
@@ -119,14 +115,20 @@ export const MedicalSection = () => {
     currentSchema = currentQuestion ? getSchemaForQuestion(currentQuestion) : {};
     currentUISchema = currentQuestion ? getUiSchemaForQuestion(currentQuestion, false) : {};
   }
-
+  
   const determineCurrentQuestion = () => {
     const parentQuestion = questions[currentQuestionIndex];
     return parentQuestion;
   };
-
+  
   let currentQuestion = determineCurrentQuestion();
   let displayQuestion = isChildQuestion ? currentParentQuestion : currentQuestion;
+  
+
+  if (questions.length === 0) {
+    return <div>Loading...</div>;
+  }
+
 
   return (
     <div onKeyDown={handleKeyPress}>
@@ -145,7 +147,8 @@ export const MedicalSection = () => {
                 metadata: {
                     section: displayQuestion.section,
                     id: displayQuestion._id,
-                    questionText: displayQuestion.displayQuestion
+                    questionText: displayQuestion.questionText,
+                    labelText: displayQuestion.labelText
                 }
             }
         })}

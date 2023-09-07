@@ -7,24 +7,24 @@ const childAnswerSchema = mongoose.Schema({
     },
     answer: {
         type: mongoose.Schema.Types.Mixed,
-        required: true
+        // required: true
     }
 });
 
 const parentAnswerSchema = mongoose.Schema({
     questionId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        // required: true,
         ref: 'ParentQuestion'
     },
     questionText: {
         type: mongoose.Schema.Types.Mixed,
-        required: true,
+        // required: true,
         // ref: 'ParentQuestion'
     },
     answer: {
         type: mongoose.Schema.Types.Mixed,
-        required: true
+        // required: true
     },
     childAnswers: [childAnswerSchema]
 });
@@ -32,7 +32,7 @@ const parentAnswerSchema = mongoose.Schema({
 const sectionAnswerSchema = mongoose.Schema({
     section: {
         type: String,
-        required: true
+        // required: true
     },
     answers: [parentAnswerSchema]
 });
@@ -48,7 +48,7 @@ const formDataSchema = new mongoose.Schema({
     sections: [sectionAnswerSchema],
     signature: {
       type: String,
-      required: true,
+    //   required: true,
     },
     formData: formDataSchema, 
     timestamp: {

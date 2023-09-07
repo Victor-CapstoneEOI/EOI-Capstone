@@ -1,8 +1,8 @@
 # Digitalization of Evidence of Insurability Form
 
 ## Description
-
-***Capstone project for UST-Xpanxion / MMC SIU April - Sep 2023***
+> [!NOTE]
+. ***Capstone project for UST-Xpanxion / MMC SIU April - Sep 2023***
 
 This project focuses on enhancing the user experience when filling out the Evidence of Insurability form (EOI). 
 
@@ -17,20 +17,35 @@ At this time the form contains 26 main questions and more than 400 follow up que
 While the primary goal of this project is the integration of this form into an existing application, for the context current context, a dedicated homepage and profile page were created.
 
 ## Technologies
-
-The project was created as a MERN application, and to simplify the dynamic rendering of the forms we used the Json forms library, Material UI was used to assist with the styling of the pages, and PDF lib was use to provided the user with a final copy of the information they are providing.  
++ MongoDB
++ Express
++ React
++ Node
+  ### Libraries
+  + Material UI
+  + Json Forms
+  + PDF lib
 
 
 ## Installing and Running the Project
+>  [!IMPORTANT]
+> Some dependencies need to be updated
 
 - Clone project from github repository ```git clone <link>```
-- Execute ```npm i --force``` to install dependencies (some dependencies need to be updated)
+- Execute ```npm i --force``` to install dependencies 
 - To run project execute ```npm run dev``` 
 
-## Functionality
+## Scope of the Project
 
 + User is able to answer all questions from EOI form
 + Data will be saved automatically to the data base as user goes thought the questions.
 + Before finilizing the form, user can edit previous sections by clicking on the edit buttons in the review page
 + Form will not be submited if user doesn't provide a signature.
-+ User will get a PDF with the information provided in the form. 
++ User will get a PDF with the information provided in the form.
+
+## The Team
++ Leonard
++ Imane
++ Karina
++ Valerie
++ Melissa 

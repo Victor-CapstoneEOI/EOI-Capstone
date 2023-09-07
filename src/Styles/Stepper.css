@@ -33,3 +33,7 @@
 .MuiStepIcon-completed {
   color: #FFA500 !important;
 }
+
+div.stepper-container{
+  margin-top: 2rem;
+}

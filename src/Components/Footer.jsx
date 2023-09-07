@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
@@ -8,10 +9,14 @@ const Footer = () => {
       color="#ffffff"
       py={2}
       textAlign="center"
+     
       sx={{
-        position: 'fixed', // or 'sticky' based on your needs
+        position: 'static',
         bottom: 0,
-        width: '100%'
+        width: '100%',
+        marginTop:'80px',
+        paddingTop:'25px'
+
       }}
     >
       <Typography variant="subtitle1" fontWeight="bold">

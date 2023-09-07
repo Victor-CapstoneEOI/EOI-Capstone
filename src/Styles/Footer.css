@@ -9,7 +9,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 6px; /* Adjust the margin value */
+    margin-top: 6px;
+    /* margin-bottom: 6px; Adjust the margin value */
 }
   
 .company-name {

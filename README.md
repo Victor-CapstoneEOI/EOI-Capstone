@@ -35,11 +35,16 @@ By digitizing this EOI form, our aim is to significantly streamline and expedite
 
 ## Scope of the Project
 
-+ User is able to answer all questions from EOI form
++ User is able to answer all questions from EOI form.
 + Data will be saved automatically to the data base as user goes thought the questions.
-+ Before finilizing the form, user can edit previous sections by clicking on the edit buttons in the review page
++ Before finilizing the form, user can edit previous sections by clicking on the edit buttons in the review page.
 + Form will not be submited if user doesn't provide a signature.
 + User will get a PDF with the information provided in the form.
+
+## Release Notes (Version 2)
++ User will have the option to pick language of preference (English or French)
++ User's response validation.
++ Make code more dynamic for future implementation with different forms.
 
 ## The Team
 + [Leonard Mercedes](https://github.com/LMercedes03)

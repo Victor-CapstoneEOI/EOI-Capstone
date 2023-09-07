@@ -83,6 +83,7 @@ h1.welcome {
            
            width: 180px;
            height: 480px;
+           opacity: 0;
         }
 
     h1.welcome {

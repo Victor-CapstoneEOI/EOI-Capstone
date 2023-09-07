@@ -42,8 +42,8 @@ By digitizing this EOI form, our aim is to significantly streamline and expedite
 + User will get a PDF with the information provided in the form.
 
 ## The Team
-+ [Leonard Mercedes] (https://github.com/LMercedes03)
-+ [Imane Allay] (https://github.com/imaneAllay)
-+ [Karina Velasquez] (https://github.com/velask9)
-+ [Valerie Perez] (https://github.com/Valpe-24)
-+ [Melissa Schaefer] (https://github.com/mel-devops)
++ [Leonard Mercedes](https://github.com/LMercedes03)
++ [Imane Allay](https://github.com/imaneAllay)
++ [Karina Velasquez](https://github.com/velask9)
++ [Valerie Perez](https://github.com/Valpe-24)
++ [Melissa Schaefer](https://github.com/mel-devops)

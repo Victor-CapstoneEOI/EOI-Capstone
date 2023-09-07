@@ -16,9 +16,9 @@ const Sidebar = () => {
 
   return (
     <div>
-      <button onClick={toggleSidebar}>
+      {/* <button onClick={toggleSidebar}>
         {showSidebar ? 'Hide Sidebar' : 'Show Sidebar'}
-      </button>
+      </button> */}
 
       {showSidebar && (
         <div className="sidebar-container">

@@ -7,27 +7,28 @@ body {
 .home {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center content horizontally */
-    justify-content: center; /* Center content vertically */
-    height: 100vh; /* Make the container take up the full viewport height */
+    align-items: center; 
+    justify-content: center; 
+    height: 100vh; 
 }
 .logo {
     position: absolute;
     top: 100px;
     bottom: 100px;
-    right: 0px; /* Adjust this value to move the logo to the right */
-    width: 600px;
-    height: 570px;
+    right: 0px; 
+    width: 650px;
+    height: 650px;
     z-index: 1;
 }
 
 h1.welcome {
     font-size: 50px;
     color: #E55204;
-    margin-top: 50px; /* Adjust this value to lower the heading */
-    margin-bottom: 360px;
+    margin-top: 50px; 
+    margin-bottom: 305px;
     position: absolute;
     z-index: 2;
+    font-family: 'Rubik', sans-serif; ;
 }
 
 
@@ -44,18 +45,18 @@ h1.welcome {
 
 .button {
     position: absolute;
-    bottom: 300px;
+    bottom: 200px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     justify-content: center;
-    margin-top: 35px; 
+    margin-top: 60px; 
 }
 
 
 .button button {
     margin-left: 20px;
-    padding: 10px 20px;
+    padding: 10px 30px;
     background-color: #E55204;
     color: #fff;
     border: none;
@@ -90,6 +91,7 @@ h1.welcome {
         margin-top: 250px; 
         position: relative;
         z-index: 2;
+        font-family: 'Rubik', sans-serif; 
     }
 
     .button {

@@ -7,6 +7,7 @@
   margin-left: 20px;
   text-transform: uppercase;
   position: sticky;
+  font-family: 'Rubik', sans-serif;
 }
 
 .Rest {
@@ -15,6 +16,7 @@
   margin-top: 0;
   font-size: 1.2rem;
   position: sticky;
+  font-family: 'Rubik', sans-serif;
 }
 
 .parent {
@@ -24,6 +26,7 @@
   align-items: center;
   padding: 2rem;
   background-color: #f8f9fa;
+  font-family: 'Rubik', sans-serif;
 }
 
 .medical-questions-title {
@@ -36,6 +39,7 @@
   color: #fff;
   border-radius: 8px;
   margin-top: -50px;
+  font-family: 'Rubik', sans-serif;
 }
 
 button.next, button.previous {
@@ -76,6 +80,7 @@ button.next, button.previous {
   background-color: #fff;
   padding: 20px;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+  font-family: 'Rubik', sans-serif;;
 }
 
 .section {
@@ -86,6 +91,7 @@ button.next, button.previous {
   background-color: #f8f9fa;
   border-radius: 8px;
   box-shadow: 0px 4px 4px rgba(0,0,0,0.1);
+  font-family: 'Rubik', sans-serif;;
 
 }
 

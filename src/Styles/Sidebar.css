@@ -1,6 +1,7 @@
-/* Sidebar.css */
+
 
 .sidebar-container {
+  opacity: 15%;
   position: fixed;
   top: 220px;
   right: 0;
@@ -11,6 +12,10 @@
   box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.1); 
   z-index: 9999; 
   
+}
+
+.sidebar-container:hover{
+  opacity: 100%;
 }
 
 @media (max-width: 768px) {

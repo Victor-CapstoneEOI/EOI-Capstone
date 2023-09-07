@@ -112,11 +112,11 @@ const PDFGeneration = ({ signature }) => {
 
             yOffset -= sectionSpace;
             yOffset -= 40
-
-            for (const item of section.answers) {
-              const questionText = item.questionText || 'Question Text Not Found';
-              const answer = item.answer?.answer || 'N/A';
-
+for (const item of section.answers) {
+      const questionText = item.questionText || 'Question Text Not Found';
+      // Check if an answer exists and is not empty
+      const answer = item.answer || 'N/A';
+           
               const questionTextHeight = fontSize;
               const answerHeight = 14;
 

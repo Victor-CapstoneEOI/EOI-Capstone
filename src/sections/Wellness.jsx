@@ -33,36 +33,38 @@ export const Wellness = () => {
     }, []);
   
 
-  const getNextQuestion = (parentIndex, questions, userAnswer) => {
-    const currentQuestion = questions[parentIndex];
-
-    if (
-      userAnswer.answer?.trim() === "Feet/Inches" ||
-      userAnswer.answer?.trim() === "Centimetres" ||
-      userAnswer.answer?.trim() === "Pounds" ||
-      userAnswer.answer?.trim() === "Kilograms"
-    ) {
-      childQuestionsSchemas(currentQuestion);
-      setShowChildQuestion(true);
-    }
-
-    if (showChildQuestion) {
-      parentIndex += 2;
-      setShowChildQuestion(false);
-      console.log(parentIndex);
-    }
-
-    if (userAnswer.answer?.trim() === "Yes" && currentQuestion.childQuestions) {
-      childQuestionsSchemas(currentQuestion);
-      setShowChildQuestion(true);
-    }
-
-    if (userAnswer.answer?.trim() === "No" && parentIndex == 4) {
-      setActiveSection(activeSection + 1);
-    }
-
-    return parentIndex;
-  };
+    const getNextQuestion = (parentIndex, questions, userAnswer) => {
+      const currentQuestion = questions[parentIndex];
+    
+      const answer = userAnswer?.answer; // Check if userAnswer and answer exist
+    
+      if (
+        answer?.trim() === "Feet/Inches" ||
+        answer?.trim() === "Centimetres" ||
+        answer?.trim() === "Pounds" ||
+        answer?.trim() === "Kilograms"
+      ) {
+        childQuestionsSchemas(currentQuestion, answer); // Pass answer to childQuestionsSchemas
+        setShowChildQuestion(true);
+      }
+    
+      if (showChildQuestion) {
+        parentIndex += 2;
+        setShowChildQuestion(false);
+        console.log(parentIndex);
+      }
+    
+      if (answer?.trim() === "Yes" && currentQuestion.childQuestions) {
+        childQuestionsSchemas(currentQuestion, answer); // Pass answer to childQuestionsSchemas
+        setShowChildQuestion(true);
+      }
+    
+      if (answer?.trim() === "No" && parentIndex == 4) {
+        setActiveSection(activeSection + 1);
+      }
+    
+      return parentIndex;
+    };
 
   const handleNext = () => {
     const newParentIndex = getNextQuestion(
@@ -177,7 +179,7 @@ export const Wellness = () => {
   }
 
   //Setting up values for child question schemas
-  const childQuestionsSchemas = (question) => {
+  const childQuestionsSchemas = (question, userAnswer) => {
     if (userAnswer.answer?.trim() === "Yes") {
       let childSchema = {
         type: "object",
@@ -337,17 +339,19 @@ export const Wellness = () => {
             renderers={materialRenderers}
             onChange={({ errors, data }) => {
               setUserAnswer(data)
-            updateFormData({ 
-              [question]: {
-                answer: data,
-                metadata: {
-                    section: "Wellness",
-                    id: questions[currentParent]._id,
-                    questionText:questions[currentParent].questionText
-                }
+              if (question && questions[currentParent]) {
+                updateFormData({ 
+                  [question]: {
+                    answer: data,
+                    metadata: {
+                      section: "Wellness",
+                      id: questions[currentParent]?._id,
+                      questionText: questions[currentParent]?.questionText
+                    }
+                  }
+                });
               }
-            });
-          }}
+            }}
           />
         </div>
       )}
@@ -360,18 +364,25 @@ export const Wellness = () => {
             data={formData[question.childQuestions?.labelText]}
             renderers={materialRenderers}
             onChange={({ errors, data }) => {setUserAnswer(data)
-              updateFormData({ 
-                [question.childQuestions?.labelText]: {
-                  answer: data,
-                  metadata: {
+              if (question.childQuestions) {
+                const childQuestionKey = question.childQuestions.labelText;
+                const childQuestionId = questions[currentParent]?.childQuestions[currentParent]._id;
+                const childQuestionLabelText = questions[currentParent]?.childQuestions[currentParent].labelText;
+              
+                updateFormData({ 
+                  [childQuestionKey]: {
+                    answer: data,
+                    metadata: {
                       section: "Wellness",
-                      id: questions[currentParent].childQuestions[currentParent]._id,
-                      labelText: questions[currentParent].childQuestions[currentParent].labelText
+                      id: childQuestionId,
+                      labelText: childQuestionLabelText
+                    }
                   }
-                }
-              });
+                });
+              }
             }}
           />
+
         </div>
       )}
     

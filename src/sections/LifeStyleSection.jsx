@@ -49,8 +49,8 @@ export const LifeStyleSection = ({ index }) => {
     } else if (current < questions.length - 1) {
       setCurrent(current + 1);
       setNestedIndex(0);  // reset nested index when going to a new parent question
-    // } else {
-    //   setActiveSection(activeSection + 1);
+    } else {
+      setActiveSection(activeSection + 1);
     }
   };
 
@@ -62,7 +62,6 @@ export const LifeStyleSection = ({ index }) => {
 
   const isMainFieldEmpty = !data?.answer;
 
-  console.log("Current question:", currentQuestion)
   return (
     <>
       {!questions && <div>Loading ...</div>}
@@ -78,7 +77,8 @@ export const LifeStyleSection = ({ index }) => {
               answer: data,
               metadata: {
                   section: "Lifestyle",
-                  id: currentQuestion._id
+                  id: currentQuestion?._id,
+                  questionText: currentQuestion?.questionText
               }
             }
           });
@@ -101,7 +101,8 @@ export const LifeStyleSection = ({ index }) => {
                   answer: data,
                   metadata: {
                       section: "Lifestyle",
-                      id: nestedQuestions[nestedIndex]._id
+                      id: nestedQuestions[nestedIndex]._id,
+                      labelText: nestedQuestions[nestedIndex].labelText
                   }
                 }
               });

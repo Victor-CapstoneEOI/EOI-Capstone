@@ -134,7 +134,7 @@ const PDFGeneration = ({ signature }) => {
                 lineHeight: 200,
               });
 
-              const answerX = margin + logoWidth + 70; // Adjust the X position for answers
+              const answerX = margin + logoWidth + 70; 
 
               page.drawText(answer, {
                 x: answerX,

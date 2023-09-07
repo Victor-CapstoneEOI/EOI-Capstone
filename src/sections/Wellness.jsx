@@ -15,11 +15,8 @@ export const Wellness = () => {
 
   const [nestedIndex, setNestedIndex] = useState(0);
   const nestedQuestions = questions[4]?.childQuestions;
-  const { formData,setActiveSection, activeSection, updateFormData } = useContext(FormContext);
-  console.log(nestedQuestions);
- 
-
-
+  const { formData, setActiveSection, activeSection, updateFormData } = useContext(FormContext);
+  
     useEffect(() => {
       
         fetch("/api/parent-questions")
@@ -100,7 +97,7 @@ export const Wellness = () => {
     option = questions[currentParent]?.optionValues.split(";");
     
   }
-  console.log("option" ,option);
+  
   // Assign schemas to render questions with Json forms
   switch (formType) {
     case "Drop-down List":
@@ -180,7 +177,6 @@ export const Wellness = () => {
   }
 
   //Setting up values for child question schemas
-
   const childQuestionsSchemas = (question) => {
     if (userAnswer.answer?.trim() === "Yes") {
       let childSchema = {
@@ -319,13 +315,15 @@ export const Wellness = () => {
     }
   };
 
-  console.log("Answer",userAnswer);
   if (questions.length === 0) {
     return <div>Loading...</div>;
   }
-  console.log("Formdata", formData)
-  console.log("Question", question)
-  console.log("Question", question.questionText)
+
+  
+  console.log("Child Questions:", questions[currentParent].childQuestions)
+  console.log("Child Questions Id:", questions[currentParent].childQuestions[currentParent]._id)
+  console.log("Child Questions Text:", questions[currentParent].childQuestions[currentParent].labelText)
+
   return (
     <div>
       
@@ -344,8 +342,8 @@ export const Wellness = () => {
                 answer: data,
                 metadata: {
                     section: "Wellness",
-                    id: question._id,
-                    questionText:question
+                    id: questions[currentParent]._id,
+                    questionText:questions[currentParent].questionText
                 }
               }
             });
@@ -367,8 +365,8 @@ export const Wellness = () => {
                   answer: data,
                   metadata: {
                       section: "Wellness",
-                      id: question.childQuestions._id,
-                      labelText:question.childQuestions.labelText
+                      id: questions[currentParent].childQuestions[currentParent]._id,
+                      labelText: questions[currentParent].childQuestions[currentParent].labelText
                   }
                 }
               });

@@ -84,14 +84,12 @@ const isOptional = questionText.toLowerCase().includes("(optional)");
       case "Email":
         schema.properties.answer = {
             type: "string",
-            format: "email"
         };
         break;
         
       case "Telephone":
         schema.properties.answer = {
             type: "string",
-            format: "telephone"
         };
         break
 
